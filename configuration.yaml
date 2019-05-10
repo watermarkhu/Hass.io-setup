@@ -1,0 +1,221 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longtitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Amsterdam
+  # Customization file
+  customize: !include customize.yaml
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  base_url: !secret base_url
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+
+frontend:
+  themes: !include themes.yaml
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - yeelight
+
+# add lights
+yeelight:
+  devices:
+    192.168.31.100:
+      name: desk
+      model: color1
+      save_on_change: true
+    192.168.31.101:
+      name: door
+      model: color1
+      save_on_change: true
+    192.168.31.102:
+      name: bed
+      model: color1
+      save_on_change: true
+    192.168.31.103:
+      name: couch
+      model: color1
+      save_on_change: true
+
+# create light groups
+light:
+  platform: group
+  name: bedroom_lights
+  entities:
+    - light.door
+    - light.couch
+    - light.bed
+    - light.desk
+
+# add google home
+googlehome:
+  devices:
+    - host: 192.168.31.104
+      track_alarms: true
+      track_devices: false
+
+# Spotcast component
+spotcast:
+  username: !secret spotify_login
+  password: !secret spotify_password
+
+
+variable:
+  wakeuplight_time:
+    value: None
+    attributes:
+      friendly_name: 'Wakeup light time'
+      icon: mdi:alarm
+  wakeuplight_off_time:
+    value: None
+    attributes:
+      friendly_name: 'Wakeup light off time'
+      icon: mdi:alarm
+
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: yr
+
+  # Get google home alarm
+  - platform: template
+    sensors:
+      googlehomealarm:
+        value_template: "{{ as_timestamp(states('sensor.bedroom_speaker_alarm')) | timestamp_custom('%H:%M', true) }}"
+  - platform: time_date
+    display_options:
+      - 'time'
+  - platform: template
+    sensors:
+      google_home_alarm_sensor:
+        value_template: '{{ states("sensor.time") == states("sensor.googlehomealarm") }}'
+  - platform: template
+    sensors:
+      google_home_alarm_sensor_light:
+        value_template: '{{ states("sensor.time") == states("variable.wakeuplight_time") }}'
+  - platform: template
+    sensors:
+      google_home_alarm_sensor_light_off:
+        value_template: '{{ states("sensor.time") == states("variable.wakeuplight_off_time") }}'
+
+
+
+  # Get latest podcasts
+  - platform: scrape
+    resource: https://podcast.npo.nl/feed/met-het-oog-op-morgen.xml
+    name: podcast_nos
+    select: 'enclosure:nth-of-type(1)'
+    attribute: url
+    scan_interval: 3600
+  - platform: scrape
+    resource: https://rss.art19.com/vandaag
+    name: podcast_nrc
+    select: 'enclosure:nth-of-type(1)'
+    attribute: url
+    scan_interval: 3600
+  - platform: scrape
+    resource: https://rss.art19.com/the-daily
+    name: podcast_times
+    select: 'enclosure:nth-of-type(1)'
+    attribute: url
+    scan_interval: 3600
+  - platform: scrape
+    resource: https://rss.art19.com/today-explained
+    name: podcast_vox
+    select: 'enclosure:nth-of-type(1)'
+    attribute: url
+    scan_interval: 3600
+
+# Spotify
+media_player:
+  - platform: spotify
+    client_id: !secret spotify_client_id
+    client_secret: !secret spotify_client_secret
+    aliases:
+        abc123def456: 'Living Room'
+        9183abas000: 'Bed Room'
+
+# Google home volume
+input_number:
+  home_volume:
+    name: Google Home
+    initial: 40
+    min: 0
+    max: 100
+    step: 10
+    icon: mdi:volume-high
+
+# Alarm playlist selector
+input_select:
+  wakeup_music:
+    name: 'Wake up to:'
+    options:
+      - Spotify
+      - Radio
+    icon: mdi:weather-sunset-up
+
+  spotify_playlist:
+    name: 'Playlist:'
+    options:
+      - Kitchen Swagger
+      - Morning Motivation
+      - Top of the morning
+      - Morning Acoustic
+      - Wake Up Happy
+      - Wake Up and Smell the Coffee
+    icon: mdi:spotify
+
+  radio_station:
+    name: 'Radio Station:'
+    options:
+      - Radio 538
+      - Q-Music
+      - 3FM
+      - 100% NL
+      - Veronica
+      - Sky Radio
+      - SLAM! FM
+      - Arrow Classic Rock
+    icon: mdi:radio
+
+  morning_podcast:
+    name: 'Podcast:'
+    options:
+      - NOS met het oog op morgen
+      - NRC vandaag
+      - VOX today explained
+      - TIMES the daily
+    icon: mdi:podcast
+
+# Text to speech
+tts:
+  - platform: google_translate
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+    base_url: !secret tts_url
+    service_name: google_say
+
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    url: !secret configurator_url
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

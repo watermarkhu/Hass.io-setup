@@ -1,0 +1,300 @@
+play_spotify_spotcast:
+  alias: Play a spotify playlist
+  sequence:
+    - service: spotcast.start
+      data_template:
+        device_name: "bedroom_speaker"
+        uri: >
+          {% if is_state("input_select.spotify_playlist", "Kitchen Swagger") %} spotify:user:spotify:playlist:37i9dQZF1DX2FsCLsHeMrM
+          {% elif is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:user:spotify:playlist:37i9dQZF1DXc5e2bJhV6pu
+          {% elif is_state("input_select.spotify_playlist", "Top of the morning") %} spotify:user:spotify:playlist:37i9dQZF1DWSWyJydK4fTU
+          {% elif is_state("input_select.spotify_playlist", "Morning Acoustic") %} spotify:user:spotify:playlist:37i9dQZF1DXdd3gw5QVjt9
+          {% elif is_state("input_select.spotify_playlist", "Wake Up Happy") %} gpotify:user:spotify:playlist:37i9dQZF1DX0UrRvztWcAU
+          {% elif is_state("input_select.spotify_playlist", "Wake Up and Smell the Coffee") %} spotify:user:spotify:playlist:37i9dQZF1DXcxacyAXkQDu
+          {% endif %}
+
+play_radio:
+  alias: Play radio
+  sequence:
+    -  service: media_player.play_media
+       data_template:
+         entity_id: media_player.bedroom_speaker
+         media_content_id: >
+          {% if is_state("input_select.radio_station", "Radio 538") %} http://18973.live.streamtheworld.com/RADIO538.mp3
+          {% elif is_state("input_select.radio_station", "Q-Music") %} http://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_96.mp3
+          {% elif is_state("input_select.radio_station", "3FM") %} http://icecast.omroep.nl/3fm-bb-mp3
+          {% elif is_state("input_select.radio_station", "100% NL") %} http://stream.100p.nl/100pctnl.mp3
+          {% elif is_state("input_select.radio_station", "Veronica") %} http://20043.live.streamtheworld.com:3690/VERONICA_SC
+          {% elif is_state("input_select.radio_station", "Sky Radio") %} http://19993.live.streamtheworld.com:80/SKYRADIO_SC
+          {% elif is_state("input_select.radio_station", "Arrow Classic Rock") %} https://stream.gal.io/arrow
+          {% elif is_state("input_select.radio_station", "SLAM! FM") %} https://stream.slam.nl/slam_mp3
+          {% endif %}
+         media_content_type: 'audio/mp4'
+
+play_podcast:
+  alias: Play podcast
+  sequence:
+    -  service: media_player.play_media
+       data_template:
+         entity_id: media_player.bedroom_speaker
+         media_content_id: >
+          {% if is_state("input_select.morning_podcast", "NOS met het oog op morgen") %} {{ states.sensor.podcast_nos.state }}
+          {% elif is_state("input_select.morning_podcast", "NRC vandaag") %} {{ states.sensor.podcast_nrc.state }}
+          {% elif is_state("input_select.morning_podcast", "VOX today explained") %} {{ states.sensor.podcast_vox.state }}
+          {% elif is_state("input_select.morning_podcast", "TIMES the daily") %} {{ states.sensor.podcast_times.state }}
+          {% endif %}
+         media_content_type: 'audio/mp4'
+
+set_wake_light:
+  alias: Set wakeup lights time
+  sequence:
+    - service: variable.set_variable
+      data:
+        variable: wakeuplight_time
+        value_template: >
+          {% if is_state("sensor.googlehomealarm", "None") %} {{ None }}
+          {% else %} {{ (as_timestamp(states('sensor.bedroom_speaker_alarm')) - (10 * 60 | int)) | timestamp_custom('%H:%M', true) }}
+          {% endif %}
+    - service: variable.set_variable
+      data:
+        variable: wakeuplight_off_time
+        value_template: >
+          {% if is_state("sensor.googlehomealarm", "None") %} {{ None }}
+          {% else %} {{ (as_timestamp(states('sensor.bedroom_speaker_alarm')) + (30 * 60 | int)) | timestamp_custom('%H:%M', true) }}
+          {% endif %}
+
+wakeuplight:
+  alias: Light sunrise
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        color_temp: 588
+        brightness: 1
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        color_temp: 588
+        brightness: 43
+        transition: 450
+    - delay: '00:02:30'
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        color_temp: 554
+        brightness: 85
+        transition: 450
+    - delay: '00:02:30'
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        color_temp: 520
+        brightness: 128
+        transition: 450
+    - delay: '00:02:30'
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        color_temp: 486
+        brightness: 170
+        transition: 450
+    - delay: '00:02:30'
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        color_temp: 452
+        brightness: 213
+        transition: 450
+    - delay: '00:02:30'
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        color_temp: 418
+        brightness: 255
+        transition: 450
+
+wakeup:
+  alias: Wake up sequence
+  sequence:
+    - delay: '00:00:30'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.bedroom_speaker
+        volume_level: 0.1
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state("input_select.wakeup_music", "Spotify") %} script.play_spotify_spotcast
+          {% elif is_state("input_select.wakeup_music", "Radio") %} script.play_radio
+          {% endif %}
+    - delay: '00:00:30'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.bedroom_speaker
+        volume_level: 0.15
+    - delay: '00:00:30'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.bedroom_speaker
+        volume_level: 0.2
+    - delay: '00:00:30'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.bedroom_speaker
+        volume_level: 0.25
+    - delay: '00:00:30'
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.bedroom_speaker
+        volume_level: 0.3
+
+    - delay: '00:08:00'
+    - service: script.turn_on
+      data:
+        entity_id: script.play_podcast
+
+yellow_light:
+  alias: Yellow light
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.desk
+        brightness: 255
+        color_temp: 600
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.bed
+        brightness: 255
+        color_temp: 800
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.door
+        brightness: 255
+        color_temp: 400
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.couch
+        brightness: 255
+        color_temp: 500
+        transition: 4
+
+evening_light:
+  alias: Evening light
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.desk
+        brightness: 255
+        rgb_color: [218, 17, 255]
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.bed
+        brightness: 255
+        rgb_color: [10, 35, 100]
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.door
+        brightness: 255
+        rgb_color: [255, 11, 0]
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.couch
+        brightness: 255
+        rgb_color: [225,126,0]
+        transition: 4
+
+night_light:
+  alias: Night light
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.desk
+        brightness: 55
+        rgb_color: [218, 58, 255]
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.bed
+        brightness: 55
+        rgb_color: [255, 120, 0]
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.door
+        brightness: 55
+        rgb_color: [7, 98, 255]
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.couch
+        brightness: 55
+        rgb_color: [255, 16, 0]
+        transition: 4
+
+movie_light:
+  alias: Movie light
+  sequence:
+    - service: light.turn_off
+      data:
+        entity_id: light.desk
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.bed
+        brightness: 55
+        rgb_color: [255, 21, 67]
+        transition: 4
+    - service: light.turn_off
+      data:
+        entity_id: light.door
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.couch
+        brightness: 55
+        rgb_color: [195, 123, 255]
+        transition: 4
+
+normal_light:
+  alias: Normal light
+  sequence:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.desk
+        brightness: 200
+        color_temp: 333
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.bed
+        brightness: 200
+        color_temp: 333
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.door
+        brightness: 200
+        color_temp: 333
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.couch
+        brightness: 200
+        color_temp: 333
+        transition: 4
+
+
+off_light:
+  alias: Off light
+  sequence:
+    - service: light.turn_off
+      data:
+        entity_id: light.bedroom_lights
+        transition: 4
