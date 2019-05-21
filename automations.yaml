@@ -8,6 +8,7 @@
     data:
       name: midnight
 
+# Refresh every 5 minutes to check of wakeuplight time
 - id: refresh_wakeup_light
   alias: 'Wakeup light check'
   trigger:
@@ -19,31 +20,36 @@
     - service: script.turn_on
       data:
         entity_id: script.set_wake_light
-    - service: script.turn_on
-      data:
-        entity_id: script.set_wake_light
 
+# On wakeuplight time, turn on lights and set wakeuplight off time
 - id: google_home_alarm_wakeup_light
   alias: 'Google Home Wakeup lights'
   trigger:
     - platform: state
       entity_id: sensor.google_home_alarm_sensor_light
   action:
-    service: script.turn_on
-    data:
-      entity_id: script.wakeuplight
+    - service: script.turn_on
+      data:
+        entity_id: script.wakeuplight
+    - service: script.turn_on
+      data:
+        entity_id: script.set_wake_light_off
 
+# On wakeuplight off time, turn of lights and set wakeuplight off time
 - id: google_home_alarm_wakeup_light_off
   alias: 'Google Home Wakeup lights off'
   trigger:
     - platform: state
       entity_id: sensor.google_home_alarm_sensor_light_off
   action:
-    service: script.turn_on
-    data:
-      entity_id: script.off_light
+    - service: script.turn_on
+      data:
+        entity_id: script.off_light
+    - service: script.turn_on
+      data:
+        entity_id: script.set_wake_light_off
 
-
+# On wakeup time start wakeup script
 - id: google_home_alarm_wakeup
   alias: 'Google Home Wakeup sound'
   trigger:
@@ -54,6 +60,7 @@
     data:
       entity_id: script.wakeup
 
+# Set lovelace volume slider to current volume level
 - id: set_google_home_slider_position
   alias: Set Google Home Slider Position
   trigger:
@@ -68,6 +75,7 @@
       data_template:
         value: "{{ trigger.to_state.attributes.volume_level | multiply(100) | int }}"
 
+# Set google home volume to value of lovelace slider
 - id: set_google_home_volume
   alias: Set Google Home Volume
   trigger:

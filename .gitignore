@@ -1,0 +1,12 @@
+
+.HA_VERSION
+.spotify-token-cache
+.storage/
+custom_components/
+deps/
+home-assistant.log
+home-assistant_v2.db
+known_devices.yaml
+secrets.yaml
+tts/
+www/

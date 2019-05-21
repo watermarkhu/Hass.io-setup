@@ -3,7 +3,7 @@ homeassistant:
   name: Home
   # Location required to calculate the time the sun rises and sets
   latitude: !secret latitude
-  longitude: !secret longtitude
+  longitude: !secret longitude
   # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 0
   # metric for Metric, imperial for Imperial
@@ -49,6 +49,10 @@ yeelight:
       name: couch
       model: color1
       save_on_change: true
+    192.168.31.249:
+      name: strip
+      model: strip1
+      save_on_change: true
 
 # create light groups
 light:
@@ -59,6 +63,7 @@ light:
     - light.couch
     - light.bed
     - light.desk
+    - light.strip
 
 # add google home
 googlehome:
@@ -72,7 +77,7 @@ spotcast:
   username: !secret spotify_login
   password: !secret spotify_password
 
-
+# Define wakeup time variables
 variable:
   wakeuplight_time:
     value: None
@@ -84,11 +89,33 @@ variable:
     attributes:
       friendly_name: 'Wakeup light off time'
       icon: mdi:alarm
+  # drinking_random_light:
+  #   value: 1
+  # drinking_random_limb:
+  #   value: 1
+
+# Weather component for lovelace Card
+weather:
+  - platform: darksky
+    api_key: 3915005094714b8a4fd87cb195f97c1b
 
 # Sensors
 sensor:
-  # Weather prediction
-  - platform: yr
+  - platform: random
+
+  # Weather prediction for tts readout
+  - platform: darksky
+    api_key: 3915005094714b8a4fd87cb195f97c1b
+    forcast:
+      - 0
+    hourly_forecast:
+      - 0
+    monitored_conditions:
+      - summary
+      - temperature
+      - hourly_summary
+      - temperature_high
+      - temperature_low
 
   # Get google home alarm
   - platform: template
@@ -183,6 +210,7 @@ input_select:
     options:
       - Radio 538
       - Q-Music
+      - Q-Music Non-Stop
       - 3FM
       - 100% NL
       - Veronica

@@ -9,6 +9,8 @@ sensor.googlehomealarm:
 light.bedroom_lights:
   friendly_name: Bedroom lights
 
+light.strip:
+  icon: mdi:led-strip
 light.desk:
   icon: mdi:desktop-tower-monitor
 light.couch:

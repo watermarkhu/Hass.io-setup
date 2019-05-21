@@ -22,6 +22,7 @@ play_radio:
          media_content_id: >
           {% if is_state("input_select.radio_station", "Radio 538") %} http://18973.live.streamtheworld.com/RADIO538.mp3
           {% elif is_state("input_select.radio_station", "Q-Music") %} http://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_96.mp3
+          {% elif is_state("input_select.radio_station", "Q-Music Non-Stop") %} https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_nonstop_96.mp3
           {% elif is_state("input_select.radio_station", "3FM") %} http://icecast.omroep.nl/3fm-bb-mp3
           {% elif is_state("input_select.radio_station", "100% NL") %} http://stream.100p.nl/100pctnl.mp3
           {% elif is_state("input_select.radio_station", "Veronica") %} http://20043.live.streamtheworld.com:3690/VERONICA_SC
@@ -55,6 +56,10 @@ set_wake_light:
           {% if is_state("sensor.googlehomealarm", "None") %} {{ None }}
           {% else %} {{ (as_timestamp(states('sensor.bedroom_speaker_alarm')) - (10 * 60 | int)) | timestamp_custom('%H:%M', true) }}
           {% endif %}
+
+set_wake_light_off:
+  alias: Set wakeup lights off time
+  sequence:
     - service: variable.set_variable
       data:
         variable: wakeuplight_off_time
@@ -180,6 +185,12 @@ yellow_light:
         brightness: 255
         color_temp: 500
         transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.strip
+        brightnes: 255
+        rgb_color: [255, 235, 138]
+        transition: 4
 
 evening_light:
   alias: Evening light
@@ -207,6 +218,12 @@ evening_light:
         entity_id: light.couch
         brightness: 255
         rgb_color: [225,126,0]
+        transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.strip
+        brightness: 255
+        rgb_color: [255, 104, 30]
         transition: 4
 
 night_light:
@@ -236,6 +253,13 @@ night_light:
         brightness: 55
         rgb_color: [255, 16, 0]
         transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.strip
+        brightness: 55
+        rgb_color: [168, 60, 255]
+        transition: 4
+
 
 movie_light:
   alias: Movie light
@@ -260,10 +284,15 @@ movie_light:
         brightness: 55
         rgb_color: [195, 123, 255]
         transition: 4
+    - service: light.turn_on
+      data:
+        entity_id: light.strip
+        brightnes: 55
+        rgb_color: [40, 80, 255]
+        transition: 4
 
 normal_light:
   alias: Normal light
-  sequence:
   sequence:
     - service: light.turn_on
       data:
@@ -289,7 +318,10 @@ normal_light:
         brightness: 200
         color_temp: 333
         transition: 4
-
+    - service: light.turn_off
+      data:
+        entity_id: light.strip
+        transistion: 4
 
 off_light:
   alias: Off light
@@ -298,3 +330,14 @@ off_light:
       data:
         entity_id: light.bedroom_lights
         transition: 4
+
+set_wake_light_off:
+  alias: Set wakeup lights off time
+  sequence:
+    - service: variable.set_variable
+      data:
+        variable: wakeuplight_off_time
+        value_template: >
+          {% if is_state("sensor.googlehomealarm", "None") %} {{ None }}
+          {% else %} {{ (as_timestamp(states('sensor.bedroom_speaker_alarm')) + (30 * 60 | int)) | timestamp_custom('%H:%M', true) }}
+          {% endif %}
