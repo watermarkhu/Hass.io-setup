@@ -9,7 +9,7 @@ play_spotify_spotcast:
           {% elif is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:user:spotify:playlist:37i9dQZF1DXc5e2bJhV6pu
           {% elif is_state("input_select.spotify_playlist", "Top of the morning") %} spotify:user:spotify:playlist:37i9dQZF1DWSWyJydK4fTU
           {% elif is_state("input_select.spotify_playlist", "Morning Acoustic") %} spotify:user:spotify:playlist:37i9dQZF1DXdd3gw5QVjt9
-          {% elif is_state("input_select.spotify_playlist", "Wake Up Happy") %} gpotify:user:spotify:playlist:37i9dQZF1DX0UrRvztWcAU
+          {% elif is_state("input_select.spotify_playlist", "Wake Up Happy") %} spotify:user:spotify:playlist:37i9dQZF1DX0UrRvztWcAU
           {% elif is_state("input_select.spotify_playlist", "Wake Up and Smell the Coffee") %} spotify:user:spotify:playlist:37i9dQZF1DXcxacyAXkQDu
           {% endif %}
 
@@ -188,7 +188,7 @@ yellow_light:
     - service: light.turn_on
       data:
         entity_id: light.strip
-        brightnes: 255
+        brightness: 255
         rgb_color: [255, 235, 138]
         transition: 4
 
@@ -287,7 +287,7 @@ movie_light:
     - service: light.turn_on
       data:
         entity_id: light.strip
-        brightnes: 55
+        brightness: 55
         rgb_color: [40, 80, 255]
         transition: 4
 
@@ -341,3 +341,121 @@ set_wake_light_off:
           {% if is_state("sensor.googlehomealarm", "None") %} {{ None }}
           {% else %} {{ (as_timestamp(states('sensor.bedroom_speaker_alarm')) + (30 * 60 | int)) | timestamp_custom('%H:%M', true) }}
           {% endif %}
+
+random_light:
+  alias: Random light
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.desk
+        effect: "Random Loop"
+    - service: light.turn_on
+      data:
+        entity_id: light.bed
+        effect: "Random Loop"
+    - service: light.turn_on
+      data:
+        entity_id: light.door
+        effect: "Random Loop"
+    - service: light.turn_on
+      data:
+        entity_id: light.couch
+        effect: "Random Loop"
+    - service: light.turn_on
+      data:
+        entity_id: light.strip
+        effect: "Random Loop"
+
+drinking_light_red:
+  alias: drinking red light
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        brightness: 255
+        rgb_color: [255, 0, 0]
+    - delay: '00:00:03'
+    - service: script.turn_on
+      data:
+        entity_id: script.random_light
+
+drinking_light_yellow:
+  alias: drinking yellow light
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        brightness: 255
+        rgb_color: [255, 255, 0]
+    - delay: '00:00:03'
+    - service: script.turn_on
+      data:
+        entity_id: script.random_light
+
+drinking_light_blue:
+  alias: drinking blue light
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        brightness: 255
+        rgb_color: [0, 0, 255]
+    - delay: '00:00:03'
+    - service: script.turn_on
+      data:
+        entity_id: script.random_light
+
+drinking_light_green:
+  alias: drinking green light
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lights
+        brightness: 255
+        rgb_color: [0, 255, 0]
+    - delay: '00:00:03'
+    - service: script.turn_on
+      data:
+        entity_id: script.random_light
+
+drinking_game_loop:
+  alias: drinking game loop
+  sequence:
+    - service: tts.google_say
+      entity_id: media_player.bedroom_speaker
+      data_template:
+        message: >
+          {% if is_state("variable.drinking_random_limb", "1") %} "Right Arm"
+          {% elif is_state("variable.drinking_random_limb", "2") %} "Left Arm"
+          {% elif is_state("variable.drinking_random_limb", "3") %} "Right Leg"
+          {% elif is_state("variable.drinking_random_limb", "4") %} "Left Leg"
+          {% endif %}
+        cache: false
+    - delay: '00:00:02'
+    - service: tts.google_say
+      entity_id: media_player.bedroom_speaker
+      data_template:
+        message: >
+          {% if is_state("variable.drinking_random_light", "1") %} "red"
+          {% elif is_state("variable.drinking_random_light", "2") %} "blue"
+          {% elif is_state("variable.drinking_random_light", "3") %} "yellow"
+          {% elif is_state("variable.drinking_random_light", "4") %} "green"
+          {% endif %}
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state("variable.drinking_random_light", "1") %} script.drinking_light_red
+          {% elif is_state("variable.drinking_random_light", "2") %} script.drinking_light_blue
+          {% elif is_state("variable.drinking_random_light", "3") %} script.drinking_light_yellow
+          {% elif is_state("variable.drinking_random_light", "4") %} script.drinking_light_green
+          {% endif %}
+
+    - service: variable.set_variable
+      data:
+        variable: drinking_random_limb
+        value_template: '{{ (range(1, 5)|random) }}'
+
+    - service: variable.set_variable
+      data:
+        variable: drinking_random_light
+        value_template: '{{ (range(1, 5)|random)}}'

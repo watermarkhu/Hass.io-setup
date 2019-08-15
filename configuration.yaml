@@ -33,19 +33,19 @@ discovery:
 # add lights
 yeelight:
   devices:
-    192.168.31.100:
+    192.168.31.108:
       name: desk
       model: color1
       save_on_change: true
-    192.168.31.101:
+    192.168.31.71:
       name: door
       model: color1
       save_on_change: true
-    192.168.31.102:
+    192.168.31.238:
       name: bed
       model: color1
       save_on_change: true
-    192.168.31.103:
+    192.168.31.126:
       name: couch
       model: color1
       save_on_change: true
@@ -89,10 +89,10 @@ variable:
     attributes:
       friendly_name: 'Wakeup light off time'
       icon: mdi:alarm
-  # drinking_random_light:
-  #   value: 1
-  # drinking_random_limb:
-  #   value: 1
+  drinking_random_light:
+    value: 1
+  drinking_random_limb:
+    value: 1
 
 # Weather component for lovelace Card
 weather:
