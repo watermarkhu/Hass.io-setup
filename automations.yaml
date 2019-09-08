@@ -8,57 +8,110 @@
     data:
       name: midnight
 
-# Refresh every 5 minutes to check of wakeuplight time
-- id: refresh_wakeup_light
-  alias: 'Wakeup light check'
+# # Refresh every 5 minutes to check of wakeuplight time
+# - id: refresh_wakeup_light
+#   alias: 'Wakeup light check'
+#   trigger:
+#     - platform: homeassistant
+#       event: start
+#     - platform: time_pattern
+#       minutes: '/5'
+#   action:
+#     - service: script.turn_on
+#       data:
+#         entity_id: script.set_wake_light
+
+# Auto set alarm at 10pm
+- id: auto_set_alarm_10pm
+  alias: "Auto set alarm at 10pm"
   trigger:
-    - platform: homeassistant
-      event: start
-    - platform: time_pattern
-      minutes: '/5'
+    platform: time
+    at: "22:00:00"
+  condition:
+    - condition: state
+      entity_id: input_boolean.switch_autoalarm
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.switch_alarm
+      state: "off"
   action:
-    - service: script.turn_on
+    - service: input_boolean.turn_on
       data:
-        entity_id: script.set_wake_light
+        entity_id: input_boolean.switch_alarm
+    - service: tts.google_translate_say
+      entity_id: media_player.bedroom_speaker
+      data_template:
+        message: '{{ "Good evening. Your alarm has been automatically set at" + states("input_number.alarm_hours") + " " + states("input_number.alarm_minutes") }}'
 
 # On wakeuplight time, turn on lights and set wakeuplight off time
-- id: google_home_alarm_wakeup_light
-  alias: 'Google Home Wakeup lights'
+- id: alarm_wakeup_light
+  alias: 'Wakeup lights'
   trigger:
-    - platform: state
-      entity_id: sensor.google_home_alarm_sensor_light
+    platform: state
+    entity_id: sensor.alarm_m10_sensor
+  condition:
+    condition: state
+    entity_id: input_boolean.switch_alarm
+    state: "on"
   action:
     - service: script.turn_on
       data:
-        entity_id: script.wakeuplight
-    - service: script.turn_on
-      data:
-        entity_id: script.set_wake_light_off
-
-# On wakeuplight off time, turn of lights and set wakeuplight off time
-- id: google_home_alarm_wakeup_light_off
-  alias: 'Google Home Wakeup lights off'
-  trigger:
-    - platform: state
-      entity_id: sensor.google_home_alarm_sensor_light_off
-  action:
-    - service: script.turn_on
-      data:
-        entity_id: script.off_light
-    - service: script.turn_on
-      data:
-        entity_id: script.set_wake_light_off
+        entity_id: script.alarm_wakeuplight
 
 # On wakeup time start wakeup script
-- id: google_home_alarm_wakeup
-  alias: 'Google Home Wakeup sound'
+- id: alarm_wakeup
+  alias: 'Alarm sound'
   trigger:
-    - platform: state
-      entity_id: sensor.google_home_alarm_sensor
+    platform: state
+    entity_id: sensor.alarm_sensor
+  condition:
+    condition: state
+    entity_id: input_boolean.switch_alarm
+    state: "on"
   action:
-    service: script.turn_on
-    data:
-      entity_id: script.wakeup
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.switch_snoozemode
+    - service: script.turn_on
+      data:
+        entity_id: script.alarm_wakeup
+
+# If media is paused duing snoozemode, wait some minutes and restart wakeup
+- id: alarm_snooze
+  alias: 'Snooze alarm'
+  trigger:
+    platform: state
+    entity_id: media_player.bedroom_speaker
+    to: 'paused'
+  condition:
+    condition: state
+    entity_id: input_boolean.switch_snoozemode
+    state: 'on'
+  action:
+    - service: script.turn_off
+      data:
+        entity_id: script.alarm_wakeup
+    - delay: '00:{{ states("input_number.snooze_time") | int }}:00'
+    - service: script.turn_on
+      data:
+        entity_id: script.alarm_wakeup
+
+
+# Turn off alarm via frontend
+- id: alarm_turn_off
+  alias: 'Turn off alarm via frontend'
+  trigger:
+    platform: state
+    entity_id: input_boolean.switch_alarm
+    to: 'off'
+  condition:
+    condition: state
+    entity_id: input_boolean.snoozemode
+    state: 'on'
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.alarm_stop
 
 # Set lovelace volume slider to current volume level
 - id: set_google_home_slider_position
@@ -89,3 +142,22 @@
       entity_id: media_player.bedroom_speaker
       data_template:
         volume_level: "{{ states('input_number.home_volume') | int / 100 }}"
+
+- id: ifttt_call
+  alias: ifttt call
+  trigger:
+    platform: event
+    event_type: ifttt_webhook_received
+    event_data:
+      action: call_service
+  action:
+    - service_template: '{{ trigger.event.data.service }}'
+      data_template:
+        entity_id: '{{ trigger.event.data.entity_id }}'
+        value: '{{ trigger.event.data.value}}'
+    - service: script.turn_on
+      data:
+        entity_id: script.set_alarm_from_temp
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.switch_alarm

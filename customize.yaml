@@ -20,10 +20,9 @@ light.door:
 light.bed:
   icon: mdi:bed-empty
 
-script.play_radio:
-  icon: mdi:play-circle-outline
-script.play_podcast:
-  icon: mdi:play-circle-outline
+media_player.bedroom_speaker:
+  friendly_name: Google Home Mini
+
 script.evening_light:
   entity_picture: /local/evening.png
 script.yellow_light:
@@ -36,10 +35,13 @@ script.off_light:
   entity_picture: /local/off.png
 script.normal_light:
   entity_picture: /local/normal.png
-
 script.play_spotify_spotcast:
   icon: mdi:spotify
 script.play_podcast:
   icon: mdi:podcast
 script.play_radio:
   icon: mdi:radio
+script.cancel_alarm:
+  icon: mdi:cancel
+script.set_alarm_frontend:
+  icon: mdi:sleep
