@@ -51,14 +51,14 @@ play_media:
   sequence:
     service: media_player.media_play
     data:
-      entity_id: media_play.bedroom_speaker
+      entity_id: media_player.bedroom_speaker
 
 pause_media:
-  alias: Play media
+  alias: Pause media
   sequence:
     service: media_player.media_pause
     data:
-      entity_id: media_play.bedroom_speaker
+      entity_id: media_player.bedroom_speaker
 
 set_alarm_from_temp:
   alias: Set alarm time from IFTTT temporary value
@@ -157,7 +157,6 @@ alarm_wakeuplight:
 alarm_wakeup:
   alias: Wake up sequence
   sequence:
-    - delay: '00:00:30'
     - service: media_player.volume_set
       data:
         entity_id: media_player.bedroom_speaker
@@ -165,9 +164,9 @@ alarm_wakeup:
     - service: script.turn_on
       data_template:
         entity_id: >
-          {% if states("media_player.bedroom_speaker") in ["off", "idle", "playing"] and  is_state("input_select.wakeup_music", "Spotify") %} script.play_spotify_spotcast
-          {% elif states("media_player.bedroom_speaker") in ["off", "idle", "playing"] and is_state("input_select.wakeup_music", "Radio") %} script.play_radio
-          {% elif is_state("media_player.bedroom_speaker", "paused") %} script.play_media
+          {% if is_state("media_player.bedroom_speaker", "paused") %} script.play_media
+          {% elif is_state("media_player.bedroom_speaker", "off") and is_state("input_select.wakeup_music", "Spotify") %} script.play_spotify_spotcast
+          {% elif is_state("media_player.bedroom_speaker", "off") and is_state("input_select.wakeup_music", "Radio") %} script.play_radio
           {% endif %}
     - delay: '00:00:30'
     - service: media_player.volume_set
@@ -190,8 +189,19 @@ alarm_wakeup:
         entity_id: media_player.bedroom_speaker
         volume_level: 0.25
 
+alarm_snooze:
+  alias: Snooze the alarm
+  sequence:
+    - service: script.turn_off
+      data:
+        entity_id: script.alarm_wakeup
+    - delay: '00:{{ states("input_number.snooze_time") | int }}:00'
+    - service: script.turn_on
+      data:
+        entity_id: script.alarm_wakeup
+
 alarm_stop:
-  alias: "Stop alarm, play podcast, turn off lights"
+  alias: "Stop alarm, play podcast"
   sequence:
     - service: input_boolean.turn_off
       data:
@@ -199,16 +209,21 @@ alarm_stop:
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.switch_snoozemode
+    - service: script.turn_off
+      data:
+        entity_id: script.alarm_wakeup
+    - service: script.turn_off
+      data:
+        entity_id: script.alarm_snooze
+    - service: script.turn_on
+      data:
+        entity_id: script.pause_media
     - service: script.turn_on
       data_template:
         entity_id: >
           {% if is_state("input_boolean.switch_alarm_podcast", "on") %} script.play_podcast
           {% else %} script.pause_media
           {% endif %}
-    - delay: '00:30:00'
-    - service: script.turn_on
-      data:
-        entity_id: script.off_light
 
 yellow_light:
   alias: Yellow light

@@ -82,19 +82,16 @@
   trigger:
     platform: state
     entity_id: media_player.bedroom_speaker
+    from: 'playing'
     to: 'paused'
   condition:
     condition: state
     entity_id: input_boolean.switch_snoozemode
     state: 'on'
   action:
-    - service: script.turn_off
-      data:
-        entity_id: script.alarm_wakeup
-    - delay: '00:{{ states("input_number.snooze_time") | int }}:00'
     - service: script.turn_on
       data:
-        entity_id: script.alarm_wakeup
+        entity_id: script.alarm_snooze
 
 
 # Turn off alarm via frontend
@@ -103,6 +100,7 @@
   trigger:
     platform: state
     entity_id: input_boolean.switch_alarm
+    from: 'on'
     to: 'off'
   condition:
     condition: state
