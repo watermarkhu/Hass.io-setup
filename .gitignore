@@ -1,11 +1,18 @@
 
 .HA_VERSION
 .spotify-token-cache
+.google.token
 .storage/
+
 custom_components/
 deps/
+appdaemon/apps/__pycache__/
+appdaemon/dashboards/
+
 home-assistant.log
 home-assistant_v2.db
+
+google_calendars.yaml
 known_devices.yaml
 secrets.yaml
 tts/

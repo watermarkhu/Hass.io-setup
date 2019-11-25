@@ -1,0 +1,21 @@
+---
+hello_world:
+  module: hello
+  class: HelloWorld
+
+sync_spotify_lights:
+  module: music_lights
+  class: change_lights
+  ha_url: !secret base_url
+  constrain_input_boolean: input_boolean.switch_music_lights
+  media_player: "media_player.spotify"
+  condition:
+    entity: "input_boolean.switch_music_lights"
+    state: "on"
+  lights:
+    - "light.bed"
+    - "light.desk"
+    - "light.couch"
+    - "light.door"
+    - "light.strip"
+  

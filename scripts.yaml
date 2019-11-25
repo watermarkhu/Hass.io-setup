@@ -3,7 +3,7 @@ play_spotify_spotcast:
   sequence:
     - service: spotcast.start
       data_template:
-        device_name: "bedroom_speaker"
+        device_name: "googlehome5269"
         uri: >
           {% if is_state("input_select.spotify_playlist", "Kitchen Swagger") %} spotify:user:spotify:playlist:37i9dQZF1DX2FsCLsHeMrM
           {% elif is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:user:spotify:playlist:37i9dQZF1DXc5e2bJhV6pu
@@ -81,28 +81,6 @@ set_alarm_from_temp:
           {% else %}
             0
           {% endif %}
-
-# set_wake_light:
-#   alias: Set wakeup lights time
-#   sequence:
-#     - service: variable.set_variable
-#       data:
-#         variable: wakeuplight_time
-#         value_template: >
-#           {% if is_state("sensor.googlehomealarm", "None") %} {{ None }}
-#           {% else %} {{ (as_timestamp(states('sensor.bedroom_speaker_alarm')) - (10 * 60 | int)) | timestamp_custom('%H:%M', true) }}
-#           {% endif %}
-#
-# set_wake_light_off:
-#   alias: Set wakeup lights off time
-#   sequence:
-#     - service: variable.set_variable
-#       data:
-#         variable: wakeuplight_off_time
-#         value_template: >
-#           {% if is_state("sensor.googlehomealarm", "None") %} {{ None }}
-#           {% else %} {{ (as_timestamp(states('sensor.bedroom_speaker_alarm')) + (30 * 60 | int)) | timestamp_custom('%H:%M', true) }}
-#           {% endif %}
 
 alarm_wakeuplight:
   alias: Light sunrise
@@ -218,6 +196,10 @@ alarm_stop:
     - service: script.turn_on
       data:
         entity_id: script.pause_media
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.bedroom_speaker
+        volume_level: 0.25
     - service: script.turn_on
       data_template:
         entity_id: >

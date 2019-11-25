@@ -1,25 +1,27 @@
-- id: set_dark_theme_at_start
-  alias: 'Set theme at startup'
+- alias: day_to_night_theme
+  id: day_to_night_theme
   trigger:
-    platform: homeassistant
-    event: start
+    - platform: state
+      entity_id: sun.sun
+      from: 'above_horizon'
+      to: 'below_horizon'
   action:
     service: frontend.set_theme
     data:
       name: midnight
 
-# # Refresh every 5 minutes to check of wakeuplight time
-# - id: refresh_wakeup_light
-#   alias: 'Wakeup light check'
-#   trigger:
-#     - platform: homeassistant
-#       event: start
-#     - platform: time_pattern
-#       minutes: '/5'
-#   action:
-#     - service: script.turn_on
-#       data:
-#         entity_id: script.set_wake_light
+- alias: night_to_day_theme
+  id: night_to_day_theme
+  trigger:
+    - platform: state
+      entity_id: sun.sun
+      from: 'below_horizon'
+      to: 'above_horizon'
+  action:
+    service: frontend.set_theme
+    data:
+      name: clear
+
 
 # Auto set alarm at 10pm
 - id: auto_set_alarm_10pm
@@ -159,3 +161,14 @@
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.switch_alarm
+
+
+- id: turn_off_music_lights
+  alias: turn off music lights feature at night
+  trigger: 
+    platform: time
+    at: "04:00:00"
+  action:
+    service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.switch_music_lights

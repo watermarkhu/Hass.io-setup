@@ -25,6 +25,25 @@ http:
 frontend:
   themes: !include themes.yaml
 
+device_tracker:
+  - platform: xiaomi
+    host: 192.168.31.1
+    username: admin
+    password: !secret router_password
+    new_device_defaults:
+      track_new_devices: true
+      hide_if_away: true
+    interval_seconds: 10
+    consider_home: 60
+
+hacs:
+  token: !secret hacs_github_token
+  appdaemon: true
+  python_script: true
+  theme: true
+  options:
+    country: NL
+
 # Discover some devices automatically
 discovery:
   ignore:
@@ -71,8 +90,8 @@ ifttt:
 
 # add google assistant
 google_assistant:
-  project_id: hassio-4584e
-  api_key: AIzaSyATJEEYgxZSOEOH4UMboqFcWNu-SSk6jzI
+  project_id: !secret google_project_id
+  api_key: !secret google_api_key
   exposed_domains:
     - light
   entity_config:
@@ -93,56 +112,24 @@ google_assistant:
     input_boolean.switch_alarm:
       expose: true
 
-
-# add google home
-# googlehome:
-#   devices:
-#     - host: 192.168.31.104
-#       track_alarms: true
-#       track_devices: false
-
-# Spotcast component
-spotcast:
-  username: !secret spotify_login
-  password: !secret spotify_password
+# calendar component
+google:
+  client_id: !secret calendar_client_id
+  client_secret: !secret calendar_client_secret
 
 # Weather component for lovelace Card
 weather:
   - platform: darksky
     api_key: !secret darksky_key
+    mode: daily
 
 # Sensors
 sensor:
   - platform: random
 
-  # Weather prediction for tts readout
-  - platform: darksky
-    api_key: !secret darksky_key
-    forecast:
-      - 0
-    hourly_forecast:
-      - 0
-    monitored_conditions:
-      - summary
-      - temperature
-      - hourly_summary
-      - temperature_high
-      - temperature_low
-
   - platform: time_date
     display_options:
       - 'time'
-
-  # Get google home alarm
-  # Doesn't work as of 07/2019
-  # - platform: template
-  #   sensors:
-  #     googlehomealarm:
-  #       value_template: "{{ as_timestamp(states('sensor.bedroom_speaker_alarm')) | timestamp_custom('%H:%M', true) }}"
-  # - platform: template
-  #   sensors:
-  #     google_home_alarm_sensor:
-  #       value_template: '{{ states("sensor.time") == states("sensor.googlehomealarm") }}'
 
   - platform: template
     sensors:
@@ -191,8 +178,15 @@ media_player:
     client_id: !secret spotify_client_id
     client_secret: !secret spotify_client_secret
     aliases:
-        abc123def456: 'Living Room'
-        9183abas000: 'Bed Room'
+      abc123def456: 'Living Room'
+      9183abas000: 'Bed Room'
+  - platform: mpd
+    host: !secret mpd_server_url
+
+# Spotcast component
+spotcast:
+  username: !secret spotify_login
+  password: !secret spotify_password
 
 # Google home volume
 input_number:
@@ -247,7 +241,10 @@ input_boolean:
   switch_snoozemode:
     name: Restart media after some minutes
     initial: off
-
+  switch_music_lights:
+    name: Light album art mode
+    icon: mdi:music-clef-treble
+    initial: off
 
 # Alarm playlist selector
 input_select:
@@ -286,8 +283,8 @@ input_select:
   morning_podcast:
     name: 'Podcast:'
     options:
-      - NOS met het oog op morgen
       - NRC vandaag
+      - NOS met het oog op morgen
       - VOX today explained
       - TIMES the daily
     icon: mdi:podcast
@@ -295,17 +292,19 @@ input_select:
 # Text to speech
 tts:
   - platform: google_translate
-    cache: true
+    cache: false
     cache_dir: /tmp/tts
+    language: "en-us"
     time_memory: 300
     base_url: !secret tts_url
     service_name: google_say
 
 panel_iframe:
-  configurator:
-    title: Configurator
-    icon: mdi:wrench
-    url: !secret configurator_url
+  ide:
+    title: IDE
+    icon: mdi:code-braces
+    url: !secret ide_url
+
 
 group: !include groups.yaml
 automation: !include automations.yaml
