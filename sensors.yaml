@@ -1,0 +1,59 @@
+- platform: random
+
+- platform: time_date
+  display_options:
+    - 'time'
+
+- platform: template
+  sensors:
+    alarm_time_sensor:
+      friendly_name: "Alarm time"
+      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarm_hours") | int, states("input_number.alarm_minutes") | int) }}'
+
+    alarm_time_m10_sensor:
+      value_template: '{{ (as_timestamp(strptime("2000 " + states("sensor.alarm_time_sensor"), "%Y %H:%M")) - (10 * 60 | int))  | timestamp_custom("%H:%M", true) }}'
+
+    alarm_sensor:
+      value_template: '{{ states("sensor.time") == states("sensor.alarm_time_sensor") }}'
+
+    alarm_m10_sensor:
+      value_template: '{{ states("sensor.time") == states("sensor.alarm_time_m10_sensor") }}'
+
+
+# Get latest podcasts
+- platform: scrape
+  resource: https://podcast.npo.nl/feed/met-het-oog-op-morgen.xml
+  name: podcast_nos
+  select: 'enclosure:nth-of-type(1)'
+  attribute: url
+  scan_interval: 3600
+- platform: scrape
+  resource: https://rss.art19.com/vandaag
+  name: podcast_nrc
+  select: 'enclosure:nth-of-type(1)'
+  attribute: url
+  scan_interval: 3600
+- platform: scrape
+  resource: https://rss.art19.com/the-daily
+  name: podcast_times
+  select: 'enclosure:nth-of-type(1)'
+  attribute: url
+  scan_interval: 3600
+- platform: scrape
+  resource: https://rss.art19.com/today-explained
+  name: podcast_vox
+  select: 'enclosure:nth-of-type(1)'
+  attribute: url
+  scan_interval: 3600
+#
+# - platform: buienrader
+#   timeframe: 120
+#   monitored_conditions:
+#     - conditionexact
+#     - feeltemperature
+#     - temperature
+#     - humidity
+#     - windspeed
+#     - winddirection
+#     - precipitation
+#     - precipitation_forecast_average

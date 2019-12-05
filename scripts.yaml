@@ -2,8 +2,8 @@ play_spotify_spotcast:
   alias: Play a spotify playlist
   sequence:
     - service: spotcast.start
+      entity_id: media_player.bedroom_speaker
       data_template:
-        device_name: "googlehome5269"
         uri: >
           {% if is_state("input_select.spotify_playlist", "Kitchen Swagger") %} spotify:user:spotify:playlist:37i9dQZF1DX2FsCLsHeMrM
           {% elif is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:user:spotify:playlist:37i9dQZF1DXc5e2bJhV6pu
@@ -132,9 +132,30 @@ alarm_wakeuplight:
         brightness: 255
         transition: 450
 
+alarm_toggle:
+  alias: Toggle the alarm
+  sequence:
+    - condition: state
+      entity_id: input_boolean.switch_snoozemode
+      state: 'off'
+    - service: input_boolean.toggle
+      data:
+        entity_id: input_boolean.switch_alarm
+    - service: input_select.select_option
+      data_template:
+        entity_id: input_select.alarm_state
+        option:  >
+          {% if is_state("input_select.alarm_state", "Not set") %} Set
+          {% elif is_state("input_select.alarm_state", "Set") %} Not set
+          {% endif %}
+
 alarm_wakeup:
   alias: Wake up sequence
   sequence:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.alarm_state
+        option: Activated
     - service: media_player.volume_set
       data:
         entity_id: media_player.bedroom_speaker
@@ -170,6 +191,16 @@ alarm_wakeup:
 alarm_snooze:
   alias: Snooze the alarm
   sequence:
+    - condition: state
+      entity_id: input_boolean.switch_snoozemode
+      state: 'on'
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.alarm_state
+        option: Snoozed
+    - service: media_player.media_pause
+      data:
+        entity_id: media_player.bedroom_speaker
     - service: script.turn_off
       data:
         entity_id: script.alarm_wakeup
@@ -181,6 +212,13 @@ alarm_snooze:
 alarm_stop:
   alias: "Stop alarm, play podcast"
   sequence:
+    - condition: state
+      entity_id: input_boolean.switch_snoozemode
+      state: 'on'
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.alarm_state
+        option: Not set
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.switch_alarm
@@ -206,6 +244,7 @@ alarm_stop:
           {% if is_state("input_boolean.switch_alarm_podcast", "on") %} script.play_podcast
           {% else %} script.pause_media
           {% endif %}
+
 
 yellow_light:
   alias: Yellow light

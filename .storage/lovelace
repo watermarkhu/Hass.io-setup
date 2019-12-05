@@ -1,0 +1,424 @@
+{
+    "data": {
+        "config": {
+            "resources": [
+                {
+                    "type": "module",
+                    "url": "/community_plugin/compact-custom-header/compact-custom-header.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/weather-card/weather-card.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/lovelace-fold-entity-row/fold-entity-row.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/lovelace-swiper-card/swipe-card.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/atomic_calendar/atomic_calendar.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/spotify-card/spotify-card.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/rgb-light-card/card.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/mini-media-player/mini-media-player-bundle.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/podcast-card/podcast-card.js"
+                },
+                {
+                    "type": "module",
+                    "url": "/community_plugin/button-card/button-card.js"
+                }
+            ],
+            "title": "Home",
+            "views": [
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "person.mark_4"
+                                }
+                            ],
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "card_width": "100%",
+                                    "cards": [
+                                        {
+                                            "entity": "light.bedroom_lights",
+                                            "type": "light"
+                                        },
+                                        {
+                                            "entity": "light.strip",
+                                            "type": "light"
+                                        },
+                                        {
+                                            "entity": "light.desk",
+                                            "type": "light"
+                                        },
+                                        {
+                                            "entity": "light.door",
+                                            "type": "light"
+                                        },
+                                        {
+                                            "entity": "light.bed",
+                                            "type": "light"
+                                        },
+                                        {
+                                            "entity": "light.couch",
+                                            "type": "light"
+                                        }
+                                    ],
+                                    "parameters": {
+                                        "centeredSlides": true,
+                                        "keyboard": {
+                                            "enabled": true,
+                                            "onlyInViewport": true
+                                        },
+                                        "navigation": null,
+                                        "slidesPerView": "auto",
+                                        "spaceBetween": 8
+                                    },
+                                    "type": "custom:swipe-card"
+                                },
+                                {
+                                    "colors": [
+                                        {
+                                            "entity_id": "script.normal_light",
+                                            "icon_color": "linear-gradient(25deg, #fff6de, #ffd770)",
+                                            "type": "script"
+                                        },
+                                        {
+                                            "entity_id": "script.yellow_light",
+                                            "icon_color": "linear-gradient(25deg, #ffe070, #feae36)",
+                                            "type": "script"
+                                        },
+                                        {
+                                            "entity_id": "script.evening_light",
+                                            "icon_color": "linear-gradient(25deg, #9121b0, #f0113d, #ffa930)",
+                                            "type": "script"
+                                        },
+                                        {
+                                            "entity_id": "script.knight_light",
+                                            "icon_color": "linear-gradient(25deg, #3e0da1, #9121b0)",
+                                            "type": "script"
+                                        },
+                                        {
+                                            "entity_id": "script.movie_light",
+                                            "icon_color": "linear-gradient(25deg, #0f26ba, #040b38)",
+                                            "type": "script"
+                                        }
+                                    ],
+                                    "justify": "center",
+                                    "size": 50,
+                                    "type": "custom:rgb-light-card"
+                                }
+                            ],
+                            "type": "entities"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "artwork": "cover",
+                                    "entity": "media_player.bedroom_speaker",
+                                    "type": "custom:mini-media-player"
+                                },
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "script.play_spotify_spotcast",
+                                            "hold_action": {
+                                                "action": null
+                                            },
+                                            "show_icon": true,
+                                            "show_name": false,
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "script.play_radio",
+                                            "hold_action": {
+                                                "action": null
+                                            },
+                                            "show_icon": true,
+                                            "show_name": false,
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "script.play_podcast",
+                                            "hold_action": {
+                                                "action": null
+                                            },
+                                            "show_icon": true,
+                                            "show_name": false,
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "media_player.mpd"
+                                }
+                            ],
+                            "type": "entities"
+                        }
+                    ],
+                    "icon": "mdi:home",
+                    "panel": false,
+                    "path": "default_view",
+                    "title": "Home"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "details": false,
+                                    "entity": "weather.buienradar",
+                                    "name": "Delft",
+                                    "type": "custom:weather-card"
+                                },
+                                {
+                                    "aspect_ratio": "100%",
+                                    "camera_image": "camera.buienradar_loop",
+                                    "entity": "camera.buienradar_loop",
+                                    "type": "picture-entity"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "entities": [
+                                "calendar.huize_gerrit",
+                                {
+                                    "color": "red",
+                                    "entity": "calendar.watermarkhu_gmail_com"
+                                },
+                                "calendar.sports_and_leisure",
+                                "calendar.family_hu"
+                            ],
+                            "maxDaysToShow": 7,
+                            "showColors": true,
+                            "showDate": true,
+                            "showLoader": true,
+                            "showLocation": false,
+                            "showMonth": false,
+                            "showNoEventsForToday": true,
+                            "type": "custom:atomic-calendar"
+                        }
+                    ],
+                    "icon": "mdi:white-balance-sunny",
+                    "panel": false,
+                    "path": "my-day",
+                    "title": "My Day"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "color_type": "card",
+                            "double_tap_action": {
+                                "action": "call-service",
+                                "confirmation": {
+                                    "text": "Snooze alarm?"
+                                },
+                                "service": "script.turn_on",
+                                "service_data": {
+                                    "entity_id": "script.alarm_snooze"
+                                }
+                            },
+                            "entity": "input_select.alarm_state",
+                            "hold_action": {
+                                "action": "call-service",
+                                "confirmation": {
+                                    "text": "Dismiss alarm?"
+                                },
+                                "service": "script.turn_on",
+                                "service_data": {
+                                    "entity_id": "script.alarm_stop"
+                                }
+                            },
+                            "label": "Press to set alarm.",
+                            "name": "[[[ return states['sensor.alarm_time_sensor'].state ]]]\n",
+                            "show_icon": false,
+                            "show_label": true,
+                            "show_state": false,
+                            "state": [
+                                {
+                                    "color": "rgb(28, 128, 199)",
+                                    "label": "Alarm set. Press to cancel alarm.",
+                                    "value": "Set"
+                                },
+                                {
+                                    "color": "rgb(200, 50, 50)",
+                                    "label": "Alarm activated. Double-press to snooze, Hold to dismiss.",
+                                    "value": "Activated"
+                                },
+                                {
+                                    "color": "rgb(230, 100, 25)",
+                                    "label": "Alarm snoozing... Hold to dismiss.",
+                                    "value": "Snoozed"
+                                }
+                            ],
+                            "styles": {
+                                "card": [
+                                    {
+                                        "height": "190px"
+                                    },
+                                    {
+                                        "padding-top": "90px"
+                                    }
+                                ],
+                                "name": [
+                                    {
+                                        "font-weight": "bold"
+                                    },
+                                    {
+                                        "font-size": "80px"
+                                    },
+                                    {
+                                        "padding-bottom": "5px"
+                                    },
+                                    {
+                                        "padding-top": "5px"
+                                    }
+                                ]
+                            },
+                            "tap_action": {
+                                "action": "call-service",
+                                "service": "script.turn_on",
+                                "service_data": {
+                                    "entity_id": "script.alarm_toggle"
+                                }
+                            },
+                            "type": "custom:button-card"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "entities": [
+                                        {
+                                            "entity": "input_number.alarm_hours"
+                                        },
+                                        {
+                                            "entity": "input_number.alarm_minutes"
+                                        },
+                                        {
+                                            "entities": [
+                                                "input_boolean.switch_autoalarm",
+                                                "input_number.snooze_time"
+                                            ],
+                                            "head": "input_boolean.switch_alarm_podcast",
+                                            "type": "custom:fold-entity-row"
+                                        }
+                                    ],
+                                    "type": "entities"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "input_select.wakeup_music"
+                                },
+                                {
+                                    "entity": "input_select.spotify_playlist"
+                                },
+                                {
+                                    "entity": "input_select.radio_station"
+                                },
+                                {
+                                    "entity": "input_select.morning_podcast"
+                                }
+                            ],
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "input_select.alarm_state"
+                                },
+                                {
+                                    "entity": "input_boolean.switch_snoozemode"
+                                }
+                            ],
+                            "type": "entities"
+                        }
+                    ],
+                    "icon": "mdi:alarm",
+                    "path": "alarm",
+                    "title": "Alarm"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "artwork": "full-cover",
+                            "entity": "media_player.spotify",
+                            "hide": {
+                                "power": true,
+                                "volume": false
+                            },
+                            "source": "full",
+                            "type": "custom:mini-media-player"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "input_boolean.switch_music_lights"
+                                }
+                            ],
+                            "type": "entities"
+                        },
+                        {
+                            "custom_player": true,
+                            "default_target": "media_player.bedroom_speaker",
+                            "entity": "sensor.gpodder",
+                            "name": "Marks's Podcasts",
+                            "show_player": true,
+                            "type": "custom:podcast-card"
+                        }
+                    ],
+                    "icon": "mdi:music",
+                    "panel": false,
+                    "path": "music",
+                    "title": "Music"
+                }
+            ]
+        }
+    },
+    "key": "lovelace",
+    "version": 1
+}

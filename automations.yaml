@@ -95,24 +95,6 @@
       data:
         entity_id: script.alarm_snooze
 
-
-# Turn off alarm via frontend
-- id: alarm_turn_off
-  alias: 'Turn off alarm via frontend'
-  trigger:
-    platform: state
-    entity_id: input_boolean.switch_alarm
-    from: 'on'
-    to: 'off'
-  condition:
-    condition: state
-    entity_id: input_boolean.snoozemode
-    state: 'on'
-  action:
-    - service: script.turn_on
-      data:
-        entity_id: script.alarm_stop
-
 # Set lovelace volume slider to current volume level
 - id: set_google_home_slider_position
   alias: Set Google Home Slider Position
@@ -165,7 +147,7 @@
 
 - id: turn_off_music_lights
   alias: turn off music lights feature at night
-  trigger: 
+  trigger:
     platform: time
     at: "04:00:00"
   action:

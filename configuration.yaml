@@ -26,15 +26,24 @@ frontend:
   themes: !include themes.yaml
 
 device_tracker:
-  - platform: xiaomi
-    host: 192.168.31.1
-    username: admin
-    password: !secret router_password
-    new_device_defaults:
-      track_new_devices: true
-      hide_if_away: true
-    interval_seconds: 10
-    consider_home: 60
+  # - platform: xiaomi
+  #   host: 192.168.31.1
+  #   username: admin
+  #   password: !secret router_password
+  #   new_device_defaults:
+  #     track_new_devices: true
+  #     hide_if_away: true
+  #   interval_seconds: 30
+  #   consider_home: 60
+  - platform: bluetooth_tracker
+
+person:
+  - name: Mark
+    id: markhu
+    user_id: 3651c436a5a448a69d3fcbde6ecbd96e
+    device_trackers:
+      - device_tracker.oneplus6_bt
+      - device_tracker.oneplus6_wifi
 
 hacs:
   token: !secret hacs_github_token
@@ -119,58 +128,22 @@ google:
 
 # Weather component for lovelace Card
 weather:
-  - platform: darksky
-    api_key: !secret darksky_key
-    mode: daily
+  - platform: buienradar
+    name: buienradar
+camera:
+  - platform: buienradar
 
 # Sensors
-sensor:
-  - platform: random
+sensor: !include sensors.yaml
 
-  - platform: time_date
-    display_options:
-      - 'time'
-
-  - platform: template
-    sensors:
-      alarm_time_sensor:
-        friendly_name: "Alarm time"
-        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarm_hours") | int, states("input_number.alarm_minutes") | int) }}'
-
-      alarm_time_m10_sensor:
-        value_template: '{{ (as_timestamp(strptime("2000 " + states("sensor.alarm_time_sensor"), "%Y %H:%M")) - (10 * 60 | int))  | timestamp_custom("%H:%M", true) }}'
-
-      alarm_sensor:
-        value_template: '{{ states("sensor.time") == states("sensor.alarm_time_sensor") }}'
-
-      alarm_m10_sensor:
-        value_template: '{{ states("sensor.time") == states("sensor.alarm_time_m10_sensor") }}'
-
-  # Get latest podcasts
-  - platform: scrape
-    resource: https://podcast.npo.nl/feed/met-het-oog-op-morgen.xml
-    name: podcast_nos
-    select: 'enclosure:nth-of-type(1)'
-    attribute: url
-    scan_interval: 3600
-  - platform: scrape
-    resource: https://rss.art19.com/vandaag
-    name: podcast_nrc
-    select: 'enclosure:nth-of-type(1)'
-    attribute: url
-    scan_interval: 3600
-  - platform: scrape
-    resource: https://rss.art19.com/the-daily
-    name: podcast_times
-    select: 'enclosure:nth-of-type(1)'
-    attribute: url
-    scan_interval: 3600
-  - platform: scrape
-    resource: https://rss.art19.com/today-explained
-    name: podcast_vox
-    select: 'enclosure:nth-of-type(1)'
-    attribute: url
-    scan_interval: 3600
+# Podcast
+gpodder:
+  username: !secret gpodder_username
+  password: !secret gpodder_password
+  sensor:
+    - enabled: true
+      name: gpodder
+      device: homecassistant
 
 # Spotify
 media_player:
@@ -188,7 +161,7 @@ spotcast:
   username: !secret spotify_login
   password: !secret spotify_password
 
-# Google home volume
+# Input numbers
 input_number:
   home_volume:
     name: Google Home
@@ -289,6 +262,14 @@ input_select:
       - TIMES the daily
     icon: mdi:podcast
 
+  alarm_state:
+    name: "Alarm current state"
+    options:
+      - Not set
+      - Set
+      - Activated
+      - Snoozed
+
 # Text to speech
 tts:
   - platform: google_translate
@@ -310,4 +291,3 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-# !include drinking_game.yaml
