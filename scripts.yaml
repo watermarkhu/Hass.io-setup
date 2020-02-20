@@ -1,9 +1,17 @@
+##################################################################
+##################################################################
+
+                # Media player scripting
+
+##################################################################
+
+
 play_spotify_spotcast:
   alias: Play a spotify playlist
   sequence:
     - service: spotcast.start
-      entity_id: media_player.bedroom_speaker
       data_template:
+        entity_id: media_player.bedroom_speaker
         uri: >
           {% if is_state("input_select.spotify_playlist", "Kitchen Swagger") %} spotify:user:spotify:playlist:37i9dQZF1DX2FsCLsHeMrM
           {% elif is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:user:spotify:playlist:37i9dQZF1DXc5e2bJhV6pu
@@ -60,74 +68,82 @@ pause_media:
     data:
       entity_id: media_player.bedroom_speaker
 
-set_alarm_from_temp:
-  alias: Set alarm time from IFTTT temporary value
-  sequence:
-    - service: input_number.set_value
-      data_template:
-        entity_id: input_number.alarm_hours
-        value: >
-          {% if "." in states("input_number.alarm_temp") %}
-            {{ states("input_number.alarm_temp").split(".")[0] }}
-          {% else %}
-            {{ states("input_number.alarm_temp") }}
-          {% endif %}
-    - service: input_number.set_value
-      data_template:
-        entity_id: input_number.alarm_minutes
-        value: >
-          {% if "." in states("input_number.alarm_temp") %}
-            {{ states("input_number.alarm_temp").split(".")[1] }}
-          {% else %}
-            0
-          {% endif %}
+##################################################################
+##################################################################
+
+                # Wakeup alarm scripting
+
+##################################################################
+
+# set_alarm_from_temp:
+#   alias: Set alarm time from IFTTT temporary value
+#   sequence:
+#     - service: input_number.set_value
+#       data_template:
+#         entity_id: input_number.alarm_hours
+#         value: >
+#           {% if "." in states("input_number.alarm_temp") %}
+#             {{ states("input_number.alarm_temp").split(".")[0] }}
+#           {% else %}
+#             {{ states("input_number.alarm_temp") }}
+#           {% endif %}
+#     - service: input_number.set_value
+#       data_template:
+#         entity_id: input_number.alarm_minutes
+#         value: >
+#           {% if "." in states("input_number.alarm_temp") %}
+#             {{ states("input_number.alarm_temp").split(".")[1] }}
+#           {% else %}
+#             0
+#           {% endif %}
 
 alarm_wakeuplight:
   alias: Light sunrise
   sequence:
     - service: light.turn_on
       data:
-        entity_id: light.bedroom_lights
+        entity_id: light.wakeup_lights
         color_temp: 588
-        brightness: 1
+        brightness: 3
+        transition: 450
     - service: light.turn_on
       data:
-        entity_id: light.bedroom_lights
+        entity_id: light.wakeup_lights
         color_temp: 588
         brightness: 43
         transition: 450
     - delay: '00:02:30'
     - service: light.turn_on
       data:
-        entity_id: light.bedroom_lights
+        entity_id: light.wakeup_lights
         color_temp: 554
         brightness: 85
         transition: 450
     - delay: '00:02:30'
     - service: light.turn_on
       data:
-        entity_id: light.bedroom_lights
+        entity_id: light.wakeup_lights
         color_temp: 520
         brightness: 128
         transition: 450
     - delay: '00:02:30'
     - service: light.turn_on
       data:
-        entity_id: light.bedroom_lights
+        entity_id: light.wakeup_lights
         color_temp: 486
         brightness: 170
         transition: 450
     - delay: '00:02:30'
     - service: light.turn_on
       data:
-        entity_id: light.bedroom_lights
+        entity_id: light.wakeup_lights
         color_temp: 452
         brightness: 213
         transition: 450
     - delay: '00:02:30'
     - service: light.turn_on
       data:
-        entity_id: light.bedroom_lights
+        entity_id: light.wakeup_lights
         color_temp: 418
         brightness: 255
         transition: 450
@@ -135,12 +151,6 @@ alarm_wakeuplight:
 alarm_toggle:
   alias: Toggle the alarm
   sequence:
-    - condition: state
-      entity_id: input_boolean.switch_snoozemode
-      state: 'off'
-    - service: input_boolean.toggle
-      data:
-        entity_id: input_boolean.switch_alarm
     - service: input_select.select_option
       data_template:
         entity_id: input_select.alarm_state
@@ -155,7 +165,7 @@ alarm_wakeup:
     - service: input_select.select_option
       data:
         entity_id: input_select.alarm_state
-        option: Activated
+        option: "Activated"
     - service: media_player.volume_set
       data:
         entity_id: media_player.bedroom_speaker
@@ -191,13 +201,10 @@ alarm_wakeup:
 alarm_snooze:
   alias: Snooze the alarm
   sequence:
-    - condition: state
-      entity_id: input_boolean.switch_snoozemode
-      state: 'on'
     - service: input_select.select_option
       data:
         entity_id: input_select.alarm_state
-        option: Snoozed
+        option: "Snoozed"
     - service: media_player.media_pause
       data:
         entity_id: media_player.bedroom_speaker
@@ -212,19 +219,10 @@ alarm_snooze:
 alarm_stop:
   alias: "Stop alarm, play podcast"
   sequence:
-    - condition: state
-      entity_id: input_boolean.switch_snoozemode
-      state: 'on'
     - service: input_select.select_option
       data:
         entity_id: input_select.alarm_state
-        option: Not set
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.switch_alarm
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.switch_snoozemode
+        option: "Not set"
     - service: script.turn_off
       data:
         entity_id: script.alarm_wakeup
@@ -245,6 +243,13 @@ alarm_stop:
           {% else %} script.pause_media
           {% endif %}
 
+##################################################################
+##################################################################
+
+                        # light scenes
+
+##################################################################
+
 
 yellow_light:
   alias: Yellow light
@@ -254,31 +259,31 @@ yellow_light:
         entity_id: light.desk
         brightness: 255
         color_temp: 600
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.bed
         brightness: 255
         color_temp: 800
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.door
         brightness: 255
         color_temp: 400
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.couch
         brightness: 255
         color_temp: 500
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.strip
         brightness: 255
         rgb_color: [255, 235, 138]
-        transition: 4
+        transition: 2
 
 evening_light:
   alias: Evening light
@@ -288,31 +293,31 @@ evening_light:
         entity_id: light.desk
         brightness: 255
         rgb_color: [218, 17, 255]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.bed
         brightness: 255
         rgb_color: [10, 35, 100]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.door
         brightness: 255
         rgb_color: [255, 11, 0]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.couch
         brightness: 255
         rgb_color: [225,126,0]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.strip
         brightness: 255
         rgb_color: [255, 104, 30]
-        transition: 4
+        transition: 2
 
 night_light:
   alias: Night light
@@ -322,31 +327,31 @@ night_light:
         entity_id: light.desk
         brightness: 55
         rgb_color: [218, 58, 255]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.bed
         brightness: 55
         rgb_color: [255, 120, 0]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.door
         brightness: 55
         rgb_color: [7, 98, 255]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.couch
         brightness: 55
         rgb_color: [255, 16, 0]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.strip
         brightness: 55
         rgb_color: [168, 60, 255]
-        transition: 4
+        transition: 2
 
 
 movie_light:
@@ -355,29 +360,29 @@ movie_light:
     - service: light.turn_off
       data:
         entity_id: light.desk
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.bed
         brightness: 55
         rgb_color: [255, 21, 67]
-        transition: 4
+        transition: 2
     - service: light.turn_off
       data:
         entity_id: light.door
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.couch
         brightness: 55
         rgb_color: [195, 123, 255]
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.strip
         brightness: 55
         rgb_color: [40, 80, 255]
-        transition: 4
+        transition: 2
 
 normal_light:
   alias: Normal light
@@ -387,34 +392,26 @@ normal_light:
         entity_id: light.desk
         brightness: 200
         color_temp: 333
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.bed
         brightness: 200
         color_temp: 333
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.door
         brightness: 200
         color_temp: 333
-        transition: 4
+        transition: 2
     - service: light.turn_on
       data:
         entity_id: light.couch
         brightness: 200
         color_temp: 333
-        transition: 4
+        transition: 2
     - service: light.turn_off
       data:
         entity_id: light.strip
-        transistion: 4
-
-off_light:
-  alias: Off light
-  sequence:
-    - service: light.turn_off
-      data:
-        entity_id: light.bedroom_lights
-        transition: 4
+        transition: 2

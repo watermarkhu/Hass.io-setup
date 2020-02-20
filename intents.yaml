@@ -1,0 +1,60 @@
+HoeLangReistijd:
+  speech:
+    text: Ok, via Hassio vragen we nu met Dialogflow wat de reistijd is met het {{ Voertuig }}. Het alarm staat nu op {{ states("input_boolean.switch_alarm") }}.
+
+SetAlarmTime:
+  speech:
+    text: "Your alarm is set at {{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%H:%M', False) }}."
+  action:
+    - service: input_number.set_value
+      entity_id: input_number.alarm_hours
+      data_template:
+        value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-H', False) }}"
+
+    - service: input_number.set_value
+      entity_id: input_number.alarm_minutes
+      data_template:
+        value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-M', False) }}"
+
+
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.alarm_state
+        option: "Set"
+    - service: notify.telegram
+      data_template:
+        title: Alarm set
+        message: "Your alarm is set at {{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%H:%M', False) }}."
+    # - service: notify.mobile_app_mark_s_oneplus_a6003
+    #   data_template:
+    #     title: Alarm set
+    #     message: Your alarm is set at {{ time }}.
+
+CancelAlarm:
+  speech:
+    text: "Your alarm at {{ states('sensor.alarm_time_sensor') }} is cancelled."
+  action:
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.alarm_state
+        option: "Not set"
+    - service: notify.telegram
+      data_template:
+        title: Alarm cancelled
+        message: "Your alarm at {{ states('sensor.alarm_time_sensor') }} is cancelled."
+
+
+PreviousPlayerSong:
+  speech:
+    text: "Ok"
+  action:
+    - service: media_player.media_previous_track
+      data_template:
+        entity_id: media_player.{{ mediaplayer }}
+NextPlayerSong:
+  speech:
+    text: "Ok"
+  action:
+    - service: media_player.media_next_track
+      data_template:
+        entity_id: media_player.{{ mediaplayer }}

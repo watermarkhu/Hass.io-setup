@@ -1,26 +1,47 @@
-- alias: day_to_night_theme
-  id: day_to_night_theme
+# Example automations.yaml entry
+- alias: "Light theme after Sunrise"
   trigger:
-    - platform: state
-      entity_id: sun.sun
-      from: 'above_horizon'
-      to: 'below_horizon'
+    platform: sun
+    event: sunrise
   action:
-    service: frontend.set_theme
-    data:
-      name: midnight
+    - service: frontend.set_theme
+      data:
+        name: google.light
 
-- alias: night_to_day_theme
-  id: night_to_day_theme
+- alias: "Dark theme after Sunset"
   trigger:
-    - platform: state
+    platform: sun
+    event: sunset
+  action:
+    - service: frontend.set_theme
+      data:
+        name: grey_night
+
+- alias: 'Light theme after reboot in day'
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    - condition: state
       entity_id: sun.sun
-      from: 'below_horizon'
-      to: 'above_horizon'
+      state: 'above_horizon'
   action:
     service: frontend.set_theme
     data:
-      name: clear
+      name: google_light
+
+- alias: 'Dark theme after reboot in night'
+  trigger:
+    platform: homeassistant
+    event: start
+  condition:
+    condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+    service: frontend.set_theme
+    data:
+      name: grey_night
 
 
 # Auto set alarm at 10pm
@@ -34,12 +55,13 @@
       entity_id: input_boolean.switch_autoalarm
       state: "on"
     - condition: state
-      entity_id: input_boolean.switch_alarm
-      state: "off"
+      entity_id: input_select.alarm_state
+      state: "Not set"
   action:
-    - service: input_boolean.turn_on
+    - service: input_select.select_option
       data:
-        entity_id: input_boolean.switch_alarm
+        entity_id: input_select.alarm_state
+        option: "Set"
     - service: tts.google_translate_say
       entity_id: media_player.bedroom_speaker
       data_template:
@@ -53,8 +75,8 @@
     entity_id: sensor.alarm_m10_sensor
   condition:
     condition: state
-    entity_id: input_boolean.switch_alarm
-    state: "on"
+    entity_id: input_select.alarm_state
+    state: "Set"
   action:
     - service: script.turn_on
       data:
@@ -68,12 +90,9 @@
     entity_id: sensor.alarm_sensor
   condition:
     condition: state
-    entity_id: input_boolean.switch_alarm
-    state: "on"
+    entity_id: input_select.alarm_state
+    state: "Set"
   action:
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.switch_snoozemode
     - service: script.turn_on
       data:
         entity_id: script.alarm_wakeup
@@ -88,8 +107,8 @@
     to: 'paused'
   condition:
     condition: state
-    entity_id: input_boolean.switch_snoozemode
-    state: 'on'
+    entity_id: input_select.alarm_state
+    state: "Activated"
   action:
     - service: script.turn_on
       data:
@@ -140,9 +159,10 @@
     - service: script.turn_on
       data:
         entity_id: script.set_alarm_from_temp
-    - service: input_boolean.turn_on
+    - service: input_select.select_option
       data:
-        entity_id: input_boolean.switch_alarm
+        entity_id: input_select.alarm_state
+        option: "Set"
 
 
 - id: turn_off_music_lights

@@ -8,9 +8,14 @@ custom_components/
 deps/
 appdaemon/apps/__pycache__/
 appdaemon/dashboards/
+__pycache__/
+
+/node-red/*
+!/node-red/lib/
 
 home-assistant.log
 home-assistant_v2.db
+service.json
 
 google_calendars.yaml
 known_devices.yaml

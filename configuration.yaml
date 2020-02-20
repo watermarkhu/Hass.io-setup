@@ -21,21 +21,105 @@ http:
   base_url: !secret base_url
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
-
+#
+#
+sensor: !include sensors.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+#
+# ##################################################################
+# ##################################################################
+#
+#                   # Frontend & Lovelace
+#
+# ##################################################################
+#
 frontend:
   themes: !include themes.yaml
+panel_iframe:
+  ide:
+    title: IDE
+    icon: mdi:code-braces
+    url: !secret ide_url
 
-device_tracker:
-  # - platform: xiaomi
-  #   host: 192.168.31.1
-  #   username: admin
-  #   password: !secret router_password
-  #   new_device_defaults:
-  #     track_new_devices: true
-  #     hide_if_away: true
-  #   interval_seconds: 30
-  #   consider_home: 60
-  - platform: bluetooth_tracker
+
+##################################################################
+##################################################################
+
+                      # Google services
+
+##################################################################
+
+# add google assistant
+google_assistant:
+  project_id: !secret google_project_id
+  service_account: !include service.json
+  report_state: false
+  exposed_domains:
+    - light
+  entity_config:
+    light.bedroom_lights:
+      expose: false
+    light.wakeup_lights:
+      expose: false
+    script.alarm_stop:
+      expose: true
+    script.alarm_snooze:
+      expose: true
+    script.yellow_light:
+      expose: true
+    script.evening_light:
+      expose: true
+    script.night_light:
+      expose: true
+    script.movie_light:
+      expose: true
+    script.normal_light:
+      expose: true
+
+# Diagflog and intents for advanced communication via google assistant
+dialogflow:
+intent_script: !include intents.yaml
+
+# Calendar component
+google:
+  client_id: !secret calendar_client_id
+  client_secret: !secret calendar_client_secret
+
+# Text to speech
+tts:
+  - platform: google_translate
+    cache: false
+    cache_dir: /tmp/tts
+    language: "en-us"
+    time_memory: 300
+    base_url: !secret tts_url
+    service_name: google_say
+
+
+##################################################################
+##################################################################
+
+                  # Device tracking and persons
+
+##################################################################
+
+# device_tracker:
+#   # - platform: xiaomi
+#   #   host: 192.168.31.1
+#   #   username: admin
+#   #   password: !secret router_password
+#   #   new_device_defaults:
+#   #     track_new_devices: true
+#   #     hide_if_away: true
+#   #   interval_seconds: 30
+#   #   consider_home: 60
+#   - platform: bluetooth_tracker
+#     new_device_defaults:
+#       track_new_devices: true
+#       hide_if_away: true
 
 person:
   - name: Mark
@@ -44,14 +128,14 @@ person:
     device_trackers:
       - device_tracker.oneplus6_bt
       - device_tracker.oneplus6_wifi
+      - device_tracker.mark_s_oneplus_a6003
 
-hacs:
-  token: !secret hacs_github_token
-  appdaemon: true
-  python_script: true
-  theme: true
-  options:
-    country: NL
+##################################################################
+##################################################################
+
+                          # Lighting
+
+##################################################################
 
 # Discover some devices automatically
 discovery:
@@ -81,60 +165,46 @@ yeelight:
       name: strip
       model: strip1
       save_on_change: true
+    192.168.31.57:
+      name: cabinet
+      model: bslamp1
+      save_on_change: true
 
 # create light groups
 light:
-  platform: group
-  name: bedroom_lights
-  entities:
-    - light.door
-    - light.couch
-    - light.bed
-    - light.desk
-    - light.strip
+  - platform: group
+    name: bedroom_lights
+    entities:
+      - light.door
+      - light.couch
+      - light.bed
+      - light.desk
+      - light.strip
+      - light.cabinet
+  - platform: group
+    name: wakeup_lights
+    entities:
+      - light.cabinet
+      - light.bed
+      - light.desk
+      - light.door
 
-# add ifttt
-ifttt:
-  key: !secret ifttt_key
 
-# add google assistant
-google_assistant:
-  project_id: !secret google_project_id
-  api_key: !secret google_api_key
-  exposed_domains:
-    - light
-  entity_config:
-    light.bedroom_lights:
-      expose: false
-    script.normal_light:
-      expose: true
-    script.yellow_light:
-      expose: true
-    script.evening_light:
-      expose: true
-    script.night_light:
-      expose: true
-    script.movie_light:
-      expose: true
-    script.alarm_stop:
-      expose: true
-    input_boolean.switch_alarm:
-      expose: true
+##################################################################
+##################################################################
 
-# calendar component
-google:
-  client_id: !secret calendar_client_id
-  client_secret: !secret calendar_client_secret
+                        # Audio & Music
 
-# Weather component for lovelace Card
-weather:
-  - platform: buienradar
-    name: buienradar
-camera:
-  - platform: buienradar
+##################################################################
 
-# Sensors
-sensor: !include sensors.yaml
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
+
+# Spotcast component
+spotcast:
+  username: !secret spotify_login
+  password: !secret spotify_password
 
 # Podcast
 gpodder:
@@ -145,21 +215,57 @@ gpodder:
       name: gpodder
       device: homecassistant
 
-# Spotify
-media_player:
-  - platform: spotify
-    client_id: !secret spotify_client_id
-    client_secret: !secret spotify_client_secret
-    aliases:
-      abc123def456: 'Living Room'
-      9183abas000: 'Bed Room'
-  - platform: mpd
-    host: !secret mpd_server_url
+#
+##################################################################
+##################################################################
 
-# Spotcast component
-spotcast:
-  username: !secret spotify_login
-  password: !secret spotify_password
+                    # Other integrations
+
+##################################################################
+
+# Notifications
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_api_key
+    allowed_chat_ids:
+      - !secret telegram_chat_id
+
+notify:
+  - name: telegram
+    platform: telegram
+    chat_id: !secret telegram_chat_id
+
+# add ifttt
+ifttt:
+  key: !secret ifttt_key
+
+# Weather component for lovelace Card
+weather:
+  - platform: buienradar
+    name: buienradar
+camera:
+  - platform: buienradar
+
+android_ip_webcam:
+  - host: 192.168.31.88
+    port: 8080
+    name: Mi4 Camera
+    username: !secret ip_webcam_username
+    password: !secret ip_webcam_password
+    sensors:
+      - motion
+    switches:
+      - ffc
+      - night_vision
+      - video_recording
+
+
+##################################################################
+##################################################################
+
+                # Input boolean, number & select
+
+##################################################################
 
 # Input numbers
 input_number:
@@ -199,10 +305,6 @@ input_number:
     step: 1
 
 input_boolean:
-  switch_alarm:
-    name: Set alarm
-    initial: off
-    icon: mdi:alarm
   switch_autoalarm:
     name: Auto set alarm at 22:00
     initial: off
@@ -211,9 +313,6 @@ input_boolean:
     name: Play podcast after alarm
     icon: mdi:podcast
     initial: on
-  switch_snoozemode:
-    name: Restart media after some minutes
-    initial: off
   switch_music_lights:
     name: Light album art mode
     icon: mdi:music-clef-treble
@@ -269,25 +368,3 @@ input_select:
       - Set
       - Activated
       - Snoozed
-
-# Text to speech
-tts:
-  - platform: google_translate
-    cache: false
-    cache_dir: /tmp/tts
-    language: "en-us"
-    time_memory: 300
-    base_url: !secret tts_url
-    service_name: google_say
-
-panel_iframe:
-  ide:
-    title: IDE
-    icon: mdi:code-braces
-    url: !secret ide_url
-
-
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml

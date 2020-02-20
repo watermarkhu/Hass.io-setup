@@ -1,5 +1,5 @@
 
-person.mark_4:
+person.markhu:
   entity_picture: /local/mark.jpg
   friendly_name: Mark
 
@@ -24,9 +24,11 @@ light.door:
   icon: mdi:door
 light.bed:
   icon: mdi:bed-empty
+light.cabinet:
+  icon: mdi:file-cabinet
 
-media_player.bedroom_speaker:
-  friendly_name: Google Home Mini
+#media_player.bedroom_speaker:
+#  friendly_name: Google Home
 
 script.evening_light:
   entity_picture: /local/evening.png
