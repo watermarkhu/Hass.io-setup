@@ -11,7 +11,11 @@
       value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarm_hours") | int, states("input_number.alarm_minutes") | int) }}'
 
     alarm_time_m10_sensor:
-      value_template: '{{ (as_timestamp(strptime("%0.02d:%0.02d" | format(states("input_number.alarm_hours") | int, states("input_number.alarm_minutes") | int), "%H:%M")) - (10 * 60 | int))  | timestamp_custom("%H:%M", true) }}'
+      value_template: >
+        {% set H = states("input_number.alarm_hours") | int %}
+        {% set M = states("input_number.alarm_minutes") | int %}
+        {% set ts = H*60+M - 10 %}
+        {{ "%0.02d:%0.02d" | format(ts // 60, ts % 60) }}
 
     alarm_sensor:
       value_template: '{{ states("sensor.time") == states("sensor.alarm_time_sensor") }}'

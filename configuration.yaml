@@ -121,14 +121,14 @@ tts:
 #       track_new_devices: true
 #       hide_if_away: true
 
-person:
-  - name: Mark
-    id: markhu
-    user_id: 3651c436a5a448a69d3fcbde6ecbd96e
-    device_trackers:
-      - device_tracker.oneplus6_bt
-      - device_tracker.oneplus6_wifi
-      - device_tracker.mark_s_oneplus_a6003
+# person:
+#   - name: Mark
+#     id: markhu
+#     user_id: 3651c436a5a448a69d3fcbde6ecbd96e
+#     device_trackers:
+#       - device_tracker.oneplus6_bt
+#       - device_tracker.oneplus6_wifi
+#       - device_tracker.mark_s_oneplus_a6003
 
 ##################################################################
 ##################################################################
@@ -246,18 +246,18 @@ weather:
 camera:
   - platform: buienradar
 
-android_ip_webcam:
-  - host: 192.168.31.88
-    port: 8080
-    name: Mi4 Camera
-    username: !secret ip_webcam_username
-    password: !secret ip_webcam_password
-    sensors:
-      - motion
-    switches:
-      - ffc
-      - night_vision
-      - video_recording
+# android_ip_webcam:
+#   - host: 192.168.31.88
+#     port: 8080
+#     name: Mi4 Camera
+#     username: !secret ip_webcam_username
+#     password: !secret ip_webcam_password
+#     sensors:
+#       - motion
+#     switches:
+#       - ffc
+#       - night_vision
+#       - video_recording
 
 
 ##################################################################
@@ -325,17 +325,18 @@ input_select:
     options:
       - Spotify
       - Radio
+      - Podcast
     icon: mdi:alarm-note
 
   spotify_playlist:
     name: 'Playlist:'
     options:
-      - Kitchen Swagger
       - Morning Motivation
       - Top of the morning
       - Morning Acoustic
       - Wake Up Happy
       - Wake Up and Smell the Coffee
+      - Wake Up Gently
     icon: mdi:spotify
 
   radio_station:
@@ -368,3 +369,12 @@ input_select:
       - Set
       - Activated
       - Snoozed
+
+  button_cycler:
+    name: Xiaomi Button Scene Cycler
+    options:
+      - Normal
+      - Yellow
+      - Evening
+      - Night
+      - Movie

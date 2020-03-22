@@ -1,149 +1,145 @@
-# Example automations.yaml entry
-- alias: "Light theme after Sunrise"
+- alias: Light theme after Sunrise
   trigger:
     platform: sun
     event: sunrise
   action:
-    - service: frontend.set_theme
-      data:
-        name: google.light
+  - service: frontend.set_theme
+    data:
+      name: google.light
+  id: 841fdd2a7e744988b96e7a9a44b35407
 
-- alias: "Dark theme after Sunset"
+- alias: Dark theme after Sunset
   trigger:
     platform: sun
     event: sunset
   action:
-    - service: frontend.set_theme
-      data:
-        name: grey_night
+  - service: frontend.set_theme
+    data:
+      name: grey_night
+  id: 825e89745c714e3c8edd690a13dc1c4e
 
-- alias: 'Light theme after reboot in day'
+- alias: Light theme after reboot in day
   trigger:
     platform: homeassistant
     event: start
   condition:
-    - condition: state
-      entity_id: sun.sun
-      state: 'above_horizon'
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
   action:
     service: frontend.set_theme
     data:
       name: google_light
+  id: 50e0192b702c46fe8850b504da106346
 
-- alias: 'Dark theme after reboot in night'
+- alias: Dark theme after reboot in night
   trigger:
     platform: homeassistant
     event: start
   condition:
     condition: state
     entity_id: sun.sun
-    state: 'below_horizon'
+    state: below_horizon
   action:
     service: frontend.set_theme
     data:
       name: grey_night
+  id: ea86d8a1aca247df92ffbef8bf47cc91
 
-
-# Auto set alarm at 10pm
 - id: auto_set_alarm_10pm
-  alias: "Auto set alarm at 10pm"
+  alias: Auto set alarm at 10pm
   trigger:
     platform: time
-    at: "22:00:00"
+    at: '22:00:00'
   condition:
-    - condition: state
-      entity_id: input_boolean.switch_autoalarm
-      state: "on"
-    - condition: state
-      entity_id: input_select.alarm_state
-      state: "Not set"
+  - condition: state
+    entity_id: input_boolean.switch_autoalarm
+    state: 'on'
+  - condition: state
+    entity_id: input_select.alarm_state
+    state: Not set
   action:
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.alarm_state
-        option: "Set"
-    - service: tts.google_translate_say
-      entity_id: media_player.bedroom_speaker
-      data_template:
-        message: '{{ "Good evening. Your alarm has been automatically set at" + states("input_number.alarm_hours") + " " + states("input_number.alarm_minutes") }}'
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.alarm_state
+      option: Set
+  - service: tts.google_translate_say
+    entity_id: media_player.bedroom_speaker
+    data_template:
+      message: '{{ "Good evening. Your alarm has been automatically set at" + states("input_number.alarm_hours")
+        + " " + states("input_number.alarm_minutes") }}'
 
-# On wakeuplight time, turn on lights and set wakeuplight off time
 - id: alarm_wakeup_light
-  alias: 'Wakeup lights'
+  alias: Wakeup lights
   trigger:
     platform: state
     entity_id: sensor.alarm_m10_sensor
   condition:
     condition: state
     entity_id: input_select.alarm_state
-    state: "Set"
+    state: Set
   action:
-    - service: script.turn_on
-      data:
-        entity_id: script.alarm_wakeuplight
+  - service: script.turn_on
+    data:
+      entity_id: script.alarm_wakeuplight
 
-# On wakeup time start wakeup script
+  
 - id: alarm_wakeup
-  alias: 'Alarm sound'
+  alias: Alarm sound
   trigger:
     platform: state
     entity_id: sensor.alarm_sensor
   condition:
     condition: state
     entity_id: input_select.alarm_state
-    state: "Set"
+    state: Set
   action:
-    - service: script.turn_on
-      data:
-        entity_id: script.alarm_wakeup
-
-# If media is paused duing snoozemode, wait some minutes and restart wakeup
+  - service: script.turn_on
+    data:
+      entity_id: script.alarm_wakeup
 - id: alarm_snooze
-  alias: 'Snooze alarm'
+  alias: Snooze alarm
   trigger:
     platform: state
     entity_id: media_player.bedroom_speaker
-    from: 'playing'
-    to: 'paused'
+    from: playing
+    to: paused
   condition:
     condition: state
     entity_id: input_select.alarm_state
-    state: "Activated"
+    state: Activated
   action:
-    - service: script.turn_on
-      data:
-        entity_id: script.alarm_snooze
-
-# Set lovelace volume slider to current volume level
+  - service: script.turn_on
+    data:
+      entity_id: script.alarm_snooze
 - id: set_google_home_slider_position
   alias: Set Google Home Slider Position
   trigger:
-    - platform: state
-      entity_id: media_player.bedroom_speaker
+  - platform: state
+    entity_id: media_player.bedroom_speaker
   condition:
-    - condition: template
-      value_template: "{{ not is_state_attr('media_player.bedroom_speaker', 'volume_level', states('input_number.home_volume') | int / 100) }}"
+  - condition: template
+    value_template: '{{ not is_state_attr(''media_player.bedroom_speaker'', ''volume_level'',
+      states(''input_number.home_volume'') | int / 100) }}'
   action:
-    - service: input_number.set_value
-      entity_id: input_number.home_volume
-      data_template:
-        value: "{{ trigger.to_state.attributes.volume_level | multiply(100) | int }}"
-
-# Set google home volume to value of lovelace slider
+  - service: input_number.set_value
+    entity_id: input_number.home_volume
+    data_template:
+      value: '{{ trigger.to_state.attributes.volume_level | multiply(100) | int }}'
 - id: set_google_home_volume
   alias: Set Google Home Volume
   trigger:
-    - platform: state
-      entity_id: input_number.home_volume
+  - platform: state
+    entity_id: input_number.home_volume
   condition:
-    - condition: template
-      value_template: "{{ not is_state_attr('media_player.bedroom_speaker', 'volume_level', states('input_number.home_volume') | int / 100) }}"
+  - condition: template
+    value_template: '{{ not is_state_attr(''media_player.bedroom_speaker'', ''volume_level'',
+      states(''input_number.home_volume'') | int / 100) }}'
   action:
-    - service: media_player.volume_set
-      entity_id: media_player.bedroom_speaker
-      data_template:
-        volume_level: "{{ states('input_number.home_volume') | int / 100 }}"
-
+  - service: media_player.volume_set
+    entity_id: media_player.bedroom_speaker
+    data_template:
+      volume_level: '{{ states(''input_number.home_volume'') | int / 100 }}'
 - id: ifttt_call
   alias: ifttt call
   trigger:
@@ -152,25 +148,70 @@
     event_data:
       action: call_service
   action:
-    - service_template: '{{ trigger.event.data.service }}'
-      data_template:
-        entity_id: '{{ trigger.event.data.entity_id }}'
-        value: '{{ trigger.event.data.value}}'
-    - service: script.turn_on
-      data:
-        entity_id: script.set_alarm_from_temp
-    - service: input_select.select_option
-      data:
-        entity_id: input_select.alarm_state
-        option: "Set"
-
+  - service_template: '{{ trigger.event.data.service }}'
+    data_template:
+      entity_id: '{{ trigger.event.data.entity_id }}'
+      value: '{{ trigger.event.data.value}}'
+  - service: script.turn_on
+    data:
+      entity_id: script.set_alarm_from_temp
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.alarm_state
+      option: Set
 
 - id: turn_off_music_lights
   alias: turn off music lights feature at night
   trigger:
     platform: time
-    at: "04:00:00"
+    at: 04:00:00
   action:
     service: input_boolean.turn_off
     data:
       entity_id: input_boolean.switch_music_lights
+
+- id: xiaomi_button_single
+  alias: Xiaomi button single click
+  description: ''
+  trigger:
+  - entity_id: sensor.xiaomi_button_click
+    platform: state
+    to: single
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.bedroom_lights
+    service: light.toggle
+
+- id: xiaomi_button_double
+  alias: Xiaomi button double click
+  description: ''
+  trigger:
+  - entity_id: sensor.xiaomi_button_click
+    platform: state
+    to: double
+  condition: []
+  action:
+  - service: input_select.select_next
+    data:
+      entity_id: input_select.button_cycler
+  - service: script.turn_on
+    data:
+      entity_id: script.button_cycler
+
+
+- id: xiaomi_triple_double
+  alias: Xiaomi button triple click
+  description: ''
+  trigger:
+  - entity_id: sensor.xiaomi_button_click
+    platform: state
+    to: triple
+  condition: []
+  action:
+  - service: input_select.select_previous
+    data:
+      entity_id: input_select.button_cycler
+  - service: script.turn_on
+    data:
+      entity_id: script.button_cycler

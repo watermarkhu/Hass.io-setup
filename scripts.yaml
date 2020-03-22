@@ -13,12 +13,12 @@ play_spotify_spotcast:
       data_template:
         entity_id: media_player.bedroom_speaker
         uri: >
-          {% if is_state("input_select.spotify_playlist", "Kitchen Swagger") %} spotify:user:spotify:playlist:37i9dQZF1DX2FsCLsHeMrM
-          {% elif is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:user:spotify:playlist:37i9dQZF1DXc5e2bJhV6pu
-          {% elif is_state("input_select.spotify_playlist", "Top of the morning") %} spotify:user:spotify:playlist:37i9dQZF1DWSWyJydK4fTU
-          {% elif is_state("input_select.spotify_playlist", "Morning Acoustic") %} spotify:user:spotify:playlist:37i9dQZF1DXdd3gw5QVjt9
-          {% elif is_state("input_select.spotify_playlist", "Wake Up Happy") %} spotify:user:spotify:playlist:37i9dQZF1DX0UrRvztWcAU
-          {% elif is_state("input_select.spotify_playlist", "Wake Up and Smell the Coffee") %} spotify:user:spotify:playlist:37i9dQZF1DXcxacyAXkQDu
+          {% if is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:playlist:37i9dQZF1DXc5e2bJhV6pu
+          {% elif is_state("input_select.spotify_playlist", "Top of the morning") %} spotify:playlist:37i9dQZF1DWSWyJydK4fTU
+          {% elif is_state("input_select.spotify_playlist", "Morning Acoustic") %} spotify:playlist:37i9dQZF1DXdd3gw5QVjt9
+          {% elif is_state("input_select.spotify_playlist", "Wake Up Happy") %} spotify:playlist:37i9dQZF1DX0UrRvztWcAU
+          {% elif is_state("input_select.spotify_playlist", "Wake Up and Smell the Coffee") %} spotify:playlist:37i9dQZF1DXcxacyAXkQDu
+          {% elif is_state("input_select.spotify_playlist", "Wake Up Gently") %} spotify:playlist:37i9dQZF1DX7cZxYLqLUJl
           {% endif %}
 
 play_radio:
@@ -74,28 +74,6 @@ pause_media:
                 # Wakeup alarm scripting
 
 ##################################################################
-
-# set_alarm_from_temp:
-#   alias: Set alarm time from IFTTT temporary value
-#   sequence:
-#     - service: input_number.set_value
-#       data_template:
-#         entity_id: input_number.alarm_hours
-#         value: >
-#           {% if "." in states("input_number.alarm_temp") %}
-#             {{ states("input_number.alarm_temp").split(".")[0] }}
-#           {% else %}
-#             {{ states("input_number.alarm_temp") }}
-#           {% endif %}
-#     - service: input_number.set_value
-#       data_template:
-#         entity_id: input_number.alarm_minutes
-#         value: >
-#           {% if "." in states("input_number.alarm_temp") %}
-#             {{ states("input_number.alarm_temp").split(".")[1] }}
-#           {% else %}
-#             0
-#           {% endif %}
 
 alarm_wakeuplight:
   alias: Light sunrise
@@ -176,6 +154,7 @@ alarm_wakeup:
           {% if is_state("media_player.bedroom_speaker", "paused") %} script.play_media
           {% elif is_state("media_player.bedroom_speaker", "off") and is_state("input_select.wakeup_music", "Spotify") %} script.play_spotify_spotcast
           {% elif is_state("media_player.bedroom_speaker", "off") and is_state("input_select.wakeup_music", "Radio") %} script.play_radio
+          {% elif is_state("media_player.bedroom_speaker", "off") and is_state("input_select.wakeup_music", "Podcast") %} script.play_podcast
           {% endif %}
     - delay: '00:00:30'
     - service: media_player.volume_set
@@ -250,6 +229,18 @@ alarm_stop:
 
 ##################################################################
 
+button_cycler:
+  alias: cycle through input select scenes
+  sequence:
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {% if is_state("input_select", "Normal") %} script.normal_light
+          {% elif is_state("input_select.button_cycler", "Yellow") %} script.yellow_light
+          {% elif is_state("input_select.button_cycler", "Evening") %} script.evening_light
+          {% elif is_state("input_select.button_cycler", "Night") %} script.night_light
+          {% elif is_state("input_select.button_cycler", "Movie") %} script.movie_light
+          {% endif %}
 
 yellow_light:
   alias: Yellow light
@@ -283,6 +274,12 @@ yellow_light:
         entity_id: light.strip
         brightness: 255
         rgb_color: [255, 235, 138]
+        transition: 2
+    - service: light.turn_on
+      data:
+        entity_id: light.cabinet
+        brightness: 55
+        color_temp: 520
         transition: 2
 
 evening_light:
@@ -318,6 +315,12 @@ evening_light:
         brightness: 255
         rgb_color: [255, 104, 30]
         transition: 2
+    - service: light.turn_on
+      data:
+        entity_id: light.cabinet
+        brightness: 255
+        rgb_color: [255, 63, 0]
+        transition: 2
 
 night_light:
   alias: Night light
@@ -352,7 +355,12 @@ night_light:
         brightness: 55
         rgb_color: [168, 60, 255]
         transition: 2
-
+    - service: light.turn_on
+      data:
+        entity_id: light.cabinet
+        brightness: 3
+        rgb_color: [36, 36, 255]
+        transition: 2
 
 movie_light:
   alias: Movie light
@@ -382,6 +390,12 @@ movie_light:
         entity_id: light.strip
         brightness: 55
         rgb_color: [40, 80, 255]
+        transition: 2
+    - service: light.turn_on
+      data:
+        entity_id: light.cabinet
+        brightness: 3
+        rgb_color: [190, 0, 255]
         transition: 2
 
 normal_light:
@@ -414,4 +428,8 @@ normal_light:
     - service: light.turn_off
       data:
         entity_id: light.strip
+        transition: 2
+    - service: light.turn_off
+      data:
+        entity_id: light.cabinet
         transition: 2

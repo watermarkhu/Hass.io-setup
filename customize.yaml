@@ -1,8 +1,6 @@
-
 person.markhu:
   entity_picture: /local/mark.jpg
   friendly_name: Mark
-
 scripts.yellow_light:
   friendly_name: Yellow light
 scripts.evening_light:
@@ -10,10 +8,8 @@ scripts.evening_light:
 sensor.googlehomealarm:
   friendly_name: Alarm time
   icon: mdi:alarm
-
 light.bedroom_lights:
   friendly_name: Bedroom lights
-
 light.strip:
   icon: mdi:led-strip
 light.desk:
@@ -26,10 +22,6 @@ light.bed:
   icon: mdi:bed-empty
 light.cabinet:
   icon: mdi:file-cabinet
-
-#media_player.bedroom_speaker:
-#  friendly_name: Google Home
-
 script.evening_light:
   entity_picture: /local/evening.png
 script.yellow_light:
@@ -52,3 +44,5 @@ script.cancel_alarm:
   icon: mdi:cancel
 script.set_alarm_frontend:
   icon: mdi:sleep
+person.mark:
+  entity_picture: '"/local/mark.jpg"'

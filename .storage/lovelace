@@ -7,52 +7,14 @@
                 "hide_help": true,
                 "voice_hide": true
             },
-            "resources": [
-                {
-                    "type": "module",
-                    "url": "/community_plugin/weather-card/weather-card.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/lovelace-fold-entity-row/fold-entity-row.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/lovelace-swiper-card/swipe-card.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/atomic_calendar/atomic_calendar.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/spotify-card/spotify-card.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/rgb-light-card/card.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/mini-media-player/mini-media-player-bundle.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/podcast-card/podcast-card.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/button-card/button-card.js"
-                },
-                {
-                    "type": "module",
-                    "url": "/community_plugin/custom-header/custom-header.js"
-                }
-            ],
             "title": "Home",
             "views": [
                 {
-                    "badges": [],
+                    "badges": [
+                        {
+                            "entity": "person.mark"
+                        }
+                    ],
                     "cards": [
                         {
                             "cards": [
@@ -299,23 +261,70 @@
                             "type": "vertical-stack"
                         },
                         {
-                            "entities": [
-                                "calendar.huize_gerrit",
+                            "cards": [
                                 {
-                                    "color": "red",
-                                    "entity": "calendar.watermarkhu_gmail_com"
-                                },
-                                "calendar.sports_and_leisure",
-                                "calendar.family_hu"
+                                    "cards": [
+                                        {
+                                            "entities": [
+                                                "sensor.netherlands_coronavirus_current"
+                                            ],
+                                            "group_by": "date",
+                                            "hours_to_show": 168,
+                                            "icon": "mdi:emoticon-frown",
+                                            "line_color": "yellow",
+                                            "name": "Current cases",
+                                            "type": "custom:mini-graph-card"
+                                        },
+                                        {
+                                            "entities": [
+                                                "sensor.netherlands_coronavirus_deaths"
+                                            ],
+                                            "group_by": "date",
+                                            "hours_to_show": 168,
+                                            "icon": "mdi:skull",
+                                            "line_color": "red",
+                                            "name": "Deaths",
+                                            "type": "custom:mini-graph-card"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
                             ],
-                            "maxDaysToShow": 7,
-                            "showColors": true,
-                            "showDate": true,
-                            "showLoader": true,
-                            "showLocation": false,
-                            "showMonth": false,
-                            "showNoEventsForToday": true,
-                            "type": "custom:atomic-calendar"
+                            "title": "Coronavirus in The Netherlands",
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entities": [
+                                                "sensor.worldwide_coronavirus_current"
+                                            ],
+                                            "group_by": "date",
+                                            "hours_to_show": 168,
+                                            "icon": "mdi:emoticon-frown",
+                                            "line_color": "yellow",
+                                            "name": "Current cases",
+                                            "type": "custom:mini-graph-card"
+                                        },
+                                        {
+                                            "entities": [
+                                                "sensor.worldwide_coronavirus_deaths"
+                                            ],
+                                            "group_by": "date",
+                                            "hours_to_show": 168,
+                                            "icon": "mdi:skull",
+                                            "line_color": "red",
+                                            "name": "Deaths",
+                                            "type": "custom:mini-graph-card"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
+                            ],
+                            "title": "Coronavirus worldwide",
+                            "type": "vertical-stack"
                         }
                     ],
                     "icon": "mdi:white-balance-sunny",
@@ -526,39 +535,6 @@
                     "panel": false,
                     "path": "music",
                     "title": "Music"
-                },
-                {
-                    "badges": [],
-                    "cards": [
-                        {
-                            "entities": [
-                                {
-                                    "entity": "camera.mi4_camera"
-                                }
-                            ],
-                            "type": "entities"
-                        },
-                        {
-                            "entities": [
-                                {
-                                    "entity": "sensor.mi4_camera_motion"
-                                },
-                                {
-                                    "entity": "switch.mi4_camera_front_facing_camera"
-                                },
-                                {
-                                    "entity": "switch.mi4_camera_night_vision"
-                                },
-                                {
-                                    "entity": "switch.mi4_camera_video_recording"
-                                }
-                            ],
-                            "type": "entities"
-                        }
-                    ],
-                    "icon": "mdi:cctv",
-                    "path": "cctv",
-                    "title": "CCTV"
                 }
             ]
         }
