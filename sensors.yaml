@@ -6,22 +6,14 @@
 
 - platform: template
   sensors:
-    alarm_time_sensor:
-      friendly_name: "Alarm time"
-      value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarm_hours") | int, states("input_number.alarm_minutes") | int) }}'
-
-    alarm_time_m10_sensor:
-      value_template: >
-        {% set H = states("input_number.alarm_hours") | int %}
-        {% set M = states("input_number.alarm_minutes") | int %}
-        {% set ts = H*60+M - 10 %}
-        {{ "%0.02d:%0.02d" | format(ts // 60, ts % 60) }}
-
+    alarm_time_short:
+      value_template: "{{ state_attr('input_datetime.alarm_time', 'timestamp') | int | timestamp_custom('%H:%M', False) }}"
+      
     alarm_sensor:
-      value_template: '{{ states("sensor.time") == states("sensor.alarm_time_sensor") }}'
+      value_template: '{{ states("sensor.time") == states("sensor.alarm_time_short") }}'
 
     alarm_m10_sensor:
-      value_template: '{{ states("sensor.time") == states("sensor.alarm_time_m10_sensor") }}'
+      value_template: '{{ ((state_attr("input_datetime.alarm_time", "timestamp") - 600) | int | timestamp_custom('%H:%M', False)) }}'
 
 
 # Get latest podcasts
@@ -61,3 +53,24 @@
 #     - winddirection
 #     - precipitation
 #     - precipitation_forecast_average
+
+- platform: mitemp_bt
+  rounding: True
+  decimals: 2
+  period: 60
+  log_spikes: False
+  use_median: False
+  active_scan: False
+  hci_interface: 0
+  batt_entities: False
+  report_unknown: False
+
+# - platform: miflora
+#   mac: 'C4:7C:8D:65:89:9F'
+#   monitored_conditions:
+#     - moisture
+#     - light
+#     - temperature
+#     - conductivity
+#     - battery
+#   name: plant

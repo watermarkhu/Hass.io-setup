@@ -7,7 +7,6 @@
     data:
       name: google.light
   id: 841fdd2a7e744988b96e7a9a44b35407
-
 - alias: Dark theme after Sunset
   trigger:
     platform: sun
@@ -17,7 +16,6 @@
     data:
       name: grey_night
   id: 825e89745c714e3c8edd690a13dc1c4e
-
 - alias: Light theme after reboot in day
   trigger:
     platform: homeassistant
@@ -31,7 +29,6 @@
     data:
       name: google_light
   id: 50e0192b702c46fe8850b504da106346
-
 - alias: Dark theme after reboot in night
   trigger:
     platform: homeassistant
@@ -45,7 +42,6 @@
     data:
       name: grey_night
   id: ea86d8a1aca247df92ffbef8bf47cc91
-
 - id: auto_set_alarm_10pm
   alias: Auto set alarm at 10pm
   trigger:
@@ -68,7 +64,6 @@
     data_template:
       message: '{{ "Good evening. Your alarm has been automatically set at" + states("input_number.alarm_hours")
         + " " + states("input_number.alarm_minutes") }}'
-
 - id: alarm_wakeup_light
   alias: Wakeup lights
   trigger:
@@ -82,8 +77,6 @@
   - service: script.turn_on
     data:
       entity_id: script.alarm_wakeuplight
-
-  
 - id: alarm_wakeup
   alias: Alarm sound
   trigger:
@@ -159,7 +152,6 @@
     data:
       entity_id: input_select.alarm_state
       option: Set
-
 - id: turn_off_music_lights
   alias: turn off music lights feature at night
   trigger:
@@ -169,49 +161,3 @@
     service: input_boolean.turn_off
     data:
       entity_id: input_boolean.switch_music_lights
-
-- id: xiaomi_button_single
-  alias: Xiaomi button single click
-  description: ''
-  trigger:
-  - entity_id: sensor.xiaomi_button_click
-    platform: state
-    to: single
-  condition: []
-  action:
-  - data: {}
-    entity_id: light.bedroom_lights
-    service: light.toggle
-
-- id: xiaomi_button_double
-  alias: Xiaomi button double click
-  description: ''
-  trigger:
-  - entity_id: sensor.xiaomi_button_click
-    platform: state
-    to: double
-  condition: []
-  action:
-  - service: input_select.select_next
-    data:
-      entity_id: input_select.button_cycler
-  - service: script.turn_on
-    data:
-      entity_id: script.button_cycler
-
-
-- id: xiaomi_triple_double
-  alias: Xiaomi button triple click
-  description: ''
-  trigger:
-  - entity_id: sensor.xiaomi_button_click
-    platform: state
-    to: triple
-  condition: []
-  action:
-  - service: input_select.select_previous
-    data:
-      entity_id: input_select.button_cycler
-  - service: script.turn_on
-    data:
-      entity_id: script.button_cycler

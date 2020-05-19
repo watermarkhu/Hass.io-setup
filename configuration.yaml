@@ -206,16 +206,6 @@ spotcast:
   username: !secret spotify_login
   password: !secret spotify_password
 
-# Podcast
-gpodder:
-  username: !secret gpodder_username
-  password: !secret gpodder_password
-  sensor:
-    - enabled: true
-      name: gpodder
-      device: homecassistant
-
-#
 ##################################################################
 ##################################################################
 
@@ -304,6 +294,12 @@ input_number:
     max: 30
     step: 1
 
+input_datetime:
+  alarm_time:
+    name: Alarm time
+    has_date: false
+    has_time: true
+
 input_boolean:
   switch_autoalarm:
     name: Auto set alarm at 22:00
@@ -378,3 +374,8 @@ input_select:
       - Evening
       - Night
       - Movie
+
+#logger:
+# default: warn
+# logs:
+#   custom_components.mitemp_bt: debug

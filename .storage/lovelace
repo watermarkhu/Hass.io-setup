@@ -146,83 +146,104 @@
                             "type": "vertical-stack"
                         },
                         {
-                            "color": "auto",
-                            "color_type": "card",
-                            "double_tap_action": {
-                                "action": "call-service",
-                                "confirmation": {
-                                    "text": "Snooze alarm?"
-                                },
-                                "service": "script.turn_on",
-                                "service_data": {
-                                    "entity_id": "script.alarm_snooze"
-                                }
-                            },
-                            "entity": "input_select.alarm_state",
-                            "hold_action": {
-                                "action": "call-service",
-                                "confirmation": {
-                                    "text": "Dismiss alarm?"
-                                },
-                                "service": "script.turn_on",
-                                "service_data": {
-                                    "entity_id": "script.alarm_stop"
-                                }
-                            },
-                            "label": "Press to set alarm.",
-                            "name": "[[[ return states['sensor.alarm_time_sensor'].state ]]]\n",
-                            "show_icon": false,
-                            "show_label": true,
-                            "show_state": false,
-                            "state": [
+                            "cards": [
                                 {
-                                    "color": "rgb(28, 128, 199)",
-                                    "label": "Alarm set. Press to cancel alarm.",
-                                    "value": "Set"
+                                    "color": "auto",
+                                    "color_type": "card",
+                                    "double_tap_action": {
+                                        "action": "call-service",
+                                        "confirmation": {
+                                            "text": "Snooze alarm?"
+                                        },
+                                        "service": "script.turn_on",
+                                        "service_data": {
+                                            "entity_id": "script.alarm_snooze"
+                                        }
+                                    },
+                                    "entity": "input_select.alarm_state",
+                                    "hold_action": {
+                                        "action": "call-service",
+                                        "confirmation": {
+                                            "text": "Dismiss alarm?"
+                                        },
+                                        "service": "script.turn_on",
+                                        "service_data": {
+                                            "entity_id": "script.alarm_stop"
+                                        }
+                                    },
+                                    "label": "Press to set alarm.",
+                                    "name": "[[[ return states['sensor.alarm_time_short'].state ]]]\n",
+                                    "show_icon": false,
+                                    "show_label": true,
+                                    "show_state": false,
+                                    "state": [
+                                        {
+                                            "color": "rgb(28, 128, 199)",
+                                            "label": "Alarm set. Press to cancel alarm.",
+                                            "value": "Set"
+                                        },
+                                        {
+                                            "color": "rgb(200, 50, 50)",
+                                            "label": "Alarm activated. Double-press to snooze, Hold to dismiss.",
+                                            "value": "Activated"
+                                        },
+                                        {
+                                            "color": "rgb(230, 100, 25)",
+                                            "label": "Alarm snoozing... Hold to dismiss.",
+                                            "value": "Snoozed"
+                                        }
+                                    ],
+                                    "styles": {
+                                        "card": [
+                                            {
+                                                "height": "190px"
+                                            },
+                                            {
+                                                "padding-top": "90px"
+                                            }
+                                        ],
+                                        "name": [
+                                            {
+                                                "font-weight": "bold"
+                                            },
+                                            {
+                                                "font-size": "80px"
+                                            },
+                                            {
+                                                "padding-bottom": "5px"
+                                            },
+                                            {
+                                                "padding-top": "5px"
+                                            }
+                                        ]
+                                    },
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "script.turn_on",
+                                        "service_data": {
+                                            "entity_id": "script.alarm_toggle"
+                                        }
+                                    },
+                                    "type": "custom:button-card"
                                 },
                                 {
-                                    "color": "rgb(200, 50, 50)",
-                                    "label": "Alarm activated. Double-press to snooze, Hold to dismiss.",
-                                    "value": "Activated"
-                                },
-                                {
-                                    "color": "rgb(230, 100, 25)",
-                                    "label": "Alarm snoozing... Hold to dismiss.",
-                                    "value": "Snoozed"
+                                    "entity": "input_datetime.alarm_time",
+                                    "hide": {
+                                        "name": true
+                                    },
+                                    "hour_mode": 12,
+                                    "hour_step": 1,
+                                    "layout": {
+                                        "align_controls": "center",
+                                        "hour_mode": "single",
+                                        "name": "inside"
+                                    },
+                                    "minute_step": 5,
+                                    "name": "",
+                                    "type": "custom:time-picker-card"
                                 }
                             ],
-                            "styles": {
-                                "card": [
-                                    {
-                                        "height": "190px"
-                                    },
-                                    {
-                                        "padding-top": "90px"
-                                    }
-                                ],
-                                "name": [
-                                    {
-                                        "font-weight": "bold"
-                                    },
-                                    {
-                                        "font-size": "80px"
-                                    },
-                                    {
-                                        "padding-bottom": "5px"
-                                    },
-                                    {
-                                        "padding-top": "5px"
-                                    }
-                                ]
-                            },
-                            "tap_action": {
-                                "action": "call-service",
-                                "service": "script.turn_on",
-                                "service_data": {
-                                    "entity_id": "script.alarm_toggle"
-                                }
-                            },
-                            "type": "custom:button-card"
+                            "type": "vertical-stack"
                         },
                         {
                             "cards": [
@@ -246,6 +267,120 @@
                         {
                             "cards": [
                                 {
+                                    "cards": [
+                                        {
+                                            "align_state": "center",
+                                            "animate": true,
+                                            "color_thresholds": [
+                                                {
+                                                    "color": "#0000ff",
+                                                    "value": 10
+                                                },
+                                                {
+                                                    "color": "#0033ff",
+                                                    "value": 11
+                                                },
+                                                {
+                                                    "color": "#0066ff",
+                                                    "value": 12
+                                                },
+                                                {
+                                                    "color": "#0099ff",
+                                                    "value": 13
+                                                },
+                                                {
+                                                    "color": "#00ccff",
+                                                    "value": 14
+                                                },
+                                                {
+                                                    "color": "#00ffff",
+                                                    "value": 15
+                                                },
+                                                {
+                                                    "color": "#00ffcc",
+                                                    "value": 16
+                                                },
+                                                {
+                                                    "color": "#00ff99",
+                                                    "value": 17
+                                                },
+                                                {
+                                                    "color": "#00ff66",
+                                                    "value": 18
+                                                },
+                                                {
+                                                    "color": "#00ff33",
+                                                    "value": 19
+                                                },
+                                                {
+                                                    "color": "#00ff00",
+                                                    "value": 20
+                                                },
+                                                {
+                                                    "color": "#33ff00",
+                                                    "value": 21
+                                                },
+                                                {
+                                                    "color": "#66ff00",
+                                                    "value": 22
+                                                },
+                                                {
+                                                    "color": "#99ff00",
+                                                    "value": 23
+                                                },
+                                                {
+                                                    "color": "#ccff00",
+                                                    "value": 24
+                                                },
+                                                {
+                                                    "color": "#ffff00",
+                                                    "value": 25
+                                                },
+                                                {
+                                                    "color": "#ffcc00",
+                                                    "value": 26
+                                                },
+                                                {
+                                                    "color": "#ff9900",
+                                                    "value": 27
+                                                },
+                                                {
+                                                    "color": "#ff6600",
+                                                    "value": 28
+                                                },
+                                                {
+                                                    "color": "#ff3300",
+                                                    "value": 29
+                                                },
+                                                {
+                                                    "color": "#ff0000",
+                                                    "value": 30
+                                                }
+                                            ],
+                                            "color_thresholds_transition": "smooth",
+                                            "entities": [
+                                                {
+                                                    "entity": "sensor.mi_t_c47c8d65899f",
+                                                    "show_points": false
+                                                }
+                                            ],
+                                            "hours_to_show": 48,
+                                            "name": "Temperature 48 hours",
+                                            "points_per_hour": 4,
+                                            "show": {
+                                                "labels": true
+                                            },
+                                            "type": "custom:mini-graph-card"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "cards": [
+                                {
                                     "details": true,
                                     "entity": "weather.buienradar",
                                     "name": "Delft",
@@ -261,70 +396,33 @@
                             "type": "vertical-stack"
                         },
                         {
-                            "cards": [
+                            "align_state": "center",
+                            "animate": true,
+                            "entities": [
                                 {
-                                    "cards": [
-                                        {
-                                            "entities": [
-                                                "sensor.netherlands_coronavirus_current"
-                                            ],
-                                            "group_by": "date",
-                                            "hours_to_show": 168,
-                                            "icon": "mdi:emoticon-frown",
-                                            "line_color": "yellow",
-                                            "name": "Current cases",
-                                            "type": "custom:mini-graph-card"
-                                        },
-                                        {
-                                            "entities": [
-                                                "sensor.netherlands_coronavirus_deaths"
-                                            ],
-                                            "group_by": "date",
-                                            "hours_to_show": 168,
-                                            "icon": "mdi:skull",
-                                            "line_color": "red",
-                                            "name": "Deaths",
-                                            "type": "custom:mini-graph-card"
-                                        }
-                                    ],
-                                    "type": "horizontal-stack"
+                                    "color": "cyan",
+                                    "entity": "sensor.mi_m_c47c8d65899f",
+                                    "name": "Moisture",
+                                    "show_points": false,
+                                    "show_state": true
+                                },
+                                {
+                                    "color": "green",
+                                    "entity": "sensor.mi_c_c47c8d65899f",
+                                    "name": "Conductivity",
+                                    "show_points": false,
+                                    "show_state": true,
+                                    "y_axis": "secondary"
                                 }
                             ],
-                            "title": "Coronavirus in The Netherlands",
-                            "type": "vertical-stack"
-                        },
-                        {
-                            "cards": [
-                                {
-                                    "cards": [
-                                        {
-                                            "entities": [
-                                                "sensor.worldwide_coronavirus_current"
-                                            ],
-                                            "group_by": "date",
-                                            "hours_to_show": 168,
-                                            "icon": "mdi:emoticon-frown",
-                                            "line_color": "yellow",
-                                            "name": "Current cases",
-                                            "type": "custom:mini-graph-card"
-                                        },
-                                        {
-                                            "entities": [
-                                                "sensor.worldwide_coronavirus_deaths"
-                                            ],
-                                            "group_by": "date",
-                                            "hours_to_show": 168,
-                                            "icon": "mdi:skull",
-                                            "line_color": "red",
-                                            "name": "Deaths",
-                                            "type": "custom:mini-graph-card"
-                                        }
-                                    ],
-                                    "type": "horizontal-stack"
-                                }
-                            ],
-                            "title": "Coronavirus worldwide",
-                            "type": "vertical-stack"
+                            "hours_to_show": 48,
+                            "icon": "mdi:flower",
+                            "name": "Plant condition 48 hours",
+                            "show": {
+                                "labels": true,
+                                "labels_secondary": true
+                            },
+                            "type": "custom:mini-graph-card"
                         }
                     ],
                     "icon": "mdi:white-balance-sunny",
@@ -360,7 +458,7 @@
                                 }
                             },
                             "label": "Press to set alarm.",
-                            "name": "[[[ return states['sensor.alarm_time_sensor'].state ]]]\n",
+                            "name": "[[[ return states[\"sensor.alarm_time_short\"].state ]]]\n",
                             "show_icon": false,
                             "show_label": true,
                             "show_state": false,
@@ -417,13 +515,23 @@
                         {
                             "cards": [
                                 {
+                                    "entity": "input_datetime.alarm_time",
+                                    "hide": {
+                                        "name": true
+                                    },
+                                    "hour_mode": 12,
+                                    "hour_step": 1,
+                                    "layout": {
+                                        "align_controls": "center",
+                                        "hour_mode": "single",
+                                        "name": "inside"
+                                    },
+                                    "minute_step": 5,
+                                    "name": "",
+                                    "type": "custom:time-picker-card"
+                                },
+                                {
                                     "entities": [
-                                        {
-                                            "entity": "input_number.alarm_hours"
-                                        },
-                                        {
-                                            "entity": "input_number.alarm_minutes"
-                                        },
                                         {
                                             "entities": [
                                                 "input_boolean.switch_autoalarm",
@@ -521,20 +629,101 @@
                                 }
                             ],
                             "type": "entities"
-                        },
-                        {
-                            "custom_player": true,
-                            "default_target": "media_player.bedroom_speaker",
-                            "entity": "sensor.gpodder",
-                            "name": "Marks's Podcasts",
-                            "show_player": true,
-                            "type": "custom:podcast-card"
                         }
                     ],
                     "icon": "mdi:music",
                     "panel": false,
                     "path": "music",
                     "title": "Music"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "align_state": "center",
+                                    "animate": true,
+                                    "entities": [
+                                        {
+                                            "color": "orange",
+                                            "entity": "sensor.netherlands_coronavirus_current",
+                                            "name": "Netherlands"
+                                        },
+                                        {
+                                            "color": "yellow",
+                                            "entity": "sensor.worldwide_coronavirus_current",
+                                            "name": "World",
+                                            "show_state": true,
+                                            "y_axis": "secondary"
+                                        }
+                                    ],
+                                    "hours_to_show": 72,
+                                    "icon": "mdi:emoticon-frown",
+                                    "name": "Current cases",
+                                    "show": {
+                                        "labels": true,
+                                        "labels_secondary": true
+                                    },
+                                    "type": "custom:mini-graph-card"
+                                },
+                                {
+                                    "align_state": "center",
+                                    "animate": true,
+                                    "entities": [
+                                        {
+                                            "color": "red",
+                                            "entity": "sensor.netherlands_coronavirus_deaths",
+                                            "name": "Netherlands"
+                                        },
+                                        {
+                                            "color": "pink",
+                                            "entity": "sensor.worldwide_coronavirus_deaths",
+                                            "name": "World",
+                                            "show_state": true,
+                                            "y_axis": "secondary"
+                                        }
+                                    ],
+                                    "hours_to_show": 168,
+                                    "icon": "mdi:skull",
+                                    "name": "Deaths",
+                                    "show": {
+                                        "labels": true,
+                                        "labels_secondary": true
+                                    },
+                                    "type": "custom:mini-graph-card"
+                                }
+                            ],
+                            "title": "Coronavirus 72 hours",
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "align_state": "center",
+                            "entities": [
+                                {
+                                    "color": "green",
+                                    "entity": "sensor.miwifi_router_packets_sec_received",
+                                    "name": "received",
+                                    "show_points": false,
+                                    "show_state": false
+                                },
+                                {
+                                    "entity": "sensor.miwifi_router_packets_sec_sent",
+                                    "name": "sent",
+                                    "show_points": false,
+                                    "show_state": true
+                                }
+                            ],
+                            "hours_to_show": 24,
+                            "name": "Router data 24 hours",
+                            "points_per_hour": 4,
+                            "type": "custom:mini-graph-card"
+                        }
+                    ],
+                    "icon": "mdi:hospital-box",
+                    "panel": false,
+                    "path": "coronavirus",
+                    "title": "Coronavirus"
                 }
             ]
         }
