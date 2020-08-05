@@ -1,0 +1,756 @@
+{
+    "data": {
+        "config": {
+            "button_card_templates": {
+                "light": {
+                    "color": "auto",
+                    "color_type": "card",
+                    "hold_action": {
+                        "action": "more-info"
+                    },
+                    "show_name": false
+                }
+            },
+            "custom_header": {
+                "compact_mode": true,
+                "footer_mode": true,
+                "hide_help": true,
+                "tab_icons_and_text": true
+            },
+            "swipe_nav": {
+                "animate": "swipe",
+                "prevent_default": true,
+                "swipe_amount": 30
+            },
+            "views": [
+                {
+                    "badges": [
+                        {
+                            "entity": "binary_sensor.updater"
+                        },
+                        {
+                            "entity": "person.mark"
+                        },
+                        {
+                            "entity": "input_datetime.alarm_time"
+                        },
+                        {
+                            "entity": "weather.buienradar"
+                        },
+                        {
+                            "entity": "sun.sun"
+                        }
+                    ],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "light.bedroom_lights",
+                                            "icon": "mdi:home-lightbulb",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "height": "100px"
+                                                    }
+                                                ]
+                                            },
+                                            "template": "light",
+                                            "type": "custom:button-card"
+                                        },
+                                        {
+                                            "cards": [
+                                                {
+                                                    "entity": "light.strip",
+                                                    "icon": "mdi:led-strip-variant",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "height": "80px"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "template": "light",
+                                                    "type": "custom:button-card"
+                                                },
+                                                {
+                                                    "entity": "light.cabinet",
+                                                    "icon": "mdi:file-cabinet",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "height": "80px"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "template": "light",
+                                                    "type": "custom:button-card"
+                                                },
+                                                {
+                                                    "entity": "light.couch",
+                                                    "icon": "mdi:sofa",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "height": "80px"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "template": "light",
+                                                    "type": "custom:button-card"
+                                                }
+                                            ],
+                                            "type": "horizontal-stack"
+                                        },
+                                        {
+                                            "cards": [
+                                                {
+                                                    "entity": "light.desk",
+                                                    "icon": "mdi:desk",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "height": "80px"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "template": "light",
+                                                    "type": "custom:button-card"
+                                                },
+                                                {
+                                                    "entity": "light.door",
+                                                    "icon": "mdi:door",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "height": "80px"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "template": "light",
+                                                    "type": "custom:button-card"
+                                                },
+                                                {
+                                                    "entity": "light.bed",
+                                                    "icon": "mdi:bed",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "height": "80px"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "template": "light",
+                                                    "type": "custom:button-card"
+                                                }
+                                            ],
+                                            "type": "horizontal-stack"
+                                        }
+                                    ],
+                                    "type": "custom:vertical-stack-in-card"
+                                },
+                                {
+                                    "colors": [
+                                        {
+                                            "icon_color": "linear-gradient(15deg, #E29D62, #FFEB8A)",
+                                            "service": "script.turn_on",
+                                            "service_data": {
+                                                "entity_id": "script.normal_light"
+                                            },
+                                            "type": "call-service"
+                                        },
+                                        {
+                                            "icon_color": "linear-gradient(15deg, #984F01, #FF880D, #FFEB8A)",
+                                            "service": "script.turn_on",
+                                            "service_data": {
+                                                "entity_id": "script.yellow_light"
+                                            },
+                                            "type": "call-service"
+                                        },
+                                        {
+                                            "icon_color": "linear-gradient(15deg, #D811FF, #1959FF)",
+                                            "service": "script.turn_on",
+                                            "service_data": {
+                                                "entity_id": "script.evening_light"
+                                            },
+                                            "type": "call-service"
+                                        },
+                                        {
+                                            "icon_color": "linear-gradient(15deg, #980A00, #642398, #043A98)",
+                                            "service": "script.turn_on",
+                                            "service_data": {
+                                                "entity_id": "script.night_light"
+                                            },
+                                            "type": "call-service"
+                                        },
+                                        {
+                                            "icon_color": "linear-gradient(15deg, #173098, #980B27)",
+                                            "service": "script.turn_on",
+                                            "service_data": {
+                                                "entity_id": "script.movie_light"
+                                            },
+                                            "type": "call-service"
+                                        }
+                                    ],
+                                    "justify": "center",
+                                    "size": 52,
+                                    "type": "custom:rgb-light-card"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "artwork": "material",
+                            "entity": "media_player.bedroom_speaker",
+                            "icon": "mdi:google-home",
+                            "name": "Home Mini",
+                            "shortcuts": {
+                                "buttons": [
+                                    {
+                                        "icon": "mdi:spotify",
+                                        "id": "script.play_spotify_spotcast",
+                                        "type": "script"
+                                    },
+                                    {
+                                        "icon": "mdi:podcast",
+                                        "id": "script.play_spotify_podcast",
+                                        "type": "script"
+                                    },
+                                    {
+                                        "icon": "mdi:radio",
+                                        "id": "script.play_radio",
+                                        "type": "script"
+                                    }
+                                ],
+                                "columns": 3
+                            },
+                            "tts": {
+                                "platform": "google_translate"
+                            },
+                            "type": "custom:mini-media-player"
+                        },
+                        {
+                            "card": {
+                                "cards": [
+                                    {
+                                        "artwork": "material",
+                                        "entity": "media_player.spotify_mark_shui_hu",
+                                        "name": "Spotify",
+                                        "shortcuts": {
+                                            "buttons": [
+                                                {
+                                                    "data": {
+                                                        "entity_id": "input_boolean.switch_spotify_card"
+                                                    },
+                                                    "icon": "mdi:playlist-music",
+                                                    "id": "input_boolean.toggle",
+                                                    "type": "service"
+                                                },
+                                                {
+                                                    "data": {
+                                                        "entity_id": "media_player.bedroom_speaker"
+                                                    },
+                                                    "icon": "mdi:google-home",
+                                                    "id": "spotcast.start",
+                                                    "type": "service"
+                                                }
+                                            ],
+                                            "columns": 2
+                                        },
+                                        "type": "custom:mini-media-player"
+                                    },
+                                    {
+                                        "card": {
+                                            "always_play_random_song": true,
+                                            "default_device": "HomeAssistant",
+                                            "display_style": "Grid",
+                                            "grid_covers_per_row": 3,
+                                            "hide_warning": false,
+                                            "limit": 9,
+                                            "playlist_type": "featured",
+                                            "type": "custom:spotify-card"
+                                        },
+                                        "conditions": [
+                                            {
+                                                "entity": "input_boolean.switch_spotify_card",
+                                                "state": "on"
+                                            }
+                                        ],
+                                        "type": "conditional"
+                                    }
+                                ],
+                                "type": "custom:vertical-stack-in-card"
+                            },
+                            "conditions": [
+                                {
+                                    "entity": "sensor.bedroom_speaker_spotify",
+                                    "state_not": "spotify"
+                                }
+                            ],
+                            "type": "conditional"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "color_type": "card",
+                                    "double_tap_action": {
+                                        "action": "call-service",
+                                        "service": "script.turn_on",
+                                        "service_data": {
+                                            "entity_id": "script.alarm_stop"
+                                        }
+                                    },
+                                    "entity": "input_select.alarm_state",
+                                    "hold_action": {
+                                        "action": "call-service",
+                                        "service": "script.turn_on",
+                                        "service_data": {
+                                            "entity_id": "script.alarm_snooze"
+                                        }
+                                    },
+                                    "show_label": true,
+                                    "show_name": false,
+                                    "show_state": false,
+                                    "state": [
+                                        {
+                                            "icon": "mdi:alarm-plus",
+                                            "label": "Click to set alarm",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-unavailable-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Not set"
+                                        },
+                                        {
+                                            "icon": "mdi:alarm-check",
+                                            "label": "Alarm is set",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Set"
+                                        },
+                                        {
+                                            "icon": "mdi:alarm-bell",
+                                            "label": "Hold to snooze, double-click to dismiss alarm",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-active-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Activated"
+                                        },
+                                        {
+                                            "icon": "mdi:alarm-snooze",
+                                            "label": "Double click to dismiss alarm",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-active-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Snoozed"
+                                        }
+                                    ],
+                                    "styles": {
+                                        "card": [
+                                            {
+                                                "height": "150px"
+                                            }
+                                        ],
+                                        "name": [
+                                            {
+                                                "font-weight": "bold"
+                                            }
+                                        ]
+                                    },
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "script.turn_on",
+                                        "service_data": {
+                                            "entity_id": "script.alarm_toggle"
+                                        }
+                                    },
+                                    "type": "custom:button-card"
+                                },
+                                {
+                                    "custom_fields": {
+                                        "picker": {
+                                            "card": {
+                                                "entity": "input_datetime.alarm_time",
+                                                "hide": {
+                                                    "name": true
+                                                },
+                                                "hour_mode": 24,
+                                                "hour_step": 1,
+                                                "layout": {
+                                                    "align_controls": "center",
+                                                    "name": "header"
+                                                },
+                                                "link_values": true,
+                                                "minute_step": 5,
+                                                "name": "",
+                                                "type": "custom:time-picker-card"
+                                            }
+                                        }
+                                    },
+                                    "entity": "input_boolean.advanced_alarm",
+                                    "show_name": false,
+                                    "size": "20%",
+                                    "styles": {
+                                        "grid": [
+                                            {
+                                                "grid-template-areas": "\"picker i\""
+                                            },
+                                            {
+                                                "grid-template-columns": "4fr 1fr"
+                                            },
+                                            {
+                                                "grid-template-rows": "1fr"
+                                            }
+                                        ],
+                                        "icon": [
+                                            {
+                                                "align-self": "start"
+                                            }
+                                        ]
+                                    },
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "input_boolean.toggle",
+                                        "service_data": {
+                                            "entity_id": "input_boolean.advanced_alarm"
+                                        }
+                                    },
+                                    "type": "custom:button-card"
+                                },
+                                {
+                                    "card": {
+                                        "cards": [
+                                            {
+                                                "entities": [
+                                                    "input_boolean.switch_autoalarm",
+                                                    "input_boolean.switch_alarm_podcast",
+                                                    "input_number.snooze_time"
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            }
+                                        ],
+                                        "type": "custom:vertical-stack-in-card"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "input_boolean.advanced_alarm",
+                                            "state": "on"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                }
+                            ],
+                            "type": "custom:vertical-stack-in-card"
+                        }
+                    ],
+                    "icon": "mdi:home",
+                    "title": "Home"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "entity": "weather.buienradar",
+                                    "type": "weather-forecast"
+                                },
+                                {
+                                    "color_thresholds": [
+                                        {
+                                            "color": "#f39c12",
+                                            "value": 15
+                                        },
+                                        {
+                                            "color": "#d35400",
+                                            "value": 20
+                                        },
+                                        {
+                                            "color": "#c0392b",
+                                            "value": 25
+                                        }
+                                    ],
+                                    "entities": [
+                                        {
+                                            "entity": "sensor.mi_t_c47c8d65899f",
+                                            "name": "Temperature",
+                                            "show_legend": false
+                                        },
+                                        {
+                                            "color": "white",
+                                            "entity": "sensor.mi_l_c47c8d65899f",
+                                            "name": "Sun",
+                                            "show_line": false,
+                                            "y_axis": "secondary"
+                                        }
+                                    ],
+                                    "hours_to_show": 24,
+                                    "points_per_hour": 3,
+                                    "show": {
+                                        "icon": false,
+                                        "name": false
+                                    },
+                                    "type": "custom:mini-graph-card"
+                                },
+                                {
+                                    "aspect_ratio": "0%",
+                                    "camera_image": "camera.buienradar_loop",
+                                    "entity": "weather.buienradar",
+                                    "type": "picture-entity"
+                                }
+                            ],
+                            "type": "custom:vertical-stack-in-card"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "color": "cyan",
+                                    "entity": "sensor.mi_m_c47c8d65899f",
+                                    "name": "Moisture"
+                                },
+                                {
+                                    "color": "aquamarine",
+                                    "entity": "sensor.mi_c_c47c8d65899f",
+                                    "name": "Conductivity",
+                                    "y_axis": "secondary"
+                                }
+                            ],
+                            "lower_bound": 0,
+                            "name": "Plant condition",
+                            "points_per_hour": 3,
+                            "show": {
+                                "icon": false,
+                                "labels": true,
+                                "labels_secondary": true,
+                                "state": false
+                            },
+                            "type": "custom:mini-graph-card",
+                            "upper_bound": 100
+                        }
+                    ],
+                    "icon": "mdi:weather-partly-rainy",
+                    "path": "weather",
+                    "title": "Weather"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "custom_fields": {
+                                        "graph": {
+                                            "card": {
+                                                "color_thresholds": [
+                                                    {
+                                                        "color": "#4C3FF9",
+                                                        "value": 55
+                                                    },
+                                                    {
+                                                        "color": "#c0392b",
+                                                        "value": 60
+                                                    }
+                                                ],
+                                                "entities": [
+                                                    "sensor.cpu_temp"
+                                                ],
+                                                "hours_to_show": 1,
+                                                "points_per_hour": 30,
+                                                "show": {
+                                                    "icon": false,
+                                                    "name": false
+                                                },
+                                                "type": "custom:mini-graph-card"
+                                            }
+                                        }
+                                    },
+                                    "entity": "sensor.cpu_temp",
+                                    "icon": "mdi:raspberry-pi",
+                                    "styles": {
+                                        "grid": [
+                                            {
+                                                "grid-template-areas": "\"i graph\" \"n graph\""
+                                            },
+                                            {
+                                                "grid-template-columns": ".4fr 1fr"
+                                            },
+                                            {
+                                                "grid-template-rows": "1fr .5fr"
+                                            }
+                                        ],
+                                        "icon": [
+                                            {
+                                                "color": "[[[\n  if (entity.state < 60) return 'lime';\n  if (entity.state >= 60 && entity.state < 80) return 'orange';\n  else return 'red';\n]]]\n"
+                                            },
+                                            {
+                                                "width": "50%"
+                                            }
+                                        ]
+                                    },
+                                    "type": "custom:button-card"
+                                },
+                                {
+                                    "custom_fields": {
+                                        "graph": {
+                                            "card": {
+                                                "color_thresholds": [
+                                                    {
+                                                        "color": "#4C3FF9",
+                                                        "value": 55
+                                                    },
+                                                    {
+                                                        "color": "#c0392b",
+                                                        "value": 60
+                                                    }
+                                                ],
+                                                "entities": [
+                                                    "sensor.memory_use_percent"
+                                                ],
+                                                "hours_to_show": 1,
+                                                "points_per_hour": 30,
+                                                "show": {
+                                                    "icon": false,
+                                                    "name": false
+                                                },
+                                                "type": "custom:mini-graph-card"
+                                            }
+                                        }
+                                    },
+                                    "entity": "sensor.memory_use_percent",
+                                    "name": "Memory Use",
+                                    "styles": {
+                                        "grid": [
+                                            {
+                                                "grid-template-areas": "\"i graph\" \"n graph\""
+                                            },
+                                            {
+                                                "grid-template-columns": ".4fr 1fr"
+                                            },
+                                            {
+                                                "grid-template-rows": "1fr .5fr"
+                                            }
+                                        ],
+                                        "icon": [
+                                            {
+                                                "color": "[[[\n  if (entity.state < 60) return 'lime';\n  if (entity.state >= 60 && entity.state < 80) return 'orange';\n  else return 'red';\n]]]\n"
+                                            },
+                                            {
+                                                "width": "50%"
+                                            }
+                                        ]
+                                    },
+                                    "type": "custom:button-card"
+                                },
+                                {
+                                    "custom_fields": {
+                                        "graph": {
+                                            "card": {
+                                                "color_thresholds": [
+                                                    {
+                                                        "color": "#4C3FF9",
+                                                        "value": 1
+                                                    },
+                                                    {
+                                                        "color": "#c0392b",
+                                                        "value": 5
+                                                    }
+                                                ],
+                                                "entities": [
+                                                    "sensor.load_5m"
+                                                ],
+                                                "hours_to_show": 1,
+                                                "points_per_hour": 30,
+                                                "show": {
+                                                    "icon": false,
+                                                    "name": false
+                                                },
+                                                "type": "custom:mini-graph-card"
+                                            }
+                                        }
+                                    },
+                                    "entity": "sensor.load_5m",
+                                    "icon": "mdi:server",
+                                    "name": "Load",
+                                    "styles": {
+                                        "grid": [
+                                            {
+                                                "grid-template-areas": "\"i graph\" \"n graph\""
+                                            },
+                                            {
+                                                "grid-template-columns": ".4fr 1fr"
+                                            },
+                                            {
+                                                "grid-template-rows": "1fr .5fr"
+                                            }
+                                        ],
+                                        "icon": [
+                                            {
+                                                "color": "[[[\n  if (entity.state < 1) return 'lime';\n  if (entity.state >= 1 && entity.state < 2) return 'orange';\n  else return 'red';\n]]]\n"
+                                            },
+                                            {
+                                                "width": "50%"
+                                            }
+                                        ]
+                                    },
+                                    "type": "custom:button-card"
+                                },
+                                {
+                                    "entity": "sensor.disk_use_percent",
+                                    "height": "80px",
+                                    "name": "Disk use",
+                                    "positions": {
+                                        "icon": "off",
+                                        "name": "inside"
+                                    },
+                                    "severity": [
+                                        {
+                                            "color": "lime",
+                                            "from": 0,
+                                            "to": 80
+                                        },
+                                        {
+                                            "color": "orange",
+                                            "from": 80,
+                                            "to": 90
+                                        },
+                                        {
+                                            "color": "red",
+                                            "from": 90,
+                                            "to": 100
+                                        }
+                                    ],
+                                    "type": "custom:bar-card"
+                                }
+                            ],
+                            "type": "custom:vertical-stack-in-card"
+                        }
+                    ],
+                    "icon": "mdi:raspberry-pi",
+                    "path": "status",
+                    "theme": "",
+                    "title": "Status"
+                }
+            ]
+        }
+    },
+    "key": "lovelace.lovelace_home",
+    "version": 1
+}

@@ -1,7 +1,0 @@
-podcasts:
-  name: Podcasts
-  entities:
-    - sensor.podcast_nos
-    - sensor.podcast_nrc
-    - sensor.podcast_times
-    - sensor.podcast_vox

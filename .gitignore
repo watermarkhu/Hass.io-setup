@@ -1,24 +1,27 @@
-
 .HA_VERSION
-.spotify-token-cache
 .google.token
-.storage/
+service.json
 
+.cloud/
+.storage/*
+!.storage/lovelace.lovelace_home
+
+node-red/*
+!node-red/flows.json
+!node-red/settings.js
+
+appdaemon/
 custom_components/
 deps/
-appdaemon/apps/__pycache__/
-appdaemon/dashboards/
+themes/
+tts/
+www/
 __pycache__/
-
-/node-red/*
-!/node-red/lib/
 
 home-assistant.log
 home-assistant_v2.db
-service.json
 
 google_calendars.yaml
 known_devices.yaml
 secrets.yaml
-tts/
-www/
+

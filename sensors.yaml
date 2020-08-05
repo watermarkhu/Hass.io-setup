@@ -13,8 +13,13 @@
       value_template: '{{ states("sensor.time") == states("sensor.alarm_time_short") }}'
 
     alarm_m10_sensor:
-      value_template: '{{ ((state_attr("input_datetime.alarm_time", "timestamp") - 600) | int | timestamp_custom('%H:%M', False)) }}'
+      value_template: '{{ ((state_attr("input_datetime.alarm_time", "timestamp") - 600) | int | timestamp_custom("%H:%M", False)) }}'
 
+    bedroom_speaker_spotify:
+      value_template: >
+        {% if state_attr("media_player.bedroom_speaker", "app_name") == "Spotify" %} spotify
+        {% else %} not_spotify
+        {% endif %}
 
 # Get latest podcasts
 - platform: scrape
@@ -41,18 +46,6 @@
   select: 'enclosure:nth-of-type(1)'
   attribute: url
   scan_interval: 3600
-#
-# - platform: buienrader
-#   timeframe: 120
-#   monitored_conditions:
-#     - conditionexact
-#     - feeltemperature
-#     - temperature
-#     - humidity
-#     - windspeed
-#     - winddirection
-#     - precipitation
-#     - precipitation_forecast_average
 
 - platform: mitemp_bt
   rounding: True
@@ -65,12 +58,20 @@
   batt_entities: False
   report_unknown: False
 
-# - platform: miflora
-#   mac: 'C4:7C:8D:65:89:9F'
-#   monitored_conditions:
-#     - moisture
-#     - light
-#     - temperature
-#     - conductivity
-#     - battery
-#   name: plant
+# - platform: diskspace
+#   name: Main Disk
+#   path: "/"
+#   unit_of_measure: "GB"
+
+- platform: command_line
+  name: CPU Temp
+  command: "cat /sys/class/thermal/thermal_zone0/temp"
+  unit_of_measurement: "°C"
+  value_template: '{{ "%.2f"|format(value|multiply(0.001)) }}'
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+    - type: load_5m

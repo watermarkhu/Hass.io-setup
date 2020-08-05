@@ -13,6 +13,20 @@ play_spotify_spotcast:
         {% elif is_state("input_select.spotify_playlist", "Wake Up Gently") %} spotify:playlist:37i9dQZF1DX7cZxYLqLUJl
         {% endif %}
 
+
+play_spotify_podcast:
+  alias: Play a spotify podcast
+  sequence:
+  - service: spotcast.start
+    data_template:
+      entity_id: media_player.bedroom_speaker
+      uri: >
+        {% if is_state("input_select.morning_podcast", "NOS met het oog op morgen") %} spotify:show:56DJTFqt8Vg1qfLJ1ibH7j
+        {% elif is_state("input_select.morning_podcast", "NRC vandaag") %} spotify:show:73vZPMVjxTqC02OYZdcCr7
+        {% elif is_state("input_select.morning_podcast", "VOX today explained") %} spotify:show:3pXx5SXzXwJxnf4A5pWN2A
+        {% elif is_state("input_select.morning_podcast", "TIMES the daily") %} spotify:show:3IM0lmZxpFAY7CwMuv9H4g
+        {% endif %}
+
 play_radio:
   alias: Play radio
   sequence:
@@ -30,22 +44,8 @@ play_radio:
         {% elif is_state("input_select.radio_station", "Arrow Classic Rock") %} https://stream.gal.io/arrow
         {% elif is_state("input_select.radio_station", "SLAM! FM") %} https://stream.slam.nl/slam_mp3
         {% endif %}
+      media_content_type: audio/mp4
 
-      media_content_type: audio/mp4
-play_podcast:
-  alias: Play podcast
-  sequence:
-  - service: media_player.play_media
-    data_template:
-      entity_id: media_player.bedroom_speaker
-      media_content_type: audio/mp4
-      media_content_id: > 
-        {% if is_state("input_select.morning_podcast", "NOS met het oog op morgen") %} {{ states.sensor.podcast_nos.state }} 
-        {% elif is_state("input_select.morning_podcast", "NRC vandaag") %} {{ states.sensor.podcast_nrc.state }} 
-        {% elif is_state("input_select.morning_podcast", "VOX today explained") %} {{ states.sensor.podcast_vox.state }} 
-        {% elif is_state("input_select.morning_podcast", "TIMES the daily") %} {{ states.sensor.podcast_times.state }}
-        {% endif %}
-      
 play_media:
   alias: Play media
   sequence:
@@ -59,6 +59,15 @@ pause_media:
     service: media_player.media_pause
     data:
       entity_id: media_player.bedroom_speaker
+
+update_spotify_sources:
+  alias: Update spotify sources
+  sequence:
+    service: input_text.set_options
+    entity_id: input_select.spotify_sources
+    data_template: 
+      options: >
+        {{ state_attr("media_player.spotify_mark_shui_hu", "source_list") }}
 
 alarm_wakeuplight:
   alias: Light sunrise
@@ -125,6 +134,9 @@ alarm_toggle:
 alarm_snooze:
   alias: Snooze the alarm
   sequence:
+  - condition: state
+    entity_id: input_select.alarm_state
+    state: "Activated"
   - service: input_select.select_option
     data:
       entity_id: input_select.alarm_state
@@ -143,6 +155,14 @@ alarm_snooze:
 alarm_stop:
   alias: Stop alarm, play podcast
   sequence:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.alarm_state
+      state: "Snoozed"
+    - condition: state
+      entity_id: input_select.alarm_state
+      state: "Activated"
   - service: input_select.select_option
     data:
       entity_id: input_select.alarm_state
@@ -163,23 +183,23 @@ alarm_stop:
   - service: script.turn_on
     data_template:
       entity_id: > 
-      {% if is_state("input_boolean.switch_alarm_podcast", "on") %} script.play_podcast
-      {% else %} script.pause_media 
-      {% endif %}
+        {% if is_state("input_boolean.switch_alarm_podcast", "on") %} script.play_podcast
+        {% else %} script.pause_media 
+        {% endif %}
 
 button_cycler:
   alias: cycle through input select scenes
   sequence:
   - service: script.turn_on
     data_template:
-      entity_id: '{% if is_state("input_select", "Normal") %} script.normal_light
+      entity_id: >
+        {% if is_state("input_select", "Normal") %} script.normal_light
         {% elif is_state("input_select.button_cycler", "Yellow") %} script.yellow_light
         {% elif is_state("input_select.button_cycler", "Evening") %} script.evening_light
         {% elif is_state("input_select.button_cycler", "Night") %} script.night_light
         {% elif is_state("input_select.button_cycler", "Movie") %} script.movie_light
         {% endif %}
 
-        '
 yellow_light:
   alias: Yellow light
   sequence:
@@ -422,348 +442,3 @@ normal_light:
     data:
       entity_id: light.cabinet
       transition: 2
-
-'1587722512847':
-  alias: 2.B_blue_pulse_heart
-  sequence:
-  - data:
-      action: recover
-      count: 100
-      transitions:
-      - RGBTransition:
-        - 0
-        - 128
-        - 255
-        - 514
-        - 70
-      - RGBTransition:
-        - 0
-        - 128
-        - 255
-        - 514
-        - 1
-    entity_id: light.desk
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 100
-      transitions:
-      - RGBTransition:
-        - 0
-        - 0
-        - 128
-        - 514
-        - 70
-      - RGBTransition:
-        - 0
-        - 0
-        - 128
-        - 514
-        - 1
-    entity_id: light.bed
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 100
-      transitions:
-      - RGBTransition:
-        - 137
-        - 150
-        - 240
-        - 514
-        - 70
-      - RGBTransition:
-        - 137
-        - 150
-        - 240
-        - 514
-        - 1
-    entity_id: light.door
-    service: yeelight.start_flow
-
-'1587723701583':
-  alias: 2.C_orange_pulse_heart
-  sequence:
-  - data:
-      action: recover
-      count: 100
-      transitions:
-      - RGBTransition:
-        - 255
-        - 100
-        - 0
-        - 514
-        - 70
-      - RGBTransition:
-        - 255
-        - 100
-        - 0
-        - 514
-        - 1
-    entity_id: light.bed
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 100
-      transitions:
-      - RGBTransition:
-        - 254
-        - 158
-        - 50
-        - 514
-        - 70
-      - RGBTransition:
-        - 254
-        - 158
-        - 50
-        - 514
-        - 1
-    entity_id: light.desk
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 100
-      transitions:
-      - RGBTransition:
-        - 250
-        - 69
-        - 10
-        - 514
-        - 70
-      - RGBTransition:
-        - 250
-        - 69
-        - 10
-        - 514
-        - 1
-    entity_id: light.door
-    service: yeelight.start_flow
-
-'1587724023014':
-  alias: 2.E_blue_pulse_breathing
-  sequence:
-  - data:
-      action: recover
-      count: 10
-      transitions:
-      - RGBTransition:
-        - 0
-        - 128
-        - 255
-        - 2500
-        - 100
-      - RGBTransition:
-        - 0
-        - 128
-        - 255
-        - 2500
-        - 1
-    entity_id: light.desk
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 10
-      transitions:
-      - RGBTransition:
-        - 0
-        - 0
-        - 128
-        - 2500
-        - 100
-      - RGBTransition:
-        - 0
-        - 0
-        - 128
-        - 2500
-        - 1
-    entity_id: light.bed
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 10
-      transitions:
-      - RGBTransition:
-        - 137
-        - 150
-        - 240
-        - 2500
-        - 100
-      - RGBTransition:
-        - 137
-        - 150
-        - 240
-        - 2500
-        - 1
-    entity_id: light.door
-    service: yeelight.start_flow
-'1587726726565':
-  alias: 2.F_orange_pulse_breathing
-  sequence:
-  - data:
-      action: recover
-      count: 10
-      transitions:
-      - RGBTransition:
-        - 255
-        - 100
-        - 0
-        - 2500
-        - 100
-      - RGBTransition:
-        - 255
-        - 100
-        - 0
-        - 2500
-        - 1
-    entity_id: light.bed
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 10
-      transitions:
-      - RGBTransition:
-        - 254
-        - 158
-        - 50
-        - 2500
-        - 100
-      - RGBTransition:
-        - 254
-        - 158
-        - 50
-        - 2500
-        - 1
-    entity_id: light.desk
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 10
-      transitions:
-      - RGBTransition:
-        - 250
-        - 69
-        - 10
-        - 2500
-        - 100
-      - RGBTransition:
-        - 250
-        - 69
-        - 10
-        - 2500
-        - 1
-    entity_id: light.door
-    service: yeelight.start_flow
-'1587727236128':
-  alias: 2.D_white_pulse_breathing
-  sequence:
-  - data:
-      action: recover
-      count: 5
-      transitions:
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 2500
-        - 100
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 2500
-        - 1
-    entity_id: light.door
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 5
-      transitions:
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 2500
-        - 100
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 2500
-        - 1
-    entity_id: light.bed
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 5
-      transitions:
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 2500
-        - 100
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 2500
-        - 1
-    entity_id: light.desk
-    service: yeelight.start_flow
-'1587728472597':
-  alias: 2.A_white_pulse_heart
-  sequence:
-  - data:
-      action: recover
-      count: 25
-      transitions:
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 514
-        - 100
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 514
-        - 1
-    entity_id: light.door
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 25
-      transitions:
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 514
-        - 100
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 514
-        - 1
-    entity_id: light.bed
-    service: yeelight.start_flow
-  - data:
-      action: recover
-      count: 25
-      transitions:
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 514
-        - 100
-      - RGBTransition:
-        - 255
-        - 255
-        - 255
-        - 514
-        - 1
-    entity_id: light.desk
-    service: yeelight.start_flow
