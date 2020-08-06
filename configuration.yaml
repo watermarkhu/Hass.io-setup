@@ -138,6 +138,10 @@ input_boolean:
     name: Advanced alarm settings
     initial: off
     icon: mdi:cog
+  advanced_music:
+    name: Advanced music settings
+    initial: off
+    icon: mdi:cog
   switch_spotify_card:
     name: Spotify playlist card
     initial: off

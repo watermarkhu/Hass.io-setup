@@ -10,7 +10,9 @@ node-red/*
 !node-red/flows.json
 !node-red/settings.js
 
-appdaemon/
+appdaemon/*
+!appdaemon/apps/apps.yaml
+
 custom_components/
 deps/
 themes/
@@ -20,6 +22,8 @@ __pycache__/
 
 home-assistant.log
 home-assistant_v2.db
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
 
 google_calendars.yaml
 known_devices.yaml

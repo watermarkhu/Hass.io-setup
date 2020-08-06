@@ -1,4 +1,4 @@
-play_spotify_spotcast:
+play_spotcast_playlist:
   alias: Play a spotify playlist
   sequence:
   - service: spotcast.start
@@ -14,7 +14,7 @@ play_spotify_spotcast:
         {% endif %}
 
 
-play_spotify_podcast:
+play_spotcast_podcast:
   alias: Play a spotify podcast
   sequence:
   - service: spotcast.start
@@ -67,58 +67,10 @@ update_spotify_sources:
     entity_id: input_select.spotify_sources
     data_template: 
       options: >
+        {% for item in state_attr('media_player.sonos_living_room', 'source_list') %}
+        - {{ item }}
+        {% endfor %}
         {{ state_attr("media_player.spotify_mark_shui_hu", "source_list") }}
-
-alarm_wakeuplight:
-  alias: Light sunrise
-  sequence:
-  - service: light.turn_on
-    data:
-      entity_id: light.wakeup_lights
-      color_temp: 588
-      brightness: 3
-      transition: 450
-  - service: light.turn_on
-    data:
-      entity_id: light.wakeup_lights
-      color_temp: 588
-      brightness: 43
-      transition: 450
-  - delay: 00:02:30
-  - service: light.turn_on
-    data:
-      entity_id: light.wakeup_lights
-      color_temp: 554
-      brightness: 85
-      transition: 450
-  - delay: 00:02:30
-  - service: light.turn_on
-    data:
-      entity_id: light.wakeup_lights
-      color_temp: 520
-      brightness: 128
-      transition: 450
-  - delay: 00:02:30
-  - service: light.turn_on
-    data:
-      entity_id: light.wakeup_lights
-      color_temp: 486
-      brightness: 170
-      transition: 450
-  - delay: 00:02:30
-  - service: light.turn_on
-    data:
-      entity_id: light.wakeup_lights
-      color_temp: 452
-      brightness: 213
-      transition: 450
-  - delay: 00:02:30
-  - service: light.turn_on
-    data:
-      entity_id: light.wakeup_lights
-      color_temp: 418
-      brightness: 255
-      transition: 450
 
 alarm_toggle:
   alias: Toggle the alarm
@@ -129,62 +81,6 @@ alarm_toggle:
       option: >
         {% if is_state("input_select.alarm_state", "Not set") %} Set 
         {% elif is_state("input_select.alarm_state", "Set") %} Not set 
-        {% endif %}
-
-alarm_snooze:
-  alias: Snooze the alarm
-  sequence:
-  - condition: state
-    entity_id: input_select.alarm_state
-    state: "Activated"
-  - service: input_select.select_option
-    data:
-      entity_id: input_select.alarm_state
-      option: Snoozed
-  - service: media_player.media_pause
-    data:
-      entity_id: media_player.bedroom_speaker
-  - service: script.turn_off
-    data:
-      entity_id: script.alarm_wakeup
-  - delay: 00:{{ states("input_number.snooze_time") | int }}:00
-  - service: script.turn_on
-    data:
-      entity_id: script.alarm_wakeup
-
-alarm_stop:
-  alias: Stop alarm, play podcast
-  sequence:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: input_select.alarm_state
-      state: "Snoozed"
-    - condition: state
-      entity_id: input_select.alarm_state
-      state: "Activated"
-  - service: input_select.select_option
-    data:
-      entity_id: input_select.alarm_state
-      option: Not set
-  - service: script.turn_off
-    data:
-      entity_id: script.alarm_wakeup
-  - service: script.turn_off
-    data:
-      entity_id: script.alarm_snooze
-  - service: script.turn_on
-    data:
-      entity_id: script.pause_media
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.bedroom_speaker
-      volume_level: 0.25
-  - service: script.turn_on
-    data_template:
-      entity_id: > 
-        {% if is_state("input_boolean.switch_alarm_podcast", "on") %} script.play_podcast
-        {% else %} script.pause_media 
         {% endif %}
 
 button_cycler:

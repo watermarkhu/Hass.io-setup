@@ -2,3 +2,10 @@
 hello_world:
   module: hello
   class: HelloWorld
+
+ikea_tradfri_controller:
+  module: controllerx
+  class: E1810Controller
+  controller: sensor.tradfri_action
+  integration: z2m
+  light: light.bedroom_lights

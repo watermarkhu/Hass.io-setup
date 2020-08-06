@@ -2,6 +2,22 @@
     "data": {
         "config": {
             "button_card_templates": {
+                "alarm": {
+                    "color_type": "card",
+                    "show_label": true,
+                    "styles": {
+                        "card": [
+                            {
+                                "height": "150px"
+                            }
+                        ],
+                        "name": [
+                            {
+                                "font-weight": "bold"
+                            }
+                        ]
+                    }
+                },
                 "light": {
                     "color": "auto",
                     "color_type": "card",
@@ -185,7 +201,7 @@
                                             "type": "call-service"
                                         },
                                         {
-                                            "icon_color": "linear-gradient(15deg, #173098, #980B27)",
+                                            "icon_color": "linear-gradient(15deg, #000000, #5E007E)",
                                             "service": "script.turn_on",
                                             "service_data": {
                                                 "entity_id": "script.movie_light"
@@ -201,34 +217,250 @@
                             "type": "vertical-stack"
                         },
                         {
-                            "artwork": "material",
-                            "entity": "media_player.bedroom_speaker",
-                            "icon": "mdi:google-home",
-                            "name": "Home Mini",
-                            "shortcuts": {
-                                "buttons": [
-                                    {
-                                        "icon": "mdi:spotify",
-                                        "id": "script.play_spotify_spotcast",
-                                        "type": "script"
+                            "cards": [
+                                {
+                                    "color_type": "card",
+                                    "double_tap_action": {
+                                        "action": "call-service",
+                                        "service": "input_select.select_option",
+                                        "service_data": {
+                                            "entity_id": "input_select.alarm_state",
+                                            "option": "Not set"
+                                        }
                                     },
-                                    {
-                                        "icon": "mdi:podcast",
-                                        "id": "script.play_spotify_podcast",
-                                        "type": "script"
+                                    "entity": "input_select.alarm_state",
+                                    "hold_action": {
+                                        "action": "call-service",
+                                        "service": "input_select.select_option",
+                                        "service_data": {
+                                            "entity_id": "input_select.alarm_state",
+                                            "option": "Snoozed"
+                                        }
                                     },
-                                    {
-                                        "icon": "mdi:radio",
-                                        "id": "script.play_radio",
-                                        "type": "script"
-                                    }
-                                ],
-                                "columns": 3
-                            },
-                            "tts": {
-                                "platform": "google_translate"
-                            },
-                            "type": "custom:mini-media-player"
+                                    "show_label": true,
+                                    "show_name": false,
+                                    "show_state": false,
+                                    "state": [
+                                        {
+                                            "icon": "mdi:alarm-plus",
+                                            "label": "Click to set alarm",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-unavailable-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Not set"
+                                        },
+                                        {
+                                            "icon": "mdi:alarm-check",
+                                            "label": "[[[\n  return `<span>Alarm set for <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. Click to disable</span></span>`\n]]]\n",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Set"
+                                        },
+                                        {
+                                            "icon": "mdi:alarm-bell",
+                                            "label": "Hold to snooze, double-click to dismiss alarm",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-active-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Activated"
+                                        },
+                                        {
+                                            "icon": "mdi:alarm-snooze",
+                                            "label": "Double click to dismiss alarm",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-active-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Snoozed"
+                                        }
+                                    ],
+                                    "styles": {
+                                        "card": [
+                                            {
+                                                "height": "150px"
+                                            }
+                                        ],
+                                        "name": [
+                                            {
+                                                "font-weight": "bold"
+                                            }
+                                        ]
+                                    },
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "script.turn_on",
+                                        "service_data": {
+                                            "entity_id": "script.alarm_toggle"
+                                        }
+                                    },
+                                    "type": "custom:button-card"
+                                },
+                                {
+                                    "card": {
+                                        "custom_fields": {
+                                            "picker": {
+                                                "card": {
+                                                    "entity": "input_datetime.alarm_time",
+                                                    "hide": {
+                                                        "name": true
+                                                    },
+                                                    "hour_mode": 24,
+                                                    "hour_step": 1,
+                                                    "layout": {
+                                                        "align_controls": "center",
+                                                        "name": "header"
+                                                    },
+                                                    "link_values": true,
+                                                    "minute_step": 5,
+                                                    "name": "",
+                                                    "type": "custom:time-picker-card"
+                                                }
+                                            }
+                                        },
+                                        "entity": "input_boolean.advanced_alarm",
+                                        "show_name": false,
+                                        "size": "20%",
+                                        "styles": {
+                                            "grid": [
+                                                {
+                                                    "grid-template-areas": "\"picker i\""
+                                                },
+                                                {
+                                                    "grid-template-columns": "4fr 1fr"
+                                                },
+                                                {
+                                                    "grid-template-rows": "1fr"
+                                                }
+                                            ],
+                                            "icon": [
+                                                {
+                                                    "align-self": "start"
+                                                }
+                                            ]
+                                        },
+                                        "tap_action": {
+                                            "action": "call-service",
+                                            "service": "input_boolean.toggle",
+                                            "service_data": {
+                                                "entity_id": "input_boolean.advanced_alarm"
+                                            }
+                                        },
+                                        "type": "custom:button-card"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "input_select.alarm_state",
+                                            "state": "Not set"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                },
+                                {
+                                    "card": {
+                                        "cards": [
+                                            {
+                                                "entities": [
+                                                    "input_boolean.switch_autoalarm",
+                                                    "input_boolean.switch_alarm_podcast",
+                                                    "input_number.snooze_time",
+                                                    "input_select.wakeup_music"
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            }
+                                        ],
+                                        "type": "custom:vertical-stack-in-card"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "input_boolean.advanced_alarm",
+                                            "state": "on"
+                                        },
+                                        {
+                                            "entity": "input_select.alarm_state",
+                                            "state": "Not set"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                }
+                            ],
+                            "type": "custom:vertical-stack-in-card"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "artwork": "material",
+                                    "entity": "media_player.bedroom_speaker",
+                                    "icon": "mdi:google-home",
+                                    "name": "Home Mini",
+                                    "shortcuts": {
+                                        "buttons": [
+                                            {
+                                                "icon": "mdi:spotify",
+                                                "id": "script.play_spotcast_playlist",
+                                                "type": "script"
+                                            },
+                                            {
+                                                "icon": "mdi:podcast",
+                                                "id": "script.play_spotcast_podcast",
+                                                "type": "script"
+                                            },
+                                            {
+                                                "icon": "mdi:radio",
+                                                "id": "script.play_radio",
+                                                "type": "script"
+                                            },
+                                            {
+                                                "data": {
+                                                    "entity_id": "input_boolean.advanced_music"
+                                                },
+                                                "icon": "mdi:cog",
+                                                "id": "input_boolean.toggle",
+                                                "type": "service"
+                                            }
+                                        ],
+                                        "columns": 4
+                                    },
+                                    "tts": {
+                                        "platform": "google_translate"
+                                    },
+                                    "type": "custom:mini-media-player"
+                                },
+                                {
+                                    "card": {
+                                        "entities": [
+                                            "input_select.spotify_playlist",
+                                            "input_select.morning_podcast",
+                                            "input_select.radio_station"
+                                        ],
+                                        "type": "entities"
+                                    },
+                                    "conditions": [
+                                        {
+                                            "entity": "input_boolean.advanced_music",
+                                            "state": "on"
+                                        }
+                                    ],
+                                    "type": "conditional"
+                                }
+                            ],
+                            "type": "custom:vertical-stack-in-card"
                         },
                         {
                             "card": {
@@ -289,176 +521,6 @@
                                 }
                             ],
                             "type": "conditional"
-                        },
-                        {
-                            "cards": [
-                                {
-                                    "color_type": "card",
-                                    "double_tap_action": {
-                                        "action": "call-service",
-                                        "service": "script.turn_on",
-                                        "service_data": {
-                                            "entity_id": "script.alarm_stop"
-                                        }
-                                    },
-                                    "entity": "input_select.alarm_state",
-                                    "hold_action": {
-                                        "action": "call-service",
-                                        "service": "script.turn_on",
-                                        "service_data": {
-                                            "entity_id": "script.alarm_snooze"
-                                        }
-                                    },
-                                    "show_label": true,
-                                    "show_name": false,
-                                    "show_state": false,
-                                    "state": [
-                                        {
-                                            "icon": "mdi:alarm-plus",
-                                            "label": "Click to set alarm",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-unavailable-color)"
-                                                    }
-                                                ]
-                                            },
-                                            "value": "Not set"
-                                        },
-                                        {
-                                            "icon": "mdi:alarm-check",
-                                            "label": "Alarm is set",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-color)"
-                                                    }
-                                                ]
-                                            },
-                                            "value": "Set"
-                                        },
-                                        {
-                                            "icon": "mdi:alarm-bell",
-                                            "label": "Hold to snooze, double-click to dismiss alarm",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-active-color)"
-                                                    }
-                                                ]
-                                            },
-                                            "value": "Activated"
-                                        },
-                                        {
-                                            "icon": "mdi:alarm-snooze",
-                                            "label": "Double click to dismiss alarm",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-active-color)"
-                                                    }
-                                                ]
-                                            },
-                                            "value": "Snoozed"
-                                        }
-                                    ],
-                                    "styles": {
-                                        "card": [
-                                            {
-                                                "height": "150px"
-                                            }
-                                        ],
-                                        "name": [
-                                            {
-                                                "font-weight": "bold"
-                                            }
-                                        ]
-                                    },
-                                    "tap_action": {
-                                        "action": "call-service",
-                                        "service": "script.turn_on",
-                                        "service_data": {
-                                            "entity_id": "script.alarm_toggle"
-                                        }
-                                    },
-                                    "type": "custom:button-card"
-                                },
-                                {
-                                    "custom_fields": {
-                                        "picker": {
-                                            "card": {
-                                                "entity": "input_datetime.alarm_time",
-                                                "hide": {
-                                                    "name": true
-                                                },
-                                                "hour_mode": 24,
-                                                "hour_step": 1,
-                                                "layout": {
-                                                    "align_controls": "center",
-                                                    "name": "header"
-                                                },
-                                                "link_values": true,
-                                                "minute_step": 5,
-                                                "name": "",
-                                                "type": "custom:time-picker-card"
-                                            }
-                                        }
-                                    },
-                                    "entity": "input_boolean.advanced_alarm",
-                                    "show_name": false,
-                                    "size": "20%",
-                                    "styles": {
-                                        "grid": [
-                                            {
-                                                "grid-template-areas": "\"picker i\""
-                                            },
-                                            {
-                                                "grid-template-columns": "4fr 1fr"
-                                            },
-                                            {
-                                                "grid-template-rows": "1fr"
-                                            }
-                                        ],
-                                        "icon": [
-                                            {
-                                                "align-self": "start"
-                                            }
-                                        ]
-                                    },
-                                    "tap_action": {
-                                        "action": "call-service",
-                                        "service": "input_boolean.toggle",
-                                        "service_data": {
-                                            "entity_id": "input_boolean.advanced_alarm"
-                                        }
-                                    },
-                                    "type": "custom:button-card"
-                                },
-                                {
-                                    "card": {
-                                        "cards": [
-                                            {
-                                                "entities": [
-                                                    "input_boolean.switch_autoalarm",
-                                                    "input_boolean.switch_alarm_podcast",
-                                                    "input_number.snooze_time"
-                                                ],
-                                                "show_header_toggle": false,
-                                                "type": "entities"
-                                            }
-                                        ],
-                                        "type": "custom:vertical-stack-in-card"
-                                    },
-                                    "conditions": [
-                                        {
-                                            "entity": "input_boolean.advanced_alarm",
-                                            "state": "on"
-                                        }
-                                    ],
-                                    "type": "conditional"
-                                }
-                            ],
-                            "type": "custom:vertical-stack-in-card"
                         }
                     ],
                     "icon": "mdi:home",
@@ -509,15 +571,15 @@
                                         "name": false
                                     },
                                     "type": "custom:mini-graph-card"
-                                },
-                                {
-                                    "aspect_ratio": "0%",
-                                    "camera_image": "camera.buienradar_loop",
-                                    "entity": "weather.buienradar",
-                                    "type": "picture-entity"
                                 }
                             ],
                             "type": "custom:vertical-stack-in-card"
+                        },
+                        {
+                            "aspect_ratio": "0%",
+                            "camera_image": "camera.buienradar_loop",
+                            "entity": "weather.buienradar",
+                            "type": "picture-entity"
                         },
                         {
                             "entities": [
