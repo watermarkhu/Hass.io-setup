@@ -2,16 +2,6 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
-# Text to speech
-tts:
-  - platform: google_translate
-
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-sensor: !include sensors.yaml
-
 system_log:
   max_entries: 250
 
@@ -25,7 +15,15 @@ http:
 frontend:
   themes: !include_dir_merge_named themes
 
-#
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensors.yaml
+input_number: !include input_number.yaml
+input_datetime: !include input_datetime.yaml
+input_boolean: !include input_boolean.yaml
+input_select: !include input_select.yaml
 
 ##################################################################
 ##################################################################
@@ -42,27 +40,27 @@ discovery:
 # add lights
 yeelight:
   devices:
-    192.168.31.108:
+    192.168.1.200:
       name: desk
       model: color1
       save_on_change: true
-    192.168.31.71:
+    192.168.1.238:
       name: door
       model: color1
       save_on_change: true
-    192.168.31.238:
+    192.168.1.190:
       name: bed
       model: color1
       save_on_change: true
-    192.168.31.126:
+    192.168.1.146:
       name: couch
       model: color1
       save_on_change: true
-    192.168.31.249:
+    192.168.1.185:
       name: strip
       model: strip1
       save_on_change: true
-    192.168.31.57:
+    192.168.1.248:
       name: cabinet
       model: bslamp1
       save_on_change: true
@@ -102,129 +100,6 @@ spotify:
 spotcast:
   sp_dc: !secret spotify_sp_dc
   sp_key: !secret spotify_sp_key
-
-##################################################################
-##################################################################
-
-                # Input boolean, number & select
-
-##################################################################
-
-# Input numbers
-input_number:
-  home_volume:
-    name: Google Home
-    initial: 40
-    min: 0
-    max: 100
-    step: 10
-    icon: mdi:volume-high
-  snooze_time:
-    name: Snooze time (minutes)
-    icon: mdi:alarm-snooze
-    initial: 7
-    min: 1
-    max: 30
-    step: 1
-
-input_datetime:
-  alarm_time:
-    name: Alarm time
-    has_date: false
-    has_time: true
-
-input_boolean:
-  advanced_alarm:
-    name: Advanced alarm settings
-    initial: off
-    icon: mdi:cog
-  advanced_music:
-    name: Advanced music settings
-    initial: off
-    icon: mdi:cog
-  switch_spotify_card:
-    name: Spotify playlist card
-    initial: off
-    icon: mdi:playlist-music
-  switch_autoalarm:
-    name: Auto set alarm at 22:00
-    initial: off
-    icon: mdi:alarm-check
-  switch_alarm_podcast:
-    name: Play podcast after alarm
-    icon: mdi:podcast
-    initial: on
-  switch_music_lights:
-    name: Light album art mode
-    icon: mdi:music-clef-treble
-    initial: off
-
-# Alarm playlist selector
-input_select:
-  wakeup_music:
-    name: 'Wake up to:'
-    options:
-      - Spotify
-      - Radio
-      - Podcast
-    icon: mdi:alarm-note
-  
-  spotify_sources:
-    name: Spotify source
-    icon: mdi:volume-source
-    options:
-      - HomeAssistant
-
-  spotify_playlist:
-    name: 'Playlist:'
-    options:
-      - Morning Motivation
-      - Top of the morning
-      - Morning Acoustic
-      - Wake Up Happy
-      - Wake Up and Smell the Coffee
-      - Wake Up Gently
-    icon: mdi:spotify
-
-  radio_station:
-    name: 'Radio Station:'
-    options:
-      - Radio 538
-      - Q-Music
-      - Q-Music Non-Stop
-      - 3FM
-      - 100% NL
-      - Veronica
-      - Sky Radio
-      - SLAM! FM
-      - Arrow Classic Rock
-    icon: mdi:radio
-
-  morning_podcast:
-    name: 'Podcast:'
-    options:
-      - NRC vandaag
-      - NOS met het oog op morgen
-      - VOX today explained
-      - TIMES the daily
-    icon: mdi:podcast
-
-  alarm_state:
-    name: "Alarm current state"
-    options:
-      - Not set
-      - Set
-      - Activated
-      - Snoozed
-
-  button_cycler:
-    name: Xiaomi Button Scene Cycler
-    options:
-      - Normal
-      - Yellow
-      - Evening
-      - Night
-      - Movie
 
 
 ##################################################################

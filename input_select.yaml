@@ -1,0 +1,58 @@
+wakeup_music:
+  name: 'Wake up to:'
+  options:
+    - Spotify
+    - Radio
+    - Podcast
+  icon: mdi:alarm-note 
+spotify_playlist:
+  name: 'Playlist:'
+  options:
+    - Morning Motivation
+    - Top of the morning
+    - Morning Acoustic
+    - Wake Up Happy
+    - Wake Up and Smell the Coffee
+    - Wake Up Gently
+  icon: mdi:spotify
+radio_station:
+  name: 'Radio Station:'
+  options:
+    - Radio 538
+    - Q-Music
+    - Q-Music Non-Stop
+    - 3FM
+    - 100% NL
+    - Veronica
+    - Sky Radio
+    - SLAM! FM
+    - Arrow Classic Rock
+  icon: mdi:radio
+morning_podcast:
+  name: 'Podcast:'
+  options:
+    - NRC vandaag
+    - NOS met het oog op morgen
+    - VOX today explained
+    - TIMES the daily
+  icon: mdi:podcast
+alarm_state:
+  name: "Alarm current state"
+  options:
+    - Not set
+    - Set
+    - Activated
+    - Snoozed
+button_cycler:
+  name: Button Scene cycler
+  options:
+    - normal
+    - yellow
+    - evening
+    - night
+    - movie
+button_mode:
+  name: Button control mode
+  options:
+    - light
+    - media

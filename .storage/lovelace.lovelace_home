@@ -40,23 +40,6 @@
             },
             "views": [
                 {
-                    "badges": [
-                        {
-                            "entity": "binary_sensor.updater"
-                        },
-                        {
-                            "entity": "person.mark"
-                        },
-                        {
-                            "entity": "input_datetime.alarm_time"
-                        },
-                        {
-                            "entity": "weather.buienradar"
-                        },
-                        {
-                            "entity": "sun.sun"
-                        }
-                    ],
                     "cards": [
                         {
                             "cards": [
@@ -220,6 +203,38 @@
                             "cards": [
                                 {
                                     "color_type": "card",
+                                    "custom_fields": {
+                                        "settings": {
+                                            "card": {
+                                                "entity": "input_boolean.advanced_alarm",
+                                                "show_name": false,
+                                                "size": "50%",
+                                                "styles": {
+                                                    "card": [
+                                                        {
+                                                            "box-shadow": "none"
+                                                        },
+                                                        {
+                                                            "background-color": "rgba(0, 0, 0, 0.0)"
+                                                        }
+                                                    ],
+                                                    "icon": [
+                                                        {
+                                                            "color": "var(--primary-background-color)"
+                                                        }
+                                                    ]
+                                                },
+                                                "tap_action": {
+                                                    "action": "call-service",
+                                                    "service": "input_boolean.toggle",
+                                                    "service_data": {
+                                                        "entity_id": "input_boolean.advanced_alarm"
+                                                    }
+                                                },
+                                                "type": "custom:button-card"
+                                            }
+                                        }
+                                    },
                                     "double_tap_action": {
                                         "action": "call-service",
                                         "service": "input_select.select_option",
@@ -296,6 +311,14 @@
                                                 "height": "150px"
                                             }
                                         ],
+                                        "grid": [
+                                            {
+                                                "grid-template-areas": "\". i settings\" \". l settings\""
+                                            },
+                                            {
+                                                "grid-template-columns": "1fr 6fr 1fr"
+                                            }
+                                        ],
                                         "name": [
                                             {
                                                 "font-weight": "bold"
@@ -313,55 +336,20 @@
                                 },
                                 {
                                     "card": {
-                                        "custom_fields": {
-                                            "picker": {
-                                                "card": {
-                                                    "entity": "input_datetime.alarm_time",
-                                                    "hide": {
-                                                        "name": true
-                                                    },
-                                                    "hour_mode": 24,
-                                                    "hour_step": 1,
-                                                    "layout": {
-                                                        "align_controls": "center",
-                                                        "name": "header"
-                                                    },
-                                                    "link_values": true,
-                                                    "minute_step": 5,
-                                                    "name": "",
-                                                    "type": "custom:time-picker-card"
-                                                }
-                                            }
+                                        "entity": "input_datetime.alarm_time",
+                                        "hide": {
+                                            "name": true
                                         },
-                                        "entity": "input_boolean.advanced_alarm",
-                                        "show_name": false,
-                                        "size": "20%",
-                                        "styles": {
-                                            "grid": [
-                                                {
-                                                    "grid-template-areas": "\"picker i\""
-                                                },
-                                                {
-                                                    "grid-template-columns": "4fr 1fr"
-                                                },
-                                                {
-                                                    "grid-template-rows": "1fr"
-                                                }
-                                            ],
-                                            "icon": [
-                                                {
-                                                    "align-self": "start"
-                                                }
-                                            ]
+                                        "hour_mode": 24,
+                                        "hour_step": 1,
+                                        "layout": {
+                                            "align_controls": "center",
+                                            "name": "header"
                                         },
-                                        "tap_action": {
-                                            "action": "call-service",
-                                            "service": "input_boolean.toggle",
-                                            "service_data": {
-                                                "entity_id": "input_boolean.advanced_alarm"
-                                            }
-                                        },
-                                        "type": "custom:button-card"
+                                        "link_values": true,
+                                        "minute_step": 5,
+                                        "name": "",
+                                        "type": "custom:time-picker-card"
                                     },
                                     "conditions": [
                                         {
@@ -391,10 +379,6 @@
                                         {
                                             "entity": "input_boolean.advanced_alarm",
                                             "state": "on"
-                                        },
-                                        {
-                                            "entity": "input_select.alarm_state",
-                                            "state": "Not set"
                                         }
                                     ],
                                     "type": "conditional"
@@ -521,6 +505,78 @@
                                 }
                             ],
                             "type": "conditional"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "sensor.cpu_temp",
+                                            "icon": "mdi:raspberry-pi",
+                                            "styles": {
+                                                "icon": [
+                                                    {
+                                                        "color": "[[[\n  if (entity.state < 60) return 'lime';\n  if (entity.state >= 60 && entity.state < 80) return 'orange';\n  else return 'red';\n]]]\n"
+                                                    },
+                                                    {
+                                                        "width": "50%"
+                                                    }
+                                                ]
+                                            },
+                                            "type": "custom:button-card"
+                                        },
+                                        {
+                                            "entity": "sensor.memory_use_percent",
+                                            "name": "Memory Use",
+                                            "styles": {
+                                                "icon": [
+                                                    {
+                                                        "color": "[[[\n  if (entity.state < 60) return 'lime';\n  if (entity.state >= 60 && entity.state < 80) return 'orange';\n  else return 'red';\n]]]\n"
+                                                    },
+                                                    {
+                                                        "width": "50%"
+                                                    }
+                                                ]
+                                            },
+                                            "type": "custom:button-card"
+                                        },
+                                        {
+                                            "entity": "sensor.load_5m",
+                                            "icon": "mdi:server",
+                                            "name": "Load",
+                                            "styles": {
+                                                "icon": [
+                                                    {
+                                                        "color": "[[[\n  if (entity.state < 1) return 'lime';\n  if (entity.state >= 1 && entity.state < 2) return 'orange';\n  else return 'red';\n]]]\n"
+                                                    },
+                                                    {
+                                                        "width": "50%"
+                                                    }
+                                                ]
+                                            },
+                                            "type": "custom:button-card"
+                                        },
+                                        {
+                                            "entity": "sensor.disk_use_percent",
+                                            "icon": "mdi:harddisk",
+                                            "name": "Disk Use",
+                                            "styles": {
+                                                "icon": [
+                                                    {
+                                                        "color": "[[[\n  if (entity.state < 80) return 'lime';\n  if (entity.state >= 80 && entity.state < 90) return 'orange';\n  else return 'red';\n]]]\n"
+                                                    },
+                                                    {
+                                                        "width": "50%"
+                                                    }
+                                                ]
+                                            },
+                                            "type": "custom:button-card"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
+                            ],
+                            "type": "custom:vertical-stack-in-card"
                         }
                     ],
                     "icon": "mdi:home",
@@ -574,12 +630,6 @@
                                 }
                             ],
                             "type": "custom:vertical-stack-in-card"
-                        },
-                        {
-                            "aspect_ratio": "0%",
-                            "camera_image": "camera.buienradar_loop",
-                            "entity": "weather.buienradar",
-                            "type": "picture-entity"
                         },
                         {
                             "entities": [

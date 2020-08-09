@@ -4,6 +4,8 @@ play_spotcast_playlist:
   - service: spotcast.start
     data_template:
       entity_id: media_player.bedroom_speaker
+      random_song: true
+      shuffle: true
       uri: >
         {% if is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:playlist:37i9dQZF1DXc5e2bJhV6pu 
         {% elif is_state("input_select.spotify_playlist", "Top of the morning") %} spotify:playlist:37i9dQZF1DWSWyJydK4fTU 
@@ -60,17 +62,6 @@ pause_media:
     data:
       entity_id: media_player.bedroom_speaker
 
-update_spotify_sources:
-  alias: Update spotify sources
-  sequence:
-    service: input_text.set_options
-    entity_id: input_select.spotify_sources
-    data_template: 
-      options: >
-        {% for item in state_attr('media_player.sonos_living_room', 'source_list') %}
-        - {{ item }}
-        {% endfor %}
-        {{ state_attr("media_player.spotify_mark_shui_hu", "source_list") }}
 
 alarm_toggle:
   alias: Toggle the alarm
@@ -83,18 +74,6 @@ alarm_toggle:
         {% elif is_state("input_select.alarm_state", "Set") %} Not set 
         {% endif %}
 
-button_cycler:
-  alias: cycle through input select scenes
-  sequence:
-  - service: script.turn_on
-    data_template:
-      entity_id: >
-        {% if is_state("input_select", "Normal") %} script.normal_light
-        {% elif is_state("input_select.button_cycler", "Yellow") %} script.yellow_light
-        {% elif is_state("input_select.button_cycler", "Evening") %} script.evening_light
-        {% elif is_state("input_select.button_cycler", "Night") %} script.night_light
-        {% elif is_state("input_select.button_cycler", "Movie") %} script.movie_light
-        {% endif %}
 
 yellow_light:
   alias: Yellow light
