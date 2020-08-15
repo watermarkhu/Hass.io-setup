@@ -608,13 +608,13 @@
                                     ],
                                     "entities": [
                                         {
-                                            "entity": "sensor.mi_t_c47c8d65899f",
+                                            "entity": "sensor.miflora_temp",
                                             "name": "Temperature",
                                             "show_legend": false
                                         },
                                         {
                                             "color": "white",
-                                            "entity": "sensor.mi_l_c47c8d65899f",
+                                            "entity": "sensor.miflora_sun",
                                             "name": "Sun",
                                             "show_line": false,
                                             "y_axis": "secondary"
@@ -635,12 +635,12 @@
                             "entities": [
                                 {
                                     "color": "cyan",
-                                    "entity": "sensor.mi_m_c47c8d65899f",
+                                    "entity": "sensor.miflora_moisture",
                                     "name": "Moisture"
                                 },
                                 {
                                     "color": "aquamarine",
-                                    "entity": "sensor.mi_c_c47c8d65899f",
+                                    "entity": "sensor.miflora_conductivity",
                                     "name": "Conductivity",
                                     "y_axis": "secondary"
                                 }
