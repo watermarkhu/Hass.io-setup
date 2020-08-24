@@ -6,16 +6,20 @@ SetAlarmTime:
   speech:
     text: "Your alarm is set at {{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%H:%M', False) }}."
   action:
-    - service: input_number.set_value
-      entity_id: input_number.alarm_hours
+    - service: input_datetime.set_datetime
+      entity_id: input_datetime.alarm_time
       data_template:
-        value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-H', False) }}"
+        time: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%H:%M:%S') }}"
 
-    - service: input_number.set_value
-      entity_id: input_number.alarm_minutes
-      data_template:
-        value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-M', False) }}"
+    # - service: input_number.set_value
+    #   entity_id: input_number.alarm_hours
+    #   data_template:
+    #     value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-H', False) }}"
 
+    # - service: input_number.set_value
+    #   entity_id: input_number.alarm_minutes
+    #   data_template:
+    #     value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-M', False) }}"
 
     - service: input_select.select_option
       data:
@@ -25,10 +29,6 @@ SetAlarmTime:
       data_template:
         title: Alarm set
         message: "Your alarm is set at {{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%H:%M', False) }}."
-    # - service: notify.mobile_app_mark_s_oneplus_a6003
-    #   data_template:
-    #     title: Alarm set
-    #     message: Your alarm is set at {{ time }}.
 
 CancelAlarm:
   speech:

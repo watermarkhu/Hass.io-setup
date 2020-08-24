@@ -159,6 +159,7 @@ google_assistant:
   report_state: false
   exposed_domains:
     - light
+    - media_player
   entity_config:
     light.bedroom_lights:
       expose: false
@@ -180,6 +181,11 @@ google_assistant:
       expose: true
     script.normal_light:
       expose: true
+    input_select.alarm_state:
+      expose: true
+    input_select.wakeup_music:
+      expose: true
+      
 
 # Diagflog and intents for advanced communication via google assistant
 dialogflow:
