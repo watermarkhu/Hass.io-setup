@@ -74,6 +74,29 @@ alarm_toggle:
         {% elif is_state("input_select.alarm_state", "Set") %} Not set 
         {% endif %}
 
+set_alarm:
+  alias: Set the alarm
+  sequence:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.alarm_state
+      option: "Set"
+  - service: notify.telegram
+    data_template:
+      title: Alarm set
+      message: "Your alarm is set at {{ states('input_datetime.alarm_time') }}."
+
+cancel_alarm:
+  alias: Cancel the alarm
+  sequence:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.alarm_state
+      option: "Not set"
+  - service: notify.telegram
+    data_template:
+      title: Alarm cancelled
+      message: "Your alarm at {{ states('input_datetime.alarm_time') }} is cancelled."
 
 yellow_light:
   alias: Yellow light

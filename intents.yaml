@@ -20,28 +20,33 @@ SetAlarmTime:
     #   entity_id: input_number.alarm_minutes
     #   data_template:
     #     value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-M', False) }}"
-
-    - service: input_select.select_option
+    - service: script.turn_on
       data:
-        entity_id: input_select.alarm_state
-        option: "Set"
-    - service: notify.telegram
-      data_template:
-        title: Alarm set
-        message: "Your alarm is set at {{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%H:%M', False) }}."
+        entity_id: script.set_alarm
+    # - service: input_select.select_option
+    #   data:
+    #     entity_id: input_select.alarm_state
+    #     option: "Set"
+    # - service: notify.telegram
+    #   data_template:
+    #     title: Alarm set
+    #     message: "Your alarm is set at {{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%H:%M', False) }}."
 
 CancelAlarm:
   speech:
     text: "Your alarm at {{ states('sensor.alarm_time_sensor') }} is cancelled."
   action:
-    - service: input_select.select_option
+    - service: script.turn_on
       data:
-        entity_id: input_select.alarm_state
-        option: "Not set"
-    - service: notify.telegram
-      data_template:
-        title: Alarm cancelled
-        message: "Your alarm at {{ states('sensor.alarm_time_sensor') }} is cancelled."
+        entity_id: script.cancel_alarm
+    # - service: input_select.select_option
+    #   data:
+    #     entity_id: input_select.alarm_state
+    #     option: "Not set"
+    # - service: notify.telegram
+    #   data_template:
+    #     title: Alarm cancelled
+    #     message: "Your alarm at {{ states('sensor.alarm_time_sensor') }} is cancelled."
 
 
 PreviousPlayerSong:

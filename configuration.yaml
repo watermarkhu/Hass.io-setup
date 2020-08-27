@@ -159,7 +159,6 @@ google_assistant:
   report_state: false
   exposed_domains:
     - light
-    - media_player
   entity_config:
     light.bedroom_lights:
       expose: false
@@ -184,6 +183,8 @@ google_assistant:
     input_select.alarm_state:
       expose: true
     input_select.wakeup_music:
+      expose: true
+    media_player.spotify_mark_shui_hu:
       expose: true
       
 

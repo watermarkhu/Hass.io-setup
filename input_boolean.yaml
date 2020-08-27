@@ -22,3 +22,11 @@ switch_music_lights:
   name: Light album art mode
   icon: mdi:music-clef-treble
   initial: off
+switch_phone_alarm:
+  name: Current alarm set from phone
+  icon: mdi:cellphone-cog
+  initial: off
+switch_nfc_state:
+  name: NFC home state
+  icon: mdi:nfc-variant
+  initial: off
