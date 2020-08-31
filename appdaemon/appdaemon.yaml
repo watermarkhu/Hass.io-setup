@@ -10,6 +10,7 @@ appdaemon:
       type: hass
 http:
   url: http://127.0.0.1:5050
+password: !secret ad_password
 admin:
 api:
 hadashboard:

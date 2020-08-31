@@ -12,7 +12,6 @@
     entity_id: input_number.home_volume
     data_template:
       value: '{{ trigger.to_state.attributes.volume_level | multiply(100) | int }}'
-
 - id: set_google_home_volume
   alias: Set Google Home Volume
   trigger:
@@ -27,12 +26,11 @@
     entity_id: media_player.bedroom_speaker
     data_template:
       volume_level: '{{ states("input_number.home_volume") | int / 100 }}'
-
 - id: '1598304909639'
   alias: Restart HA core
   description: Restart HA core every 2~3 days
   trigger:
-  - at: 02:00:00
+  - at: 04:00:00
     platform: time
   condition:
   - condition: time
@@ -44,43 +42,3 @@
   - data: {}
     service: homeassistant.restart
   mode: single
-
-- id: set_alarm_from_phone
-  alias: Set HA alarm from phone
-  description: Sets the HA alarm from the alarm set in the phone
-  trigger:
-  - platform: state
-    entity_id: sensor.oneplus_a6003_next_alarm
-    from: "unavailable"
-  condition:
-  - condition: state
-    entity_id: person.mark
-    state: "home"
-  action:
-  - service: input_datetime.set_datetime
-    data_template:
-      entity_id: input_datetime.alarm_time
-      time: "{{ strptime(state_attr('sensor.oneplus_a6003_next_alarm', 'Local Time'), '%a %b %d %H:%M:%S %Z%z %Y').strftime('%H:%M:%S') }}"
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.switch_phone_alarm
-  - service: script.turn_on
-    entity_id: script.set_alarm
-
-- id: cancel_alarm_from_phone
-  alias: Cancel HA alarm from phone
-  description: Cancels the HA alarm if phone alarm canceled. 
-  trigger:
-  - platform: state
-    entity_id: sensor.oneplus_a6003_next_alarm
-    to: "unavailable"
-  condition:
-  - condition: state
-    entity_id: input_boolean.switch_phone_alarm
-    state: "on"
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.switch_phone_alarm
-  - service: script.turn_on
-    entity_id: script.cancel_alarm
-
-    

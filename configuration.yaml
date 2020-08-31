@@ -199,5 +199,5 @@ tts:
     cache_dir: /tmp/tts
     language: "en-us"
     time_memory: 300
-    base_url: !secret tts_url
+    base_url: !secret ha_url
     service_name: google_translate_say

@@ -30,3 +30,7 @@ switch_nfc_state:
   name: NFC home state
   icon: mdi:nfc-variant
   initial: off
+sync_spotify_lights:
+  name: Sync lights to Spotify album art
+  icon: mdi:spotify
+  initial: off

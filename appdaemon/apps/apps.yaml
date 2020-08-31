@@ -1,11 +1,16 @@
----
-hello_world:
-  module: hello
-  class: HelloWorld
-
-ikea_tradfri_controller:
-  module: controllerx
-  class: E1810Controller
-  controller: sensor.tradfri_action
-  integration: z2m
-  light: light.bedroom_lights
+media_lights_sync:
+  module: media_lights_sync
+  class: MediaLightsSync
+  media_player: media_player.spotify_mark_shui_hu
+  photo_attribute: entity_picture
+  use_current_brightness: True
+  condition:
+    entity: input_boolean.sync_tv_lights
+    state: "on"
+  lights:
+    - light.bed
+    - light.desk
+    - light.door
+    - light.couch
+    - light.strip
+    - light.cabinet

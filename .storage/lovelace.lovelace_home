@@ -147,7 +147,7 @@
                                             "type": "horizontal-stack"
                                         }
                                     ],
-                                    "type": "custom:vertical-stack-in-card"
+                                    "type": "vertical-stack"
                                 },
                                 {
                                     "colors": [
