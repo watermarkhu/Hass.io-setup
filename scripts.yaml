@@ -6,38 +6,38 @@ play_spotcast_playlist:
       entity_id: media_player.bedroom_speaker
       random_song: true
       shuffle: true
-      uri: >
-        {% if is_state("input_select.spotify_playlist", "Morning Motivation") %} spotify:playlist:37i9dQZF1DXc5e2bJhV6pu 
-        {% elif is_state("input_select.spotify_playlist", "Top of the morning") %} spotify:playlist:37i9dQZF1DWSWyJydK4fTU 
-        {% elif is_state("input_select.spotify_playlist", "Morning Acoustic") %} spotify:playlist:37i9dQZF1DXdd3gw5QVjt9 
-        {% elif is_state("input_select.spotify_playlist", "Wake Up Happy") %} spotify:playlist:37i9dQZF1DX0UrRvztWcAU 
-        {% elif is_state("input_select.spotify_playlist", "Wake Up and Smell the Coffee") %} spotify:playlist:37i9dQZF1DXcxacyAXkQDu
-        {% elif is_state("input_select.spotify_playlist", "Wake Up Gently") %} spotify:playlist:37i9dQZF1DX7cZxYLqLUJl
-        {% endif %}
+      uri: '{% if is_state("input_select.spotify_playlist", "Morning Motivation")
+        %} spotify:playlist:37i9dQZF1DXc5e2bJhV6pu  {% elif is_state("input_select.spotify_playlist",
+        "Top of the morning") %} spotify:playlist:37i9dQZF1DWSWyJydK4fTU  {% elif
+        is_state("input_select.spotify_playlist", "Morning Acoustic") %} spotify:playlist:37i9dQZF1DXdd3gw5QVjt9  {%
+        elif is_state("input_select.spotify_playlist", "Wake Up Happy") %} spotify:playlist:37i9dQZF1DX0UrRvztWcAU  {%
+        elif is_state("input_select.spotify_playlist", "Wake Up and Smell the Coffee")
+        %} spotify:playlist:37i9dQZF1DXcxacyAXkQDu {% elif is_state("input_select.spotify_playlist",
+        "Wake Up Gently") %} spotify:playlist:37i9dQZF1DX7cZxYLqLUJl {% endif %}
 
-
+        '
 play_spotcast_podcast:
   alias: Play a spotify podcast
   sequence:
   - service: spotcast.start
     data_template:
       entity_id: media_player.bedroom_speaker
-      uri: >
-        {% if is_state("input_select.morning_podcast", "NOS met het oog op morgen") %} spotify:show:56DJTFqt8Vg1qfLJ1ibH7j
-        {% elif is_state("input_select.morning_podcast", "NRC vandaag") %} spotify:show:73vZPMVjxTqC02OYZdcCr7
-        {% elif is_state("input_select.morning_podcast", "VOX today explained") %} spotify:show:3pXx5SXzXwJxnf4A5pWN2A
-        {% elif is_state("input_select.morning_podcast", "TIMES the daily") %} spotify:show:3IM0lmZxpFAY7CwMuv9H4g
-        {% endif %}
+      uri: '{% if is_state("input_select.morning_podcast", "NOS met het oog op morgen")
+        %} spotify:show:56DJTFqt8Vg1qfLJ1ibH7j {% elif is_state("input_select.morning_podcast",
+        "NRC vandaag") %} spotify:show:73vZPMVjxTqC02OYZdcCr7 {% elif is_state("input_select.morning_podcast",
+        "VOX today explained") %} spotify:show:3pXx5SXzXwJxnf4A5pWN2A {% elif is_state("input_select.morning_podcast",
+        "TIMES the daily") %} spotify:show:3IM0lmZxpFAY7CwMuv9H4g {% endif %}
 
+        '
 play_radio:
   alias: Play radio
   sequence:
   - service: media_player.play_media
     data_template:
       entity_id: media_player.bedroom_speaker
-      media_content_id: >
-        {% if is_state("input_select.radio_station", "Radio 538") %} http://18973.live.streamtheworld.com/RADIO538.mp3 
-        {% elif is_state("input_select.radio_station", "Q-Music") %} http://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_96.mp3
+      media_content_id: '{% if is_state("input_select.radio_station", "Radio 538")
+        %} http://18973.live.streamtheworld.com/RADIO538.mp3  {% elif is_state("input_select.radio_station",
+        "Q-Music") %} http://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_96.mp3
         {% elif is_state("input_select.radio_station", "Q-Music Non-Stop") %} https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_nonstop_96.mp3
         {% elif is_state("input_select.radio_station", "3FM") %} http://icecast.omroep.nl/3fm-bb-mp3
         {% elif is_state("input_select.radio_station", "100% NL") %} http://stream.100p.nl/100pctnl.mp3
@@ -46,58 +46,50 @@ play_radio:
         {% elif is_state("input_select.radio_station", "Arrow Classic Rock") %} https://stream.gal.io/arrow
         {% elif is_state("input_select.radio_station", "SLAM! FM") %} https://stream.slam.nl/slam_mp3
         {% endif %}
-      media_content_type: audio/mp4
 
+        '
+      media_content_type: audio/mp4
 play_media:
   alias: Play media
   sequence:
     service: media_player.media_play
     data:
       entity_id: media_player.bedroom_speaker
-
 pause_media:
   alias: Pause media
   sequence:
     service: media_player.media_pause
     data:
       entity_id: media_player.bedroom_speaker
-
-
 alarm_toggle:
   alias: Toggle the alarm
   sequence:
   - service: input_select.select_option
     data_template:
       entity_id: input_select.alarm_state
-      option: >
-        {% if is_state("input_select.alarm_state", "Not set") %} Set 
-        {% elif is_state("input_select.alarm_state", "Set") %} Not set 
-        {% endif %}
+      option: '{% if is_state("input_select.alarm_state", "Not set") %} Set  {% elif
+        is_state("input_select.alarm_state", "Set") %} Not set  {% endif %}
 
+        '
 set_alarm:
   alias: Set the alarm
   sequence:
   - service: input_select.select_option
     data:
       entity_id: input_select.alarm_state
-      option: "Set"
+      option: Set
   - service: notify.telegram
     data_template:
       title: Alarm set
-      message: "Your alarm is set at {{ states('input_datetime.alarm_time') }}."
-
+      message: Your alarm is set at {{ states('input_datetime.alarm_time') }}.
 cancel_alarm:
   alias: Cancel the alarm
   sequence:
-  - service: input_select.select_option
-    data:
+  - data:
       entity_id: input_select.alarm_state
-      option: "Not set"
-  - service: notify.telegram
-    data_template:
-      title: Alarm cancelled
-      message: "Your alarm at {{ states('input_datetime.alarm_time') }} is cancelled."
-
+      option: Not set
+    service: input_select.select_option
+  mode: single
 yellow_light:
   alias: Yellow light
   sequence:
@@ -140,7 +132,6 @@ yellow_light:
       brightness: 55
       color_temp: 520
       transition: 2
-
 evening_light:
   alias: Evening light
   sequence:
@@ -198,7 +189,6 @@ evening_light:
       - 63
       - 0
       transition: 2
-
 night_light:
   alias: Night light
   sequence:
@@ -256,7 +246,6 @@ night_light:
       - 36
       - 255
       transition: 2
-
 movie_light:
   alias: Movie light
   sequence:
@@ -304,7 +293,6 @@ movie_light:
       - 0
       - 255
       transition: 2
-
 normal_light:
   alias: Normal light
   sequence:
