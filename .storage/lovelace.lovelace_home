@@ -1,4 +1,6 @@
 {
+    "version": 1,
+    "key": "lovelace.lovelace_home",
     "data": {
         "config": {
             "button_card_templates": {
@@ -40,6 +42,7 @@
             },
             "views": [
                 {
+                    "badges": [],
                     "cards": [
                         {
                             "cards": [
@@ -580,6 +583,8 @@
                         }
                     ],
                     "icon": "mdi:home",
+                    "path": "home",
+                    "theme": "",
                     "title": "Home"
                 },
                 {
@@ -859,10 +864,19 @@
                     "path": "status",
                     "theme": "",
                     "title": "Status"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "type": "media-control",
+                            "entity": "media_player.spotify_mark_shui_hu"
+                        }
+                    ],
+                    "path": "test",
+                    "title": "Test"
                 }
             ]
         }
-    },
-    "key": "lovelace.lovelace_home",
-    "version": 1
+    }
 }
