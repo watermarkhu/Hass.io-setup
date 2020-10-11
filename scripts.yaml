@@ -2,7 +2,7 @@ play_spotcast_playlist:
   alias: Play a spotify playlist
   sequence:
   - service: spotcast.start
-    data_template:
+    data:
       entity_id: media_player.bedroom_speaker
       random_song: true
       shuffle: true
@@ -20,7 +20,7 @@ play_spotcast_podcast:
   alias: Play a spotify podcast
   sequence:
   - service: spotcast.start
-    data_template:
+    data:
       entity_id: media_player.bedroom_speaker
       uri: '{% if is_state("input_select.morning_podcast", "NOS met het oog op morgen")
         %} spotify:show:56DJTFqt8Vg1qfLJ1ibH7j {% elif is_state("input_select.morning_podcast",
@@ -33,7 +33,7 @@ play_radio:
   alias: Play radio
   sequence:
   - service: media_player.play_media
-    data_template:
+    data:
       entity_id: media_player.bedroom_speaker
       media_content_id: '{% if is_state("input_select.radio_station", "Radio 538")
         %} http://18973.live.streamtheworld.com/RADIO538.mp3  {% elif is_state("input_select.radio_station",
@@ -65,7 +65,7 @@ alarm_toggle:
   alias: Toggle the alarm
   sequence:
   - service: input_select.select_option
-    data_template:
+    data:
       entity_id: input_select.alarm_state
       option: '{% if is_state("input_select.alarm_state", "Not set") %} Set  {% elif
         is_state("input_select.alarm_state", "Set") %} Not set  {% endif %}
@@ -79,7 +79,7 @@ set_alarm:
       entity_id: input_select.alarm_state
       option: Set
   - service: notify.telegram
-    data_template:
+    data:
       title: Alarm set
       message: Your alarm is set at {{ states('input_datetime.alarm_time') }}.
 cancel_alarm:
