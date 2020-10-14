@@ -29,24 +29,6 @@
                     "show_name": false
                 }
             },
-            "custom_header": {
-                "compact_mode": true,
-                "hide_help": true,
-                "tab_icons_and_text": true,
-                "fit_tabs": true,
-                "restrict_users": true,
-                "exceptions": [
-                    {
-                        "conditions": {
-                            "user_agent": "Mobile"
-                        },
-                        "config": {
-                            "footer_mode": true,
-                            "tab_icons_and_text": false
-                        }
-                    }
-                ]
-            },
             "swipe_nav": {
                 "animate": "swipe",
                 "prevent_default": true,
