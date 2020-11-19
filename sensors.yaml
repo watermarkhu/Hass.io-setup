@@ -47,22 +47,6 @@
   attribute: url
   scan_interval: 3600
 
-- platform: mitemp_bt
-  rounding: True
-  decimals: 2
-  period: 60
-  log_spikes: False
-  use_median: False
-  active_scan: False
-  hci_interface: 0
-  batt_entities: False
-  report_unknown: False
-
-# - platform: diskspace
-#   name: Main Disk
-#   path: "/"
-#   unit_of_measure: "GB"
-
 - platform: command_line
   name: CPU Temp
   command: "cat /sys/class/thermal/thermal_zone0/temp"

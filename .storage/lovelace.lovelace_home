@@ -39,6 +39,27 @@
                     "badges": [],
                     "cards": [
                         {
+                            "type": "horizontal-stack",
+                            "cards": [
+                                {
+                                    "type": "entities",
+                                    "entities": [
+                                        {
+                                            "entity": "person.mark"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "entities",
+                                    "entities": [
+                                        {
+                                            "entity": "person.yvon"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
                             "cards": [
                                 {
                                     "cards": [

@@ -87,6 +87,13 @@ yeelight:
       name: cabinet
       model: bslamp1
       save_on_change: true
+  custom_effects:
+    - name: 'Sunrise'
+      flow_params:
+        count: 1
+        transitions:
+          - TemperatureTransition: [1700, 50, 1]
+          - TemperatureTransition: [3500, 600000, 100]
 
 # create light groups
 light:
@@ -124,6 +131,7 @@ spotcast:
   sp_dc: !secret spotify_sp_dc
   sp_key: !secret spotify_sp_key
 
+color_extractor:
 
 ##################################################################
 ##################################################################
@@ -131,6 +139,17 @@ spotcast:
                 # Weather
 
 ##################################################################
+ble_monitor:
+  rounding: True
+  decimals: 2
+  period: 60
+  log_spikes: False
+  use_median: False
+  active_scan: False
+  hci_interface: 0
+  batt_entities: False
+  report_unknown: False
+
 weather:
   - platform: buienradar
     name: buienradar

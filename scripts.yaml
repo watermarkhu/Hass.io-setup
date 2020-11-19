@@ -316,15 +316,16 @@ normal_light:
       transition: 2
   - service: light.turn_on
     data:
-      entity_id: light.couch
+      entity_id: light.strip
       brightness: 200
-      color_temp: 333
+      color_temp: 153
       transition: 2
   - service: light.turn_off
     data:
-      entity_id: light.strip
+      entity_id: light.couch
       transition: 2
   - service: light.turn_off
     data:
       entity_id: light.cabinet
       transition: 2
+  mode: single
