@@ -21,32 +21,6 @@
         {% else %} not_spotify
         {% endif %}
 
-# Get latest podcasts
-- platform: scrape
-  resource: https://podcast.npo.nl/feed/met-het-oog-op-morgen.xml
-  name: podcast_nos
-  select: 'enclosure:nth-of-type(1)'
-  attribute: url
-  scan_interval: 3600
-- platform: scrape
-  resource: https://rss.art19.com/vandaag
-  name: podcast_nrc
-  select: 'enclosure:nth-of-type(1)'
-  attribute: url
-  scan_interval: 3600
-- platform: scrape
-  resource: https://rss.art19.com/the-daily
-  name: podcast_times
-  select: 'enclosure:nth-of-type(1)'
-  attribute: url
-  scan_interval: 3600
-- platform: scrape
-  resource: https://rss.art19.com/today-explained
-  name: podcast_vox
-  select: 'enclosure:nth-of-type(1)'
-  attribute: url
-  scan_interval: 3600
-
 - platform: command_line
   name: CPU Temp
   command: "cat /sys/class/thermal/thermal_zone0/temp"

@@ -39,27 +39,6 @@
                     "badges": [],
                     "cards": [
                         {
-                            "type": "horizontal-stack",
-                            "cards": [
-                                {
-                                    "type": "entities",
-                                    "entities": [
-                                        {
-                                            "entity": "person.mark"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "entities",
-                                    "entities": [
-                                        {
-                                            "entity": "person.yvon"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
                             "cards": [
                                 {
                                     "cards": [
@@ -385,7 +364,8 @@
                                                     "input_boolean.switch_autoalarm",
                                                     "input_boolean.switch_alarm_podcast",
                                                     "input_number.snooze_time",
-                                                    "input_select.wakeup_music"
+                                                    "input_select.wakeup_music",
+                                                    "input_boolean.switch_morning_coffee"
                                                 ],
                                                 "show_header_toggle": false,
                                                 "type": "entities"
@@ -414,7 +394,15 @@
                                     "shortcuts": {
                                         "buttons": [
                                             {
+                                                "data": {
+                                                    "entity_id": "media_player.bedroom_speaker"
+                                                },
                                                 "icon": "mdi:spotify",
+                                                "id": "spotcast.start",
+                                                "type": "service"
+                                            },
+                                            {
+                                                "icon": "mdi:playlist-music",
                                                 "id": "script.play_spotcast_playlist",
                                                 "type": "script"
                                             },
@@ -437,7 +425,7 @@
                                                 "type": "service"
                                             }
                                         ],
-                                        "columns": 4
+                                        "columns": 5
                                     },
                                     "tts": {
                                         "platform": "google_translate"
@@ -466,55 +454,8 @@
                         },
                         {
                             "card": {
-                                "cards": [
-                                    {
-                                        "artwork": "material",
-                                        "entity": "media_player.spotify_mark_shui_hu",
-                                        "name": "Spotify",
-                                        "shortcuts": {
-                                            "buttons": [
-                                                {
-                                                    "data": {
-                                                        "entity_id": "input_boolean.switch_spotify_card"
-                                                    },
-                                                    "icon": "mdi:playlist-music",
-                                                    "id": "input_boolean.toggle",
-                                                    "type": "service"
-                                                },
-                                                {
-                                                    "data": {
-                                                        "entity_id": "media_player.bedroom_speaker"
-                                                    },
-                                                    "icon": "mdi:google-home",
-                                                    "id": "spotcast.start",
-                                                    "type": "service"
-                                                }
-                                            ],
-                                            "columns": 2
-                                        },
-                                        "type": "custom:mini-media-player"
-                                    },
-                                    {
-                                        "card": {
-                                            "always_play_random_song": true,
-                                            "default_device": "HomeAssistant",
-                                            "display_style": "Grid",
-                                            "grid_covers_per_row": 3,
-                                            "hide_warning": false,
-                                            "limit": 9,
-                                            "playlist_type": "featured",
-                                            "type": "custom:spotify-card"
-                                        },
-                                        "conditions": [
-                                            {
-                                                "entity": "input_boolean.switch_spotify_card",
-                                                "state": "on"
-                                            }
-                                        ],
-                                        "type": "conditional"
-                                    }
-                                ],
-                                "type": "custom:vertical-stack-in-card"
+                                "type": "media-control",
+                                "entity": "media_player.spotify_mark_shui_hu"
                             },
                             "conditions": [
                                 {
@@ -523,6 +464,17 @@
                                 }
                             ],
                             "type": "conditional"
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "person.mark"
+                                },
+                                {
+                                    "entity": "person.yvon"
+                                }
+                            ]
                         }
                     ],
                     "icon": "mdi:home",
@@ -815,8 +767,18 @@
                     "badges": [],
                     "cards": [
                         {
-                            "type": "media-control",
-                            "entity": "media_player.spotify_mark_shui_hu"
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "switch.desk_top_light"
+                                },
+                                {
+                                    "entity": "switch.desk_bot_grinder"
+                                },
+                                {
+                                    "entity": "switch.desk_mid_coffee"
+                                }
+                            ]
                         }
                     ]
                 }

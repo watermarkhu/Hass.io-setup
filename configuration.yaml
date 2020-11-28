@@ -193,8 +193,6 @@ google_assistant:
       expose: false
     light.wakeup_lights:
       expose: false
-    sensor.miflora_temp:
-      expose: true
     script.alarm_stop:
       expose: true
     script.alarm_snooze:
@@ -209,13 +207,16 @@ google_assistant:
       expose: true
     script.normal_light:
       expose: true
-    input_select.alarm_state:
+    input_boolean.switch_autoalarm:
       expose: true
-    input_select.wakeup_music:
+    input_boolean.switch_alarm_podcast:
       expose: true
-    media_player.spotify_mark_shui_hu:
+    input_boolean.switch_morning_coffee:
       expose: true
-      
+    input_boolean.switch_mirror_light:
+      expose: true
+    input_boolean.switch_coffee_stove:
+      expose: true
 
 # Diagflog and intents for advanced communication via google assistant
 dialogflow:
