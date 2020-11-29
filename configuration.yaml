@@ -114,6 +114,7 @@ light:
       - light.desk
       - light.door
 
+color_extractor:
 
 ##################################################################
 ##################################################################
@@ -211,11 +212,11 @@ google_assistant:
       expose: true
     input_boolean.switch_alarm_podcast:
       expose: true
-    input_boolean.switch_morning_coffee:
+    switch.desk_top_mirror:
       expose: true
-    input_boolean.switch_mirror_light:
+    switch.desk_mid_coffee:
       expose: true
-    input_boolean.switch_coffee_stove:
+    switch.desk_bot_light:
       expose: true
 
 # Diagflog and intents for advanced communication via google assistant

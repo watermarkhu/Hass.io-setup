@@ -1,15 +1,19 @@
-advanced_alarm:
+frontend_advanced_alarm:
   name: Advanced alarm settings
   initial: off
   icon: mdi:cog
-advanced_music:
+frontend_advanced_music:
   name: Advanced music settings
   initial: off
   icon: mdi:cog
-switch_spotify_card:
-  name: Spotify playlist card
+automation_phone_alarm:
+  name: Current alarm set from phone
+  icon: mdi:cellphone-cog
   initial: off
-  icon: mdi:playlist-music
+automation_nfc_state:
+  name: NFC home state
+  icon: mdi:nfc-variant
+  initial: off
 switch_autoalarm:
   name: Auto set alarm at 22:00
   initial: off
@@ -18,23 +22,7 @@ switch_alarm_podcast:
   name: Play podcast after alarm
   icon: mdi:podcast
   initial: off
-switch_phone_alarm:
-  name: Current alarm set from phone
-  icon: mdi:cellphone-cog
-  initial: off
-switch_nfc_state:
-  name: NFC home state
-  icon: mdi:nfc-variant
-  initial: off
-switch_morning_coffee:
-  name: Enable morning coffee
-  icon: mdi:coffee
-  initial: off
-switch_mirror_light:
-  name: Mirror light
-  icon: mdi:mirror
-  initial: off
-switch_coffee_stove:
-  name: Coffee stove
-  icon: mdi:stove
+switch_spotify_lights:
+  name: Sync Spotify lights
+  icon: mdi:traffic-light
   initial: off

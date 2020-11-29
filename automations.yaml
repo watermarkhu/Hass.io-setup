@@ -10,7 +10,7 @@
   action:
   - service: input_number.set_value
     entity_id: input_number.home_volume
-    data_template:
+    data:
       value: '{{ trigger.to_state.attributes.volume_level | multiply(100) | int }}'
 - id: set_google_home_volume
   alias: Set Google Home Volume
@@ -24,7 +24,7 @@
   action:
   - service: media_player.volume_set
     entity_id: media_player.bedroom_speaker
-    data_template:
+    data:
       volume_level: '{{ states("input_number.home_volume") | int / 100 }}'
 - id: '1598304909639'
   alias: Restart HA core
@@ -42,3 +42,22 @@
   - data: {}
     service: homeassistant.restart
   mode: single
+- id: spotify_album_art
+  alias: Sync spotify lights
+  initial_state: false
+  trigger:
+    - platform: state
+      entity_id: media_player.spotify_mark_shui_hu
+  action:
+    - service: color_extractor.turn_on
+      data:
+        color_extract_url: '{{ states.media_player.spotify_mark_shui_hu.attributes.entity_picture }}'
+        entity_id: light.strip
+- id: enable_spotify_album_art
+  alias: Enables or disables syncing of spotify album art
+  trigger:
+    - platform: state
+      entity_id: input_boolean.switch_spotify_lights
+  action:
+    - service: automation.turn_{{ states.input_boolean.switch_spotify_lights }}
+      entity_id: automation.spotify_album_art

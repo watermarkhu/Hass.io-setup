@@ -203,7 +203,7 @@
                                     "custom_fields": {
                                         "settings": {
                                             "card": {
-                                                "entity": "input_boolean.advanced_alarm",
+                                                "entity": "input_boolean.frontend_advanced_alarm",
                                                 "show_name": false,
                                                 "size": "50%",
                                                 "styles": {
@@ -225,7 +225,7 @@
                                                     "action": "call-service",
                                                     "service": "input_boolean.toggle",
                                                     "service_data": {
-                                                        "entity_id": "input_boolean.advanced_alarm"
+                                                        "entity_id": "input_boolean.frontend_advanced_alarm"
                                                     }
                                                 },
                                                 "type": "custom:button-card"
@@ -361,11 +361,11 @@
                                         "cards": [
                                             {
                                                 "entities": [
+                                                    "input_boolean.switch_morning_coffee",
                                                     "input_boolean.switch_autoalarm",
                                                     "input_boolean.switch_alarm_podcast",
                                                     "input_number.snooze_time",
-                                                    "input_select.wakeup_music",
-                                                    "input_boolean.switch_morning_coffee"
+                                                    "input_select.wakeup_music"
                                                 ],
                                                 "show_header_toggle": false,
                                                 "type": "entities"
@@ -375,7 +375,7 @@
                                     },
                                     "conditions": [
                                         {
-                                            "entity": "input_boolean.advanced_alarm",
+                                            "entity": "input_boolean.frontend_advanced_alarm",
                                             "state": "on"
                                         }
                                     ],
@@ -418,7 +418,7 @@
                                             },
                                             {
                                                 "data": {
-                                                    "entity_id": "input_boolean.advanced_music"
+                                                    "entity_id": "input_boolean.frontend_advanced_music"
                                                 },
                                                 "icon": "mdi:cog",
                                                 "id": "input_boolean.toggle",
@@ -437,13 +437,14 @@
                                         "entities": [
                                             "input_select.spotify_playlist",
                                             "input_select.morning_podcast",
-                                            "input_select.radio_station"
+                                            "input_select.radio_station",
+                                            "input_boolean.switch_spotify_lights"
                                         ],
                                         "type": "entities"
                                     },
                                     "conditions": [
                                         {
-                                            "entity": "input_boolean.advanced_music",
+                                            "entity": "input_boolean.frontend_advanced_music",
                                             "state": "on"
                                         }
                                     ],
@@ -763,7 +764,7 @@
                 {
                     "path": "test",
                     "title": "Test",
-                    "icon": "mdi:test-tube",
+                    "icon": "mdi:power-socket-eu",
                     "badges": [],
                     "cards": [
                         {
