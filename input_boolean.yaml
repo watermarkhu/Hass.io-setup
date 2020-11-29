@@ -22,7 +22,4 @@ switch_alarm_podcast:
   name: Play podcast after alarm
   icon: mdi:podcast
   initial: off
-switch_spotify_lights:
-  name: Sync Spotify lights
-  icon: mdi:traffic-light
-  initial: off
+  

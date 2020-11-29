@@ -61,6 +61,7 @@ pause_media:
     service: media_player.media_pause
     data:
       entity_id: media_player.bedroom_speaker
+
 alarm_toggle:
   alias: Toggle the alarm
   sequence:

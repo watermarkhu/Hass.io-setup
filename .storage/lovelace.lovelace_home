@@ -71,8 +71,8 @@
                                                     "type": "custom:button-card"
                                                 },
                                                 {
-                                                    "entity": "light.cabinet",
-                                                    "icon": "mdi:file-cabinet",
+                                                    "entity": "light.desk",
+                                                    "icon": "mdi:desk",
                                                     "styles": {
                                                         "card": [
                                                             {
@@ -84,8 +84,7 @@
                                                     "type": "custom:button-card"
                                                 },
                                                 {
-                                                    "entity": "light.couch",
-                                                    "icon": "mdi:sofa",
+                                                    "entity": "switch.desk_bot_light",
                                                     "styles": {
                                                         "card": [
                                                             {
@@ -102,8 +101,8 @@
                                         {
                                             "cards": [
                                                 {
-                                                    "entity": "light.desk",
-                                                    "icon": "mdi:desk",
+                                                    "entity": "light.couch",
+                                                    "icon": "mdi:sofa",
                                                     "styles": {
                                                         "card": [
                                                             {
@@ -130,6 +129,19 @@
                                                 {
                                                     "entity": "light.bed",
                                                     "icon": "mdi:bed",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "height": "80px"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "template": "light",
+                                                    "type": "custom:button-card"
+                                                },
+                                                {
+                                                    "entity": "light.cabinet",
+                                                    "icon": "mdi:file-cabinet",
                                                     "styles": {
                                                         "card": [
                                                             {
@@ -437,8 +449,7 @@
                                         "entities": [
                                             "input_select.spotify_playlist",
                                             "input_select.morning_podcast",
-                                            "input_select.radio_station",
-                                            "input_boolean.switch_spotify_lights"
+                                            "input_select.radio_station"
                                         ],
                                         "type": "entities"
                                     },
@@ -771,15 +782,18 @@
                             "type": "entities",
                             "entities": [
                                 {
-                                    "entity": "switch.desk_top_light"
-                                },
-                                {
-                                    "entity": "switch.desk_bot_grinder"
+                                    "entity": "switch.desk_top_mirror"
                                 },
                                 {
                                     "entity": "switch.desk_mid_coffee"
+                                },
+                                {
+                                    "entity": "switch.desk_bot_light"
                                 }
-                            ]
+                            ],
+                            "title": "Desk power socket",
+                            "state_color": true,
+                            "show_header_toggle": false
                         }
                     ]
                 }

@@ -42,22 +42,3 @@
   - data: {}
     service: homeassistant.restart
   mode: single
-- id: spotify_album_art
-  alias: Sync spotify lights
-  initial_state: false
-  trigger:
-    - platform: state
-      entity_id: media_player.spotify_mark_shui_hu
-  action:
-    - service: color_extractor.turn_on
-      data:
-        color_extract_url: '{{ states.media_player.spotify_mark_shui_hu.attributes.entity_picture }}'
-        entity_id: light.strip
-- id: enable_spotify_album_art
-  alias: Enables or disables syncing of spotify album art
-  trigger:
-    - platform: state
-      entity_id: input_boolean.switch_spotify_lights
-  action:
-    - service: automation.turn_{{ states.input_boolean.switch_spotify_lights }}
-      entity_id: automation.spotify_album_art
