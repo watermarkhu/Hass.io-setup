@@ -18,15 +18,13 @@ spotify_playlist:
 radio_station:
   name: 'Radio Station:'
   options:
+    - Radio 2
+    - 3FM
     - Radio 538
+    - SLAM! FM
     - Q-Music
     - Q-Music Non-Stop
-    - 3FM
-    - 100% NL
     - Veronica
-    - Sky Radio
-    - SLAM! FM
-    - Arrow Classic Rock
   icon: mdi:radio
 morning_podcast:
   name: 'Podcast:'
