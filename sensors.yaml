@@ -8,12 +8,6 @@
   sensors:
     alarm_time_short:
       value_template: "{{ state_attr('input_datetime.alarm_time', 'timestamp') | int | timestamp_custom('%H:%M', False) }}"
-      
-    alarm_sensor:
-      value_template: '{{ states("sensor.time") == states("sensor.alarm_time_short") }}'
-
-    alarm_m10_sensor:
-      value_template: '{{ states("sensor.time") == ((state_attr("input_datetime.alarm_time", "timestamp") - 600) | int | timestamp_custom("%H:%M", False)) }}'
 
     bedroom_speaker_spotify:
       value_template: >

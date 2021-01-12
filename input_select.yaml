@@ -1,6 +1,7 @@
 wakeup_music:
   name: 'Wake up to:'
   options:
+    - Lost in Japa
     - Spotify
     - Radio
     - Podcast
@@ -43,8 +44,8 @@ alarm_state:
     - Set
     - Activated
     - Snoozed
-button_cycler:
-  name: Button Scene cycler
+light_scene:
+  name: Bedroom lights scene
   options:
     - normal
     - yellow

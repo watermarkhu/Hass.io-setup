@@ -87,13 +87,6 @@ yeelight:
       name: cabinet
       model: bslamp1
       save_on_change: true
-  custom_effects:
-    - name: 'Sunrise'
-      flow_params:
-        count: 1
-        transitions:
-          - TemperatureTransition: [1700, 50, 1]
-          - TemperatureTransition: [3500, 600000, 100]
 
 # create light groups
 light:
@@ -132,8 +125,6 @@ spotcast:
   sp_dc: !secret spotify_sp_dc
   sp_key: !secret spotify_sp_key
 
-color_extractor:
-
 ##################################################################
 ##################################################################
 
@@ -141,15 +132,15 @@ color_extractor:
 
 ##################################################################
 ble_monitor:
-  rounding: True
+  rounding: true
   decimals: 2
   period: 60
-  log_spikes: False
-  use_median: False
-  active_scan: False
+  log_spikes: false
+  use_median: false
+  active_scan: false
   hci_interface: 0
-  batt_entities: False
-  report_unknown: False
+  batt_entities: false
+  report_unknown: false
 
 weather:
   - platform: buienradar
@@ -186,7 +177,7 @@ notify:
 google_assistant:
   project_id: !secret google_project_id
   service_account: !include service.json
-  report_state: false
+  report_state: true
   exposed_domains:
     - light
   entity_config:
@@ -208,20 +199,20 @@ google_assistant:
       expose: true
     script.normal_light:
       expose: true
-    input_boolean.switch_autoalarm:
+    input_select.light_scene:
       expose: true
-    input_boolean.switch_alarm_podcast:
+    input_select.alarm_state:
       expose: true
     switch.desk_top_mirror:
       expose: true
     switch.desk_mid_coffee:
       expose: true
-    switch.desk_bot_light:
+    media_player.spotify_mark_shui_hu:
       expose: true
 
 # Diagflog and intents for advanced communication via google assistant
 dialogflow:
-intent_script: !include intents.yaml
+  intent_script: !include intents.yaml
 
 # Text to speech
 tts:

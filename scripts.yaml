@@ -16,19 +16,26 @@ play_spotcast_playlist:
         "Wake Up Gently") %} spotify:playlist:37i9dQZF1DX7cZxYLqLUJl {% endif %}
 
         '
+  - service: media_player.media_next_track
+    data: {}
+    entity_id: media_player.bedroom_speaker
+  mode: single
+
 play_spotcast_podcast:
-  alias: Play a spotify podcast
+  alias: Play podcast
   sequence:
   - service: spotcast.start
     data:
-      entity_id: media_player.bedroom_speaker
       uri: '{% if is_state("input_select.morning_podcast", "NOS met het oog op morgen")
-        %} spotify:show:56DJTFqt8Vg1qfLJ1ibH7j {% elif is_state("input_select.morning_podcast",
-        "NRC vandaag") %} spotify:show:73vZPMVjxTqC02OYZdcCr7 {% elif is_state("input_select.morning_podcast",
+        %} spotify:show:56DJTFqt8Vg1qfLJ1ibH7j  {% elif is_state("input_select.morning_podcast",
+        "NRC vandaag") %} spotify:show:73vZPMVjxTqC02OYZdcCr7  {% elif is_state("input_select.morning_podcast",
         "VOX today explained") %} spotify:show:3pXx5SXzXwJxnf4A5pWN2A {% elif is_state("input_select.morning_podcast",
-        "TIMES the daily") %} spotify:show:3IM0lmZxpFAY7CwMuv9H4g {% endif %}
+        "TIMES the daily") %} spotify:show:3IM0lmZxpFAY7CwMuv9H4g   {% endif %}
 
         '
+    entity_id: media_player.bedroom_speaker
+  mode: single
+
 play_radio:
   alias: Play radio
   sequence:
@@ -49,6 +56,16 @@ play_radio:
 
         '
       media_content_type: audio/mp4
+
+play_lost_in_japan:
+  alias: Play Lost in Japan
+  sequence:
+    - service: media_player.play_media
+      data: 
+        entity_id: media_player.bedroom_speaker
+        media_content_id: '/local/audio/Shawn-Mendes-Lost-In-Japan.mp3'
+        media_content_type: "music"
+
 play_media:
   alias: Play media
   sequence:
@@ -61,7 +78,6 @@ pause_media:
     service: media_player.media_pause
     data:
       entity_id: media_player.bedroom_speaker
-
 alarm_toggle:
   alias: Toggle the alarm
   sequence:
@@ -83,6 +99,7 @@ set_alarm:
     data:
       title: Alarm set
       message: Your alarm is set at {{ states('input_datetime.alarm_time') }}.
+
 cancel_alarm:
   alias: Cancel the alarm
   sequence:
@@ -91,6 +108,7 @@ cancel_alarm:
       option: Not set
     service: input_select.select_option
   mode: single
+
 yellow_light:
   alias: Yellow light
   sequence:
@@ -133,6 +151,7 @@ yellow_light:
       brightness: 55
       color_temp: 520
       transition: 2
+
 evening_light:
   alias: Evening light
   sequence:
@@ -330,3 +349,5 @@ normal_light:
       entity_id: light.cabinet
       transition: 2
   mode: single
+
+

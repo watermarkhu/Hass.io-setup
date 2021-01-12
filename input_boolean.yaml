@@ -22,4 +22,7 @@ switch_alarm_podcast:
   name: Play podcast after alarm
   icon: mdi:podcast
   initial: off
-  
+switch_morning_coffee:
+  name: Enable coffee brew with alarm
+  icon: mdi:coffee
+  initial: off

@@ -84,7 +84,7 @@
                                                     "type": "custom:button-card"
                                                 },
                                                 {
-                                                    "entity": "switch.desk_bot_light",
+                                                    "entity": "switch.desk_top_mirror",
                                                     "styles": {
                                                         "card": [
                                                             {
@@ -788,12 +788,23 @@
                                     "entity": "switch.desk_mid_coffee"
                                 },
                                 {
-                                    "entity": "switch.desk_bot_light"
+                                    "entity": "switch.desk_bot_grinder"
                                 }
                             ],
                             "title": "Desk power socket",
                             "state_color": true,
                             "show_header_toggle": false
+                        },
+                        {
+                            "type": "entities",
+                            "entities": [
+                                {
+                                    "entity": "binary_sensor.tradfri_motion_sensor"
+                                },
+                                {
+                                    "entity": "sensor.tradfri_motion_sensor_power"
+                                }
+                            ]
                         }
                     ]
                 }

@@ -1,7 +1,3 @@
-HoeLangReistijd:
-  speech:
-    text: Ok, via Hassio vragen we nu met Dialogflow wat de reistijd is met het {{ Voertuig }}. Het alarm staat nu op {{ states("input_boolean.switch_alarm") }}.
-
 SetAlarmTime:
   speech:
     text: "Your alarm is set at {{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%H:%M', False) }}."
@@ -10,27 +6,9 @@ SetAlarmTime:
       entity_id: input_datetime.alarm_time
       data_template:
         time: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%H:%M:%S') }}"
-
-    # - service: input_number.set_value
-    #   entity_id: input_number.alarm_hours
-    #   data_template:
-    #     value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-H', False) }}"
-
-    # - service: input_number.set_value
-    #   entity_id: input_number.alarm_minutes
-    #   data_template:
-    #     value: "{{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%-M', False) }}"
     - service: script.turn_on
       data:
         entity_id: script.set_alarm
-    # - service: input_select.select_option
-    #   data:
-    #     entity_id: input_select.alarm_state
-    #     option: "Set"
-    # - service: notify.telegram
-    #   data_template:
-    #     title: Alarm set
-    #     message: "Your alarm is set at {{ strptime(time, '%Y-%m-%dT%H:%M:%S%z').strftime('%s') | int | timestamp_custom('%H:%M', False) }}."
 
 CancelAlarm:
   speech:
@@ -39,27 +17,9 @@ CancelAlarm:
     - service: script.turn_on
       data:
         entity_id: script.cancel_alarm
-    # - service: input_select.select_option
-    #   data:
-    #     entity_id: input_select.alarm_state
-    #     option: "Not set"
-    # - service: notify.telegram
-    #   data_template:
-    #     title: Alarm cancelled
-    #     message: "Your alarm at {{ states('sensor.alarm_time_sensor') }} is cancelled."
 
-
-PreviousPlayerSong:
-  speech:
-    text: "Ok"
+TransferSpotify:
   action:
-    - service: media_player.media_previous_track
-      data_template:
-        entity_id: media_player.{{ mediaplayer }}
-NextPlayerSong:
-  speech:
-    text: "Ok"
-  action:
-    - service: media_player.media_next_track
-      data_template:
-        entity_id: media_player.{{ mediaplayer }}
+    - service: spotcast.start
+      data:
+        device_name: HomeAssistant
