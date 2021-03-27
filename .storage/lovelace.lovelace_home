@@ -785,7 +785,7 @@
                                     "entity": "switch.desk_top_mirror"
                                 },
                                 {
-                                    "entity": "switch.desk_mid_coffee"
+                                    "entity": "switch.desk_mid"
                                 },
                                 {
                                     "entity": "switch.desk_bot_grinder"
