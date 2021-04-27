@@ -13,6 +13,8 @@ node-red/*
 appdaemon/*
 !appdaemon/apps/apps.yaml
 
+blueprints/*
+
 custom_components/
 deps/
 themes/

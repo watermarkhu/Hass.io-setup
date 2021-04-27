@@ -36,14 +36,16 @@ morning_podcast:
     - TIMES the daily
   icon: mdi:podcast
 alarm_state:
-  name: "Alarm current state"
+  name: 'Alarm current state'
   options:
     - Not set
     - Set
+    - Set from phone
+    - Set from speaker
     - Activated
     - Snoozed
 light_scene:
-  name: Bedroom lights scene
+  name: 'Bedroom lights scene'
   options:
     - normal
     - yellow
@@ -51,7 +53,7 @@ light_scene:
     - night
     - movie
 button_mode:
-  name: Button control mode
+  name: 'Button control mode'
   options:
     - light
     - media

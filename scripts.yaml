@@ -20,7 +20,6 @@ play_spotcast_playlist:
     data: {}
     entity_id: media_player.bedroom_speaker
   mode: single
-
 play_spotcast_podcast:
   alias: Play podcast
   sequence:
@@ -35,7 +34,6 @@ play_spotcast_podcast:
         '
     entity_id: media_player.bedroom_speaker
   mode: single
-
 play_radio:
   alias: Play radio
   sequence:
@@ -43,10 +41,10 @@ play_radio:
     data:
       entity_id: media_player.bedroom_speaker
       media_content_id: '{% if is_state("input_select.radio_station", "Radio 538")
-        %} https://21253.live.streamtheworld.com/RADIO538.mp3  
-        {% elif is_state("input_select.radio_station", "Radio 2") %} https://icecast.omroep.nl/radio2-sb-mp3
-        {% elif is_state("input_select.radio_station", "3FM") %} https://icecast.omroep.nl/3fm-sb-mp3
-        {% elif is_state("input_select.radio_station", "Q-Music") %} https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_96.mp3
+        %} https://21253.live.streamtheworld.com/RADIO538.mp3 {% elif is_state("input_select.radio_station",
+        "Radio 2") %} https://icecast.omroep.nl/radio2-sb-mp3 {% elif is_state("input_select.radio_station",
+        "3FM") %} https://icecast.omroep.nl/3fm-sb-mp3 {% elif is_state("input_select.radio_station",
+        "Q-Music") %} https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_live_96.mp3
         {% elif is_state("input_select.radio_station", "Q-Music Non-Stop") %} https://icecast-qmusicnl-cdp.triple-it.nl/Qmusic_nl_nonstop_96.mp3
         {% elif is_state("input_select.radio_station", "Veronica") %} https://20723.live.streamtheworld.com/VERONICA.mp3
         {% elif is_state("input_select.radio_station", "SLAM! FM") %} https://stream.slam.nl/slam_mp3
@@ -54,16 +52,14 @@ play_radio:
 
         '
       media_content_type: audio/mp4
-
 play_lost_in_japan:
   alias: Play Lost in Japan
   sequence:
-    - service: media_player.play_media
-      data: 
-        entity_id: media_player.bedroom_speaker
-        media_content_id: '/local/audio/Shawn-Mendes-Lost-In-Japan.mp3'
-        media_content_type: "music"
-
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.bedroom_speaker
+      media_content_id: /local/audio/Shawn-Mendes-Lost-In-Japan.mp3
+      media_content_type: music
 play_media:
   alias: Play media
   sequence:
@@ -79,13 +75,29 @@ pause_media:
 alarm_toggle:
   alias: Toggle the alarm
   sequence:
-  - service: input_select.select_option
-    data:
-      entity_id: input_select.alarm_state
-      option: '{% if is_state("input_select.alarm_state", "Not set") %} Set  {% elif
-        is_state("input_select.alarm_state", "Set") %} Not set  {% endif %}
-
-        '
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.alarm_state
+        state: Not set
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.alarm_state
+        data:
+          option: Set
+    - conditions:
+      - condition: state
+        entity_id: input_select.alarm_state
+        state: Set
+      sequence:
+      - service: input_select.select_option
+        target:
+          entity_id: input_select.alarm_state
+        data:
+          option: Not set
+    default: []
+  mode: single
 set_alarm:
   alias: Set the alarm
   sequence:
@@ -97,7 +109,6 @@ set_alarm:
     data:
       title: Alarm set
       message: Your alarm is set at {{ states('input_datetime.alarm_time') }}.
-
 cancel_alarm:
   alias: Cancel the alarm
   sequence:
@@ -106,7 +117,6 @@ cancel_alarm:
       option: Not set
     service: input_select.select_option
   mode: single
-
 yellow_light:
   alias: Yellow light
   sequence:
@@ -149,7 +159,6 @@ yellow_light:
       brightness: 55
       color_temp: 520
       transition: 2
-
 evening_light:
   alias: Evening light
   sequence:
@@ -347,5 +356,3 @@ normal_light:
       entity_id: light.cabinet
       transition: 2
   mode: single
-
-

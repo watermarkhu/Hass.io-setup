@@ -84,7 +84,8 @@
                                                     "type": "custom:button-card"
                                                 },
                                                 {
-                                                    "entity": "switch.desk_top_mirror",
+                                                    "entity": "light.couch",
+                                                    "icon": "mdi:sofa",
                                                     "styles": {
                                                         "card": [
                                                             {
@@ -100,19 +101,6 @@
                                         },
                                         {
                                             "cards": [
-                                                {
-                                                    "entity": "light.couch",
-                                                    "icon": "mdi:sofa",
-                                                    "styles": {
-                                                        "card": [
-                                                            {
-                                                                "height": "80px"
-                                                            }
-                                                        ]
-                                                    },
-                                                    "template": "light",
-                                                    "type": "custom:button-card"
-                                                },
                                                 {
                                                     "entity": "light.door",
                                                     "icon": "mdi:door",
@@ -278,8 +266,32 @@
                                             "value": "Not set"
                                         },
                                         {
+                                            "icon": "mdi:phone",
+                                            "label": "[[[\n    return `<span>Phone alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. </span></span>`;\n]]]\n",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Set from phone"
+                                        },
+                                        {
+                                            "icon": "mdi:google-home",
+                                            "label": "[[[\n    return `<span>Speaker alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. </span></span>`;\n]]]\n",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--state-icon-color)"
+                                                    }
+                                                ]
+                                            },
+                                            "value": "Set from speaker"
+                                        },
+                                        {
                                             "icon": "mdi:alarm-check",
-                                            "label": "[[[\n  return `<span>Alarm set for <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. Click to disable</span></span>`\n]]]\n",
+                                            "label": "[[[\n   return `<span>Alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. Click to disable</span></span>`;\n]]]\n",
                                             "styles": {
                                                 "card": [
                                                     {
@@ -373,7 +385,6 @@
                                         "cards": [
                                             {
                                                 "entities": [
-                                                    "input_boolean.switch_morning_coffee",
                                                     "input_boolean.switch_autoalarm",
                                                     "input_boolean.switch_alarm_podcast",
                                                     "input_number.snooze_time",
