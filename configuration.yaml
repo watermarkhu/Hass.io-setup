@@ -124,6 +124,11 @@ spotify:
 spotcast:
   sp_dc: !secret spotify_sp_dc
   sp_key: !secret spotify_sp_key
+  
+logger:
+  default: info
+  logs:
+    custom_components.spotcast: debug
 
 ##################################################################
 ##################################################################
@@ -132,7 +137,6 @@ spotcast:
 
 ##################################################################
 ble_monitor:
-  rounding: true
   decimals: 2
   period: 60
   log_spikes: false
@@ -165,6 +169,11 @@ notify:
   - name: telegram
     platform: telegram
     chat_id: !secret telegram_chat_id
+  - platform: html5
+    name: browser
+    vapid_pub_key: !secret vapid_pub_key
+    vapid_prv_key: !secret vapid_prv_key
+    vapid_email: !secret vapid_email
 
 ##################################################################
 ##################################################################

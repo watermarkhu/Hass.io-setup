@@ -3,7 +3,7 @@ play_spotcast_playlist:
   sequence:
   - service: spotcast.start
     data:
-      entity_id: media_player.bedroom_speaker
+      entity_id: media_player.google_home
       random_song: true
       shuffle: true
       uri: '{% if is_state("input_select.spotify_playlist", "Morning Motivation")
@@ -18,13 +18,15 @@ play_spotcast_playlist:
         '
   - service: media_player.media_next_track
     data: {}
-    entity_id: media_player.bedroom_speaker
+    target:
+      entity_id: media_player.google_home
   mode: single
 play_spotcast_podcast:
   alias: Play podcast
   sequence:
   - service: spotcast.start
     data:
+      entity_id: media_player.google_home
       uri: '{% if is_state("input_select.morning_podcast", "NOS met het oog op morgen")
         %} spotify:show:56DJTFqt8Vg1qfLJ1ibH7j  {% elif is_state("input_select.morning_podcast",
         "NRC vandaag") %} spotify:show:73vZPMVjxTqC02OYZdcCr7  {% elif is_state("input_select.morning_podcast",
@@ -32,14 +34,13 @@ play_spotcast_podcast:
         "TIMES the daily") %} spotify:show:3IM0lmZxpFAY7CwMuv9H4g   {% endif %}
 
         '
-    entity_id: media_player.bedroom_speaker
   mode: single
 play_radio:
   alias: Play radio
   sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.bedroom_speaker
+      entity_id: media_player.google_home
       media_content_id: '{% if is_state("input_select.radio_station", "Radio 538")
         %} https://21253.live.streamtheworld.com/RADIO538.mp3 {% elif is_state("input_select.radio_station",
         "Radio 2") %} https://icecast.omroep.nl/radio2-sb-mp3 {% elif is_state("input_select.radio_station",
@@ -52,26 +53,31 @@ play_radio:
 
         '
       media_content_type: audio/mp4
+  mode: single
 play_lost_in_japan:
   alias: Play Lost in Japan
   sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.bedroom_speaker
       media_content_id: /local/audio/Shawn-Mendes-Lost-In-Japan.mp3
       media_content_type: music
+    target:
+      entity_id: media_player.google_home
+  mode: single
 play_media:
   alias: Play media
   sequence:
-    service: media_player.media_play
-    data:
-      entity_id: media_player.bedroom_speaker
+  - service: media_player.media_play
+    data: {}
+    target:
+      entity_id: media_player.google_home
+  mode: single
 pause_media:
   alias: Pause media
   sequence:
     service: media_player.media_pause
     data:
-      entity_id: media_player.bedroom_speaker
+      entity_id: media_player.google_home
 alarm_toggle:
   alias: Toggle the alarm
   sequence:

@@ -2,10 +2,10 @@
   alias: Set Google Home Slider Position
   trigger:
   - platform: state
-    entity_id: media_player.bedroom_speaker
+    entity_id: media_player.google_home
   condition:
   - condition: template
-    value_template: '{{ not is_state_attr("media_player.bedroom_speaker", "volume_level",
+    value_template: '{{ not is_state_attr("media_player.google_home", "volume_level",
       states("input_number.home_volume") | int / 100) }}'
   action:
   - service: input_number.set_value
@@ -19,11 +19,11 @@
     entity_id: input_number.home_volume
   condition:
   - condition: template
-    value_template: '{{ not is_state_attr("media_player.bedroom_speaker", "volume_level",
+    value_template: '{{ not is_state_attr("media_player.google_home", "volume_level",
       states("input_number.home_volume") | int / 100) }}'
   action:
   - service: media_player.volume_set
-    entity_id: media_player.bedroom_speaker
+    entity_id: media_player.google_home
     data:
       volume_level: '{{ states("input_number.home_volume") | int / 100 }}'
 - id: '1598304909639'
@@ -42,19 +42,6 @@
   - data: {}
     service: homeassistant.restart
   mode: single
-- id: '1607945958210'
-  alias: Auto mirror light
-  description: Automatically turns on mirror light onmotion
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.tradfri_motion_sensor
-  condition: []
-  action:
-  - service: "{% if trigger.to_state.state == \"on\" %}\n  light.turn_on\n{% else\
-      \ %}\n  light.turn_off\n{% endif %}\n"
-    data:
-      entity_id: switch.desk_top_mirror
-  mode: single
 - id: '1610459546154'
   alias: Light scene selector
   description: Auto update light scene from input select
@@ -66,4 +53,19 @@
   - service: script.turn_on
     data:
       entity_id: script.{{ trigger.to_state.state }}_light
+  mode: single
+- id: '1620909826978'
+  alias: Dark/Light theme
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: state
+    entity_id: sun.sun
+  condition: []
+  action:
+  - service: frontend.set_theme
+    data_template:
+      name: "{% if is_state('sun.sun', 'above_horizon') %}\n  Google Light Theme\n\
+        {% else %}\n  Github Dark Theme\n{% endif %}\n"
   mode: single

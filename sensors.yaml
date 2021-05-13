@@ -9,9 +9,9 @@
     alarm_time_short:
       value_template: "{{ state_attr('input_datetime.alarm_time', 'timestamp') | int | timestamp_custom('%H:%M', False) }}"
 
-    bedroom_speaker_spotify:
+    google_home_spotify:
       value_template: >
-        {% if state_attr("media_player.bedroom_speaker", "app_name") == "Spotify" %} spotify
+        {% if state_attr("media_player.google_home", "app_name") == "Spotify" %} spotify
         {% else %} not_spotify
         {% endif %}
 
@@ -27,3 +27,6 @@
       arg: /
     - type: memory_use_percent
     - type: load_5m
+    
+
+- platform: spotcast
