@@ -1,7 +1,7 @@
 wakeup_music:
   name: 'Wake up to:'
   options:
-    - Lost in Japa
+    - Lost in Japan
     - Spotify
     - Radio
     - Podcast
@@ -15,7 +15,7 @@ spotify_playlist:
     - Wake Up Happy
     - Wake Up and Smell the Coffee
     - Wake Up Gently
-  icon: mdi:spotify
+  icon: mdi:playlist-music
 radio_station:
   name: 'Radio Station:'
   options:
@@ -35,6 +35,12 @@ morning_podcast:
     - VOX today explained
     - TIMES the daily
   icon: mdi:podcast
+spotify_player:
+  name: 'spotify player'
+  options:
+    - Bedroom speaker
+    - HomeAssistant
+  icon: mdi:spotify
 alarm_state:
   name: 'Alarm current state'
   options:

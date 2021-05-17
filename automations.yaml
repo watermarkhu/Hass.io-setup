@@ -69,3 +69,21 @@
       name: "{% if is_state('sun.sun', 'above_horizon') %}\n  Google Light Theme\n\
         {% else %}\n  Github Dark Theme\n{% endif %}\n"
   mode: single
+- id: '1621242296533'
+  alias: Transfer spotify playback
+  description: Transfers the spotify playback according to the selected value in input_select.spotify_player
+  trigger:
+  - platform: state
+    entity_id: input_select.spotify_player
+  condition:
+  - condition: state
+    entity_id: media_player.spotify_mark_shui_hu
+    state: playing
+  action:
+  - service: spotcast.start
+    data:
+      entity_id: "{% if is_state(\"input_select.spotify_player\", \"Bedroom speaker\"\
+        ) %}\n  media_player.google_home\n{% endif %}\n"
+      spotify_device_id: "{% if is_state(\"input_select.spotify_player\", \"HomeAssistant\"\
+        ) %}\n  4444925cf7cff74f53e771e283a2b8f94403a16f\n{% endif %}\n"
+  mode: single

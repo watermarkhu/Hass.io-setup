@@ -2,10 +2,6 @@ frontend_advanced_alarm:
   name: Advanced alarm settings
   initial: off
   icon: mdi:cog
-frontend_advanced_music:
-  name: Advanced music settings
-  initial: off
-  icon: mdi:cog
 automation_phone_alarm:
   name: Current alarm set from phone
   icon: mdi:cellphone-cog

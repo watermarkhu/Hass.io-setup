@@ -3,7 +3,10 @@ play_spotcast_playlist:
   sequence:
   - service: spotcast.start
     data:
-      entity_id: media_player.google_home
+      entity_id: "{% if is_state(\"input_select.spotify_player\", \"Bedroom speaker\"\
+        ) %}\n  media_player.google_home\n{% endif %}\n"
+      spotify_device_id: "{% if is_state(\"input_select.spotify_player\", \"HomeAssistant\"\
+        ) %}\n  4444925cf7cff74f53e771e283a2b8f94403a16f\n{% endif %}\n"
       random_song: true
       shuffle: true
       uri: '{% if is_state("input_select.spotify_playlist", "Morning Motivation")
@@ -16,17 +19,16 @@ play_spotcast_playlist:
         "Wake Up Gently") %} spotify:playlist:37i9dQZF1DX7cZxYLqLUJl {% endif %}
 
         '
-  - service: media_player.media_next_track
-    data: {}
-    target:
-      entity_id: media_player.google_home
   mode: single
 play_spotcast_podcast:
-  alias: Play podcast
+  alias: Play a spotify podcast
   sequence:
   - service: spotcast.start
     data:
-      entity_id: media_player.google_home
+      entity_id: "{% if is_state(\"input_select.spotify_player\", \"Bedroom speaker\"\
+        ) %}\n  media_player.google_home\n{% endif %}\n"
+      spotify_device_id: "{% if is_state(\"input_select.spotify_player\", \"HomeAssistant\"\
+        ) %}\n  4444925cf7cff74f53e771e283a2b8f94403a16f\n{% endif %}\n"
       uri: '{% if is_state("input_select.morning_podcast", "NOS met het oog op morgen")
         %} spotify:show:56DJTFqt8Vg1qfLJ1ibH7j  {% elif is_state("input_select.morning_podcast",
         "NRC vandaag") %} spotify:show:73vZPMVjxTqC02OYZdcCr7  {% elif is_state("input_select.morning_podcast",
@@ -34,6 +36,7 @@ play_spotcast_podcast:
         "TIMES the daily") %} spotify:show:3IM0lmZxpFAY7CwMuv9H4g   {% endif %}
 
         '
+      ignore_fully_played: true
   mode: single
 play_radio:
   alias: Play radio

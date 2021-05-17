@@ -41,6 +41,7 @@
                         {
                             "cards": [
                                 {
+                                    "entity": "light.bedroom_lights",
                                     "colors": [
                                         {
                                             "icon_color": "linear-gradient(15deg, #E29D62, #FFEB8A)",
@@ -91,7 +92,7 @@
                                             "type": "call-service"
                                         }
                                     ],
-                                    "justify": "center",
+                                    "justify": "around",
                                     "size": 44,
                                     "type": "custom:rgb-light-card"
                                 },
@@ -187,6 +188,15 @@
                                         }
                                     ],
                                     "type": "vertical-stack"
+                                },
+                                {
+                                    "type": "custom:paper-buttons-row",
+                                    "buttons": [
+                                        {
+                                            "entity": "light.bedroom_light",
+                                            "layout": "icon"
+                                        }
+                                    ]
                                 }
                             ],
                             "type": "vertical-stack"
@@ -403,85 +413,111 @@
                             "type": "custom:vertical-stack-in-card"
                         },
                         {
+                            "type": "vertical-stack",
                             "cards": [
                                 {
-                                    "artwork": "material",
-                                    "entity": "media_player.google_home",
-                                    "icon": "mdi:google-home",
-                                    "name": "Home Mini",
-                                    "shortcuts": {
-                                        "buttons": [
-                                            {
-                                                "data": {
-                                                    "entity_id": "media_player.google_home"
-                                                },
-                                                "icon": "mdi:spotify",
-                                                "id": "spotcast.start",
-                                                "type": "service"
-                                            },
-                                            {
-                                                "icon": "mdi:playlist-music",
-                                                "id": "script.play_spotcast_playlist",
-                                                "type": "script"
-                                            },
-                                            {
-                                                "icon": "mdi:podcast",
-                                                "id": "script.play_spotcast_podcast",
-                                                "type": "script"
-                                            },
-                                            {
-                                                "icon": "mdi:radio",
-                                                "id": "script.play_radio",
-                                                "type": "script"
-                                            },
-                                            {
-                                                "data": {
-                                                    "entity_id": "input_boolean.frontend_advanced_music"
-                                                },
-                                                "icon": "mdi:cog",
-                                                "id": "input_boolean.toggle",
-                                                "type": "service"
-                                            }
-                                        ],
-                                        "columns": 5
-                                    },
-                                    "tts": {
-                                        "platform": "google_translate"
-                                    },
-                                    "type": "custom:mini-media-player"
-                                },
-                                {
                                     "card": {
-                                        "entities": [
-                                            "input_select.spotify_playlist",
-                                            "input_select.morning_podcast",
-                                            "input_select.radio_station"
-                                        ],
-                                        "type": "entities"
+                                        "type": "media-control",
+                                        "entity": "media_player.spotify_mark_shui_hu"
                                     },
                                     "conditions": [
                                         {
-                                            "entity": "input_boolean.frontend_advanced_music",
-                                            "state": "on"
+                                            "entity": "sensor.google_home_spotify",
+                                            "state_not": "spotify"
                                         }
                                     ],
                                     "type": "conditional"
-                                }
-                            ],
-                            "type": "custom:vertical-stack-in-card"
-                        },
-                        {
-                            "card": {
-                                "type": "media-control",
-                                "entity": "media_player.spotify_mark_shui_hu"
-                            },
-                            "conditions": [
+                                },
                                 {
-                                    "entity": "sensor.google_home_spotify",
-                                    "state_not": "spotify"
+                                    "entity": "media_player.google_home",
+                                    "icon": "mdi:google-home",
+                                    "name": "Home Mini",
+                                    "tts": {
+                                        "platform": "google_translate"
+                                    },
+                                    "type": "custom:mini-media-player",
+                                    "group": false,
+                                    "volume_stateless": false,
+                                    "source": "full",
+                                    "artwork": "material"
+                                },
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "entity": "input_select.spotify_player",
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "height": "60px"
+                                                    }
+                                                ]
+                                            },
+                                            "show_name": false,
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "input_select.select_next",
+                                                "service_data": {
+                                                    "entity_id": "input_select.spotify_player"
+                                                }
+                                            },
+                                            "hold_action": {
+                                                "action": "more-info"
+                                            },
+                                            "icon": "[[[\n  if (entity.state == \"HomeAssistant\")\n    return \"mdi:speaker\";\n  else if (entity.state == \"Bedroom speaker\")\n    return \"mdi:google-home\";\n  else\n    return \"mdi:google-home\";\n]]]\n",
+                                            "type": "custom:button-card"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "show_name": false,
+                                            "icon": "mdi:playlist-music",
+                                            "entity": "input_select.spotify_playlist",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "script.turn_on",
+                                                "service_data": {
+                                                    "entity_id": "script.play_spotcast_playlist"
+                                                }
+                                            },
+                                            "hold_action": {
+                                                "action": "more-info"
+                                            }
+                                        },
+                                        {
+                                            "type": "button",
+                                            "show_name": false,
+                                            "icon": "mdi:podcast",
+                                            "entity": "input_select.morning_podcast",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "script.turn_on",
+                                                "service_data": {
+                                                    "entity_id": "script.play_spotcast_podcast"
+                                                }
+                                            },
+                                            "hold_action": {
+                                                "action": "more-info"
+                                            }
+                                        },
+                                        {
+                                            "type": "button",
+                                            "show_name": false,
+                                            "icon": "mdi:radio",
+                                            "entity": "input_select.radio_station",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "script.turn_on",
+                                                "service_data": {
+                                                    "entity_id": "script.play_radio"
+                                                }
+                                            },
+                                            "hold_action": {
+                                                "action": "more-info"
+                                            }
+                                        }
+                                    ]
                                 }
-                            ],
-                            "type": "conditional"
+                            ]
                         },
                         {
                             "type": "entities",
