@@ -22,11 +22,25 @@
                 },
                 "light": {
                     "color": "auto",
-                    "color_type": "card",
+                    "color_type": "icon",
+                    "tap_action": {
+                        "action": "toggle"
+                    },
                     "hold_action": {
                         "action": "more-info"
                     },
-                    "show_name": false
+                    "show_name": false,
+                    "show_state": false,
+                    "styles": {
+                        "card": [
+                            {
+                                "height": "75px"
+                            },
+                            {
+                                "box-shadow": "[[[\n  if (entity.state == 'on') return '1px 1px 5px 0px var(--button-card-light-color)';\n  else return 'var(--ha-card-box-shadow)';\n]]]\n"
+                            }
+                        ]
+                    }
                 }
             },
             "swipe_nav": {
@@ -41,165 +55,144 @@
                         {
                             "cards": [
                                 {
-                                    "entity": "light.bedroom_lights",
-                                    "colors": [
-                                        {
-                                            "icon_color": "linear-gradient(15deg, #E29D62, #FFEB8A)",
-                                            "service": "script.turn_on",
-                                            "service_data": {
-                                                "entity_id": "script.normal_light"
-                                            },
-                                            "type": "call-service"
-                                        },
-                                        {
-                                            "icon_color": "linear-gradient(15deg, #984F01, #FF880D, #FFEB8A)",
-                                            "service": "script.turn_on",
-                                            "service_data": {
-                                                "entity_id": "script.yellow_light"
-                                            },
-                                            "type": "call-service"
-                                        },
-                                        {
-                                            "icon_color": "linear-gradient(15deg, #D811FF, #1959FF)",
-                                            "service": "script.turn_on",
-                                            "service_data": {
-                                                "entity_id": "script.evening_light"
-                                            },
-                                            "type": "call-service"
-                                        },
-                                        {
-                                            "icon_color": "linear-gradient(15deg, #980A00, #642398, #043A98)",
-                                            "service": "script.turn_on",
-                                            "service_data": {
-                                                "entity_id": "script.night_light"
-                                            },
-                                            "type": "call-service"
-                                        },
-                                        {
-                                            "icon_color": "linear-gradient(15deg, #000000, #5E007E)",
-                                            "service": "script.turn_on",
-                                            "service_data": {
-                                                "entity_id": "script.movie_light"
-                                            },
-                                            "type": "call-service"
-                                        },
-                                        {
-                                            "icon_color": "black",
-                                            "service": "light.turn_off",
-                                            "service_data": {
-                                                "entity_id": "light.bedroom_lights"
-                                            },
-                                            "type": "call-service"
-                                        }
-                                    ],
-                                    "justify": "around",
-                                    "size": 44,
-                                    "type": "custom:rgb-light-card"
-                                },
-                                {
+                                    "type": "horizontal-stack",
                                     "cards": [
                                         {
-                                            "cards": [
-                                                {
-                                                    "entity": "light.strip",
-                                                    "icon": "mdi:led-strip-variant",
-                                                    "styles": {
-                                                        "card": [
-                                                            {
-                                                                "height": "80px"
-                                                            }
-                                                        ]
-                                                    },
-                                                    "template": "light",
-                                                    "type": "custom:button-card"
-                                                },
-                                                {
-                                                    "entity": "light.desk",
-                                                    "icon": "mdi:desk",
-                                                    "styles": {
-                                                        "card": [
-                                                            {
-                                                                "height": "80px"
-                                                            }
-                                                        ]
-                                                    },
-                                                    "template": "light",
-                                                    "type": "custom:button-card"
-                                                },
-                                                {
-                                                    "entity": "light.couch",
-                                                    "icon": "mdi:sofa",
-                                                    "styles": {
-                                                        "card": [
-                                                            {
-                                                                "height": "80px"
-                                                            }
-                                                        ]
-                                                    },
-                                                    "template": "light",
-                                                    "type": "custom:button-card"
-                                                }
-                                            ],
-                                            "type": "horizontal-stack"
+                                            "type": "custom:button-card",
+                                            "template": "light",
+                                            "entity": "light.strip"
                                         },
                                         {
-                                            "cards": [
-                                                {
-                                                    "entity": "light.door",
-                                                    "icon": "mdi:door",
-                                                    "styles": {
-                                                        "card": [
-                                                            {
-                                                                "height": "80px"
-                                                            }
-                                                        ]
-                                                    },
-                                                    "template": "light",
-                                                    "type": "custom:button-card"
-                                                },
-                                                {
-                                                    "entity": "light.bed",
-                                                    "icon": "mdi:bed",
-                                                    "styles": {
-                                                        "card": [
-                                                            {
-                                                                "height": "80px"
-                                                            }
-                                                        ]
-                                                    },
-                                                    "template": "light",
-                                                    "type": "custom:button-card"
-                                                },
-                                                {
-                                                    "entity": "light.cabinet",
-                                                    "icon": "mdi:file-cabinet",
-                                                    "styles": {
-                                                        "card": [
-                                                            {
-                                                                "height": "80px"
-                                                            }
-                                                        ]
-                                                    },
-                                                    "template": "light",
-                                                    "type": "custom:button-card"
-                                                }
-                                            ],
-                                            "type": "horizontal-stack"
+                                            "type": "custom:button-card",
+                                            "template": "light",
+                                            "entity": "light.desk"
+                                        },
+                                        {
+                                            "type": "custom:button-card",
+                                            "template": "light",
+                                            "entity": "light.couch"
+                                        },
+                                        {
+                                            "type": "custom:button-card",
+                                            "template": "light",
+                                            "entity": "light.door"
+                                        },
+                                        {
+                                            "type": "custom:button-card",
+                                            "template": "light",
+                                            "entity": "light.bed"
+                                        },
+                                        {
+                                            "type": "custom:button-card",
+                                            "template": "light",
+                                            "entity": "light.cabinet"
                                         }
-                                    ],
-                                    "type": "vertical-stack"
+                                    ]
                                 },
                                 {
-                                    "type": "custom:paper-buttons-row",
-                                    "buttons": [
+                                    "type": "horizontal-stack",
+                                    "cards": [
                                         {
-                                            "entity": "light.bedroom_light",
-                                            "layout": "icon"
+                                            "entity": "light.bedroom_lights",
+                                            "colors": [
+                                                {
+                                                    "icon_color": "linear-gradient(15deg, #E29D62, #FFEB8A)",
+                                                    "service": "script.turn_on",
+                                                    "service_data": {
+                                                        "entity_id": "script.normal_light"
+                                                    },
+                                                    "type": "call-service"
+                                                }
+                                            ],
+                                            "justify": "center",
+                                            "size": 44,
+                                            "type": "custom:rgb-light-card"
+                                        },
+                                        {
+                                            "entity": "light.bedroom_lights",
+                                            "colors": [
+                                                {
+                                                    "icon_color": "linear-gradient(15deg, #984F01, #FF880D, #FFEB8A)",
+                                                    "service": "script.turn_on",
+                                                    "service_data": {
+                                                        "entity_id": "script.yellow_light"
+                                                    },
+                                                    "type": "call-service"
+                                                }
+                                            ],
+                                            "justify": "center",
+                                            "size": 44,
+                                            "type": "custom:rgb-light-card"
+                                        },
+                                        {
+                                            "entity": "light.bedroom_lights",
+                                            "colors": [
+                                                {
+                                                    "icon_color": "linear-gradient(15deg, #D811FF, #1959FF)",
+                                                    "service": "script.turn_on",
+                                                    "service_data": {
+                                                        "entity_id": "script.evening_light"
+                                                    },
+                                                    "type": "call-service"
+                                                }
+                                            ],
+                                            "justify": "center",
+                                            "size": 44,
+                                            "type": "custom:rgb-light-card"
+                                        },
+                                        {
+                                            "entity": "light.bedroom_lights",
+                                            "colors": [
+                                                {
+                                                    "icon_color": "linear-gradient(15deg, #980A00, #642398, #043A98)",
+                                                    "service": "script.turn_on",
+                                                    "service_data": {
+                                                        "entity_id": "script.night_light"
+                                                    },
+                                                    "type": "call-service"
+                                                }
+                                            ],
+                                            "justify": "center",
+                                            "size": 44,
+                                            "type": "custom:rgb-light-card"
+                                        },
+                                        {
+                                            "entity": "light.bedroom_lights",
+                                            "colors": [
+                                                {
+                                                    "icon_color": "linear-gradient(15deg, #000000, #5E007E)",
+                                                    "service": "script.turn_on",
+                                                    "service_data": {
+                                                        "entity_id": "script.movie_light"
+                                                    },
+                                                    "type": "call-service"
+                                                }
+                                            ],
+                                            "justify": "center",
+                                            "size": 44,
+                                            "type": "custom:rgb-light-card"
+                                        },
+                                        {
+                                            "entity": "light.bedroom_lights",
+                                            "colors": [
+                                                {
+                                                    "icon_color": "linear-gradient(15deg, #000000, #303030)",
+                                                    "service": "light.turn_off",
+                                                    "service_data": {
+                                                        "entity_id": "light.bedroom_lights"
+                                                    },
+                                                    "type": "call-service"
+                                                }
+                                            ],
+                                            "justify": "center",
+                                            "size": 44,
+                                            "type": "custom:rgb-light-card"
                                         }
                                     ]
                                 }
                             ],
-                            "type": "vertical-stack"
+                            "type": "vertical-stack",
+                            "title": "Lights"
                         },
                         {
                             "cards": [
@@ -210,7 +203,8 @@
                                             "card": {
                                                 "entity": "input_boolean.frontend_advanced_alarm",
                                                 "show_name": false,
-                                                "size": "50%",
+                                                "size": "40%",
+                                                "icon": "mdi:cog-outline",
                                                 "styles": {
                                                     "card": [
                                                         {
@@ -296,7 +290,7 @@
                                         },
                                         {
                                             "icon": "mdi:alarm-check",
-                                            "label": "[[[\n   return `<span>Alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. Click to disable</span></span>`;\n]]]\n",
+                                            "label": "[[[\n   return `<span>Alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}</span></span>`;\n]]]\n",
                                             "styles": {
                                                 "card": [
                                                     {
@@ -308,7 +302,7 @@
                                         },
                                         {
                                             "icon": "mdi:alarm-bell",
-                                            "label": "Hold to snooze, double-click to dismiss alarm",
+                                            "label": "Hold to snooze, double-click to dismiss",
                                             "styles": {
                                                 "card": [
                                                     {
@@ -320,7 +314,7 @@
                                         },
                                         {
                                             "icon": "mdi:alarm-snooze",
-                                            "label": "Double click to dismiss alarm",
+                                            "label": "Double click to dismiss",
                                             "styles": {
                                                 "card": [
                                                     {
@@ -334,15 +328,18 @@
                                     "styles": {
                                         "card": [
                                             {
-                                                "height": "150px"
+                                                "height": "75px"
+                                            },
+                                            {
+                                                "box-shadow": "var(--ha-card-box-shadow)"
                                             }
                                         ],
                                         "grid": [
                                             {
-                                                "grid-template-areas": "\". i settings\" \". l settings\""
+                                                "grid-template-areas": "\"i l settings\""
                                             },
                                             {
-                                                "grid-template-columns": "1fr 6fr 1fr"
+                                                "grid-template-columns": "75px auto 75px"
                                             }
                                         ],
                                         "name": [
@@ -369,13 +366,19 @@
                                         "hour_mode": 24,
                                         "hour_step": 1,
                                         "layout": {
-                                            "align_controls": "center",
-                                            "name": "header"
+                                            "embedded": false,
+                                            "name": "header",
+                                            "align_controls": "center"
                                         },
                                         "link_values": true,
                                         "minute_step": 5,
                                         "name": "",
-                                        "type": "custom:time-picker-card"
+                                        "type": "custom:time-picker-card",
+                                        "second_step": 5,
+                                        "view_layout": {
+                                            "embedded": false,
+                                            "name": "header"
+                                        }
                                     },
                                     "conditions": [
                                         {
@@ -410,10 +413,12 @@
                                     "type": "conditional"
                                 }
                             ],
-                            "type": "custom:vertical-stack-in-card"
+                            "type": "vertical-stack",
+                            "title": "Alarm"
                         },
                         {
                             "type": "vertical-stack",
+                            "title": "Music",
                             "cards": [
                                 {
                                     "card": {
@@ -516,17 +521,6 @@
                                             }
                                         }
                                     ]
-                                }
-                            ]
-                        },
-                        {
-                            "type": "entities",
-                            "entities": [
-                                {
-                                    "entity": "person.mark"
-                                },
-                                {
-                                    "entity": "person.yvon"
                                 }
                             ]
                         }

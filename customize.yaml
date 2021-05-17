@@ -1,2 +1,14 @@
 person.mark:
   entity_picture: /local/pictures/mark.jpg
+light.strip:
+  icon: mdi:led-strip-variant
+light.desk:
+  icon: mdi:desk
+light.couch:
+  icon: mdi:sofa
+light.cabinet:
+  icon: mdi:file-cabinet
+light.bed:
+  icon: mdi:bed
+light.door:
+  icon: mdi:door
