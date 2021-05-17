@@ -1,6 +1,7 @@
 .HA_VERSION
 .google.token
 service.json
+html5_push_registrations.conf
 
 .cloud/
 .storage/*
@@ -9,9 +10,6 @@ service.json
 node-red/*
 !node-red/flows.json
 !node-red/settings.js
-
-appdaemon/*
-!appdaemon/apps/apps.yaml
 
 blueprints/*
 
@@ -22,8 +20,6 @@ tts/
 www/
 image/
 __pycache__/
-
-pyscript/eetlijstbot.py
 
 home-assistant.log
 home-assistant_v2.db
