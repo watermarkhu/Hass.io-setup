@@ -11,7 +11,7 @@ homeassistant:
       name: Authenticator app
     - type: notify
       include:
-        - mobile_app_oneplus_a6003
+        - mobile_app_oneplus_6
       message: 'Your authentication code is {}'
   customize: !include customize.yaml
 
@@ -124,11 +124,18 @@ spotify:
 spotcast:
   sp_dc: !secret spotify_sp_dc
   sp_key: !secret spotify_sp_key
-  
-logger:
-  default: info
-  logs:
-    custom_components.spotcast: debug
+
+media_player:
+  - platform: vlc_telnet
+    name: VLC
+    host: core-vlc
+    port: 4212
+    password: Aishaiqueitohzai8bi3ietah1ugho1meGhahy9eefai2EoTif3yiaz0aiz9too7
+    
+# logger:
+#   default: info
+#   logs:
+#     custom_components.spotcast: debug
 
 ##################################################################
 ##################################################################

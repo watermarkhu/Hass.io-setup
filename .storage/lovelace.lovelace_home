@@ -50,6 +50,14 @@
             },
             "views": [
                 {
+                    "icon": "mdi:home",
+                    "path": "home",
+                    "theme": "",
+                    "title": "Home",
+                    "type": "custom:masonry-layout",
+                    "layout": {
+                        "width": 350
+                    },
                     "badges": [],
                     "cards": [
                         {
@@ -71,7 +79,12 @@
                                             "type": "custom:button-card",
                                             "template": "light",
                                             "entity": "light.couch"
-                                        },
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
                                         {
                                             "type": "custom:button-card",
                                             "template": "light",
@@ -197,196 +210,281 @@
                         {
                             "cards": [
                                 {
-                                    "color_type": "card",
-                                    "custom_fields": {
-                                        "settings": {
-                                            "card": {
-                                                "entity": "input_boolean.frontend_advanced_alarm",
-                                                "show_name": false,
-                                                "size": "40%",
-                                                "icon": "mdi:cog-outline",
-                                                "styles": {
-                                                    "card": [
-                                                        {
-                                                            "box-shadow": "none"
-                                                        },
-                                                        {
-                                                            "background-color": "rgba(0, 0, 0, 0.0)"
-                                                        }
-                                                    ],
-                                                    "icon": [
-                                                        {
-                                                            "color": "var(--primary-background-color)"
-                                                        }
-                                                    ]
-                                                },
-                                                "tap_action": {
-                                                    "action": "call-service",
-                                                    "service": "input_boolean.toggle",
-                                                    "service_data": {
-                                                        "entity_id": "input_boolean.frontend_advanced_alarm"
-                                                    }
-                                                },
-                                                "type": "custom:button-card"
-                                            }
-                                        }
-                                    },
-                                    "double_tap_action": {
-                                        "action": "call-service",
-                                        "service": "input_select.select_option",
-                                        "service_data": {
-                                            "entity_id": "input_select.alarm_state",
-                                            "option": "Not set"
-                                        }
-                                    },
+                                    "type": "custom:state-switch",
                                     "entity": "input_select.alarm_state",
-                                    "hold_action": {
-                                        "action": "call-service",
-                                        "service": "input_select.select_option",
-                                        "service_data": {
-                                            "entity_id": "input_select.alarm_state",
-                                            "option": "Snoozed"
-                                        }
-                                    },
-                                    "show_label": true,
-                                    "show_name": false,
-                                    "show_state": false,
-                                    "state": [
-                                        {
-                                            "icon": "mdi:alarm-plus",
-                                            "label": "Click to set alarm",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-unavailable-color)"
+                                    "default": "Others",
+                                    "states": {
+                                        "Not set": {
+                                            "color_type": "card",
+                                            "custom_fields": {
+                                                "settings": {
+                                                    "card": {
+                                                        "entity": "input_boolean.frontend_advanced_alarm",
+                                                        "show_name": false,
+                                                        "size": "40%",
+                                                        "icon": "mdi:cog-outline",
+                                                        "styles": {
+                                                            "card": [
+                                                                {
+                                                                    "box-shadow": "none"
+                                                                },
+                                                                {
+                                                                    "background-color": "rgba(0, 0, 0, 0.0)"
+                                                                }
+                                                            ],
+                                                            "icon": [
+                                                                {
+                                                                    "color": "var(--paper-item-icon-color)"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "tap_action": {
+                                                            "action": "call-service",
+                                                            "service": "input_boolean.toggle",
+                                                            "service_data": {
+                                                                "entity_id": "input_boolean.frontend_advanced_alarm"
+                                                            }
+                                                        },
+                                                        "type": "custom:button-card"
                                                     }
-                                                ]
-                                            },
-                                            "value": "Not set"
-                                        },
-                                        {
-                                            "icon": "mdi:phone",
-                                            "label": "[[[\n    return `<span>Phone alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. </span></span>`;\n]]]\n",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-color)"
+                                                },
+                                                "input": {
+                                                    "card": {
+                                                        "entity": "input_datetime.alarm_time",
+                                                        "hide": {
+                                                            "name": true
+                                                        },
+                                                        "hour_mode": 24,
+                                                        "hour_step": 1,
+                                                        "layout": {
+                                                            "embedded": true,
+                                                            "name": "header",
+                                                            "align_controls": "center"
+                                                        },
+                                                        "link_values": true,
+                                                        "minute_step": 5,
+                                                        "name": "",
+                                                        "type": "custom:time-picker-card",
+                                                        "second_step": 5,
+                                                        "style": "ha-card {\n  elements-background-color: red;\n}\n"
                                                     }
-                                                ]
+                                                }
                                             },
-                                            "value": "Set from phone"
-                                        },
-                                        {
-                                            "icon": "mdi:google-home",
-                                            "label": "[[[\n    return `<span>Speaker alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. </span></span>`;\n]]]\n",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-color)"
-                                                    }
-                                                ]
+                                            "double_tap_action": {
+                                                "action": "call-service",
+                                                "service": "input_select.select_option",
+                                                "service_data": {
+                                                    "entity_id": "input_select.alarm_state",
+                                                    "option": "Not set"
+                                                }
                                             },
-                                            "value": "Set from speaker"
-                                        },
-                                        {
-                                            "icon": "mdi:alarm-check",
-                                            "label": "[[[\n   return `<span>Alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}</span></span>`;\n]]]\n",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-color)"
-                                                    }
-                                                ]
-                                            },
-                                            "value": "Set"
-                                        },
-                                        {
-                                            "icon": "mdi:alarm-bell",
-                                            "label": "Hold to snooze, double-click to dismiss",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-active-color)"
-                                                    }
-                                                ]
-                                            },
-                                            "value": "Activated"
-                                        },
-                                        {
-                                            "icon": "mdi:alarm-snooze",
-                                            "label": "Double click to dismiss",
-                                            "styles": {
-                                                "card": [
-                                                    {
-                                                        "background-color": "var(--state-icon-active-color)"
-                                                    }
-                                                ]
-                                            },
-                                            "value": "Snoozed"
-                                        }
-                                    ],
-                                    "styles": {
-                                        "card": [
-                                            {
-                                                "height": "75px"
-                                            },
-                                            {
-                                                "box-shadow": "var(--ha-card-box-shadow)"
-                                            }
-                                        ],
-                                        "grid": [
-                                            {
-                                                "grid-template-areas": "\"i l settings\""
-                                            },
-                                            {
-                                                "grid-template-columns": "75px auto 75px"
-                                            }
-                                        ],
-                                        "name": [
-                                            {
-                                                "font-weight": "bold"
-                                            }
-                                        ]
-                                    },
-                                    "tap_action": {
-                                        "action": "call-service",
-                                        "service": "script.turn_on",
-                                        "service_data": {
-                                            "entity_id": "script.alarm_toggle"
-                                        }
-                                    },
-                                    "type": "custom:button-card"
-                                },
-                                {
-                                    "card": {
-                                        "entity": "input_datetime.alarm_time",
-                                        "hide": {
-                                            "name": true
-                                        },
-                                        "hour_mode": 24,
-                                        "hour_step": 1,
-                                        "layout": {
-                                            "embedded": false,
-                                            "name": "header",
-                                            "align_controls": "center"
-                                        },
-                                        "link_values": true,
-                                        "minute_step": 5,
-                                        "name": "",
-                                        "type": "custom:time-picker-card",
-                                        "second_step": 5,
-                                        "view_layout": {
-                                            "embedded": false,
-                                            "name": "header"
-                                        }
-                                    },
-                                    "conditions": [
-                                        {
                                             "entity": "input_select.alarm_state",
-                                            "state": "Not set"
+                                            "hold_action": {
+                                                "action": "call-service",
+                                                "service": "input_select.select_option",
+                                                "service_data": {
+                                                    "entity_id": "input_select.alarm_state",
+                                                    "option": "Snoozed"
+                                                }
+                                            },
+                                            "show_label": false,
+                                            "show_name": false,
+                                            "show_state": false,
+                                            "icon": "mdi:alarm-plus",
+                                            "styles": {
+                                                "icon": [
+                                                    {
+                                                        "color": "var(--paper-item-icon-color)"
+                                                    }
+                                                ],
+                                                "card": [
+                                                    {
+                                                        "background-color": "var(--card-background-color)"
+                                                    },
+                                                    {
+                                                        "height": "115px"
+                                                    },
+                                                    {
+                                                        "box-shadow": "var(--ha-card-box-shadow)"
+                                                    }
+                                                ],
+                                                "grid": [
+                                                    {
+                                                        "grid-template-areas": "\"i input settings\""
+                                                    },
+                                                    {
+                                                        "grid-template-columns": "75px auto 75px"
+                                                    },
+                                                    {
+                                                        "grid-template-rows": "75px"
+                                                    }
+                                                ],
+                                                "name": [
+                                                    {
+                                                        "font-weight": "bold"
+                                                    }
+                                                ]
+                                            },
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "input_select.select_option",
+                                                "service_data": {
+                                                    "entity_id": "input_select.alarm_state",
+                                                    "option": "Set"
+                                                }
+                                            },
+                                            "type": "custom:button-card"
+                                        },
+                                        "Others": {
+                                            "color_type": "card",
+                                            "custom_fields": {
+                                                "settings": {
+                                                    "card": {
+                                                        "entity": "input_boolean.frontend_advanced_alarm",
+                                                        "show_name": false,
+                                                        "size": "40%",
+                                                        "icon": "mdi:cog-outline",
+                                                        "styles": {
+                                                            "card": [
+                                                                {
+                                                                    "box-shadow": "none"
+                                                                },
+                                                                {
+                                                                    "background-color": "rgba(0, 0, 0, 0.0)"
+                                                                }
+                                                            ],
+                                                            "icon": [
+                                                                {
+                                                                    "color": "var(--primary-background-color)"
+                                                                }
+                                                            ]
+                                                        },
+                                                        "tap_action": {
+                                                            "action": "call-service",
+                                                            "service": "input_boolean.toggle",
+                                                            "service_data": {
+                                                                "entity_id": "input_boolean.frontend_advanced_alarm"
+                                                            }
+                                                        },
+                                                        "type": "custom:button-card"
+                                                    }
+                                                }
+                                            },
+                                            "double_tap_action": {
+                                                "action": "call-service",
+                                                "service": "input_select.select_option",
+                                                "service_data": {
+                                                    "entity_id": "input_select.alarm_state",
+                                                    "option": "Not set"
+                                                }
+                                            },
+                                            "entity": "input_select.alarm_state",
+                                            "hold_action": {
+                                                "action": "call-service",
+                                                "service": "input_select.select_option",
+                                                "service_data": {
+                                                    "entity_id": "input_select.alarm_state",
+                                                    "option": "Snoozed"
+                                                }
+                                            },
+                                            "show_label": true,
+                                            "show_name": false,
+                                            "show_state": false,
+                                            "state": [
+                                                {
+                                                    "icon": "mdi:phone",
+                                                    "value": "Set from phone",
+                                                    "label": "[[[\n    return `<span>Phone alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. </span></span>`;\n]]]\n",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "background-color": "var(--state-icon-color)"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "icon": "mdi:google-home",
+                                                    "value": "Set from speaker",
+                                                    "label": "[[[\n    return `<span>Speaker alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}. </span></span>`;\n]]]\n",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "background-color": "var(--state-icon-color)"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "icon": "mdi:alarm-check",
+                                                    "value": "Set",
+                                                    "label": "[[[\n   return `<span>Alarm set at <span style=\"color: var(--text-color-sensor);\">${states['sensor.alarm_time_short'].state}</span></span>`;\n]]]\n",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "background-color": "var(--state-icon-color)"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "icon": "mdi:alarm-bell",
+                                                    "value": "Activated",
+                                                    "label": "Hold to snooze, double-click to dismiss",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "background-color": "var(--state-icon-active-color)"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                {
+                                                    "icon": "mdi:alarm-snooze",
+                                                    "label": "Double click to dismiss",
+                                                    "styles": {
+                                                        "card": [
+                                                            {
+                                                                "background-color": "var(--state-icon-active-color)"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "value": "Snoozed"
+                                                }
+                                            ],
+                                            "styles": {
+                                                "card": [
+                                                    {
+                                                        "height": "75px"
+                                                    },
+                                                    {
+                                                        "box-shadow": "var(--ha-card-box-shadow)"
+                                                    }
+                                                ],
+                                                "grid": [
+                                                    {
+                                                        "grid-template-areas": "\"i l settings\""
+                                                    },
+                                                    {
+                                                        "grid-template-columns": "75px auto 75px"
+                                                    }
+                                                ],
+                                                "name": [
+                                                    {
+                                                        "font-weight": "bold"
+                                                    }
+                                                ]
+                                            },
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "script.turn_on",
+                                                "service_data": {
+                                                    "entity_id": "script.alarm_toggle"
+                                                }
+                                            },
+                                            "type": "custom:button-card"
                                         }
-                                    ],
-                                    "type": "conditional"
+                                    }
                                 },
                                 {
                                     "card": {
@@ -456,6 +554,11 @@
                                                     {
                                                         "height": "60px"
                                                     }
+                                                ],
+                                                "icon": [
+                                                    {
+                                                        "color": "var(--paper-item-icon-color)"
+                                                    }
                                                 ]
                                             },
                                             "show_name": false,
@@ -524,13 +627,16 @@
                                 }
                             ]
                         }
-                    ],
-                    "icon": "mdi:home",
-                    "path": "home",
-                    "theme": "",
-                    "title": "Home"
+                    ]
                 },
                 {
+                    "icon": "mdi:weather-partly-rainy",
+                    "path": "weather",
+                    "title": "Weather",
+                    "type": "custom:masonry-layout",
+                    "layout": {
+                        "width": 350
+                    },
                     "badges": [],
                     "cards": [
                         {
@@ -605,12 +711,17 @@
                             "type": "custom:mini-graph-card",
                             "upper_bound": 100
                         }
-                    ],
-                    "icon": "mdi:weather-partly-rainy",
-                    "path": "weather",
-                    "title": "Weather"
+                    ]
                 },
                 {
+                    "icon": "mdi:raspberry-pi",
+                    "path": "status",
+                    "theme": "",
+                    "title": "Status",
+                    "type": "custom:masonry-layout",
+                    "layout": {
+                        "width": 350
+                    },
                     "badges": [],
                     "cards": [
                         {
@@ -801,19 +912,7 @@
                                 }
                             ],
                             "type": "custom:vertical-stack-in-card"
-                        }
-                    ],
-                    "icon": "mdi:raspberry-pi",
-                    "path": "status",
-                    "theme": "",
-                    "title": "Status"
-                },
-                {
-                    "path": "test",
-                    "title": "Test",
-                    "icon": "mdi:power-socket-eu",
-                    "badges": [],
-                    "cards": [
+                        },
                         {
                             "type": "entities",
                             "entities": [
