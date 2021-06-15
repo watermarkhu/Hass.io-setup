@@ -30,3 +30,9 @@
     
 
 - platform: spotcast
+
+- platform: helium
+  wallets:
+    - !secret hnt_wallet
+  hotspots:
+    - !secret hnt_hotspot

@@ -30,7 +30,13 @@ recorder:
 
   
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-# http:
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.2
+    - 172.30.33.1
+    - 127.0.0.1
+    - ::1
 #   # base_url: !secret base_url
 #   ssl_certificate: /ssl/fullchain.pem
 #   ssl_key: /ssl/privkey.pem
@@ -107,7 +113,11 @@ light:
       - light.desk
       - light.door
 
-color_extractor:
+fan: 
+  - platform: xiaomi_miio_fan
+    name: Xiaomi Smart Fan
+    host: 192.168.1.235
+    token: !secret xiaomi_fan_token
 
 ##################################################################
 ##################################################################
@@ -125,12 +135,12 @@ spotcast:
   sp_dc: !secret spotify_sp_dc
   sp_key: !secret spotify_sp_key
 
-media_player:
-  - platform: vlc_telnet
-    name: VLC
-    host: core-vlc
-    port: 4212
-    password: Aishaiqueitohzai8bi3ietah1ugho1meGhahy9eefai2EoTif3yiaz0aiz9too7
+# media_player:
+#   - platform: vlc_telnet
+#     name: VLC
+#     host: core-vlc
+#     port: 4212
+#     password: Aishaiqueitohzai8bi3ietah1ugho1meGhahy9eefai2EoTif3yiaz0aiz9too7
     
 # logger:
 #   default: info
@@ -150,14 +160,13 @@ ble_monitor:
   use_median: false
   active_scan: false
   hci_interface: 0
-  batt_entities: false
   report_unknown: false
 
-weather:
-  - platform: buienradar
-    name: buienradar
-camera:
-  - platform: buienradar
+# weather:
+#   - platform: buienradar
+#     name: buienradar
+# camera:
+#   - platform: buienradar
 
 ##################################################################
 ##################################################################
@@ -196,6 +205,7 @@ google_assistant:
   report_state: true
   exposed_domains:
     - light
+    - fan
   entity_config:
     light.bedroom_lights:
       expose: false
@@ -219,12 +229,12 @@ google_assistant:
       expose: true
     input_select.alarm_state:
       expose: true
-    switch.desk_top_mirror:
-      expose: true
-    switch.desk_mid_coffee:
-      expose: true
     media_player.spotify_mark_shui_hu:
       expose: true
+      aliases: 
+        - Music speaker
+        - Spotify player
+      
 
 # Diagflog and intents for advanced communication via google assistant
 dialogflow:

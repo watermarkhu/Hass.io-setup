@@ -35,9 +35,9 @@
   condition:
   - condition: time
     weekday:
-    - sun
     - tue
     - thu
+    - sun
   action:
   - data: {}
     service: homeassistant.restart
